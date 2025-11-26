@@ -1,0 +1,130 @@
+.accordion {
+  /* Component Tokens */
+  --ds-accordion-background: var(--ds-color-semantic-background-primary);
+  --ds-accordion-border-color: var(--ds-color-global-neutral-800);
+  --ds-accordion-item-background: var(--ds-color-semantic-background-primary);
+  --ds-accordion-item-background-hover: var(--ds-color-semantic-background-secondary);
+  --ds-accordion-trigger-color: var(--ds-color-semantic-foreground-primary);
+  --ds-accordion-trigger-color-disabled: var(--ds-color-semantic-foreground-disabled);
+  --ds-accordion-content-color: var(--ds-color-semantic-foreground-secondary);
+  --ds-accordion-indicator-color: var(--ds-color-semantic-foreground-secondary);
+  
+  --ds-accordion-trigger-fontSize: var(--ds-typography-label-fontSize);
+  --ds-accordion-trigger-lineHeight: var(--ds-typography-label-lineHeight);
+  --ds-accordion-trigger-fontWeight: var(--ds-typography-label-fontWeight);
+  --ds-accordion-content-fontSize: var(--ds-typography-body-fontSize);
+  --ds-accordion-content-lineHeight: var(--ds-typography-body-lineHeight);
+  --ds-accordion-content-fontWeight: var(--ds-typography-body-fontWeight);
+  
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.accordionItem {
+  border-bottom: 1px solid var(--ds-accordion-border-color);
+}
+
+.accordionItem:first-child {
+  border-top: 1px solid var(--ds-accordion-border-color);
+}
+
+.accordionTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--ds-space-padding-l);
+  background-color: var(--ds-accordion-item-background);
+  border: none;
+  cursor: pointer;
+  outline: none;
+  text-align: left;
+  color: var(--ds-accordion-trigger-color);
+  font-size: var(--ds-accordion-trigger-fontSize);
+  font-weight: var(--ds-accordion-trigger-fontWeight);
+  line-height: var(--ds-accordion-trigger-lineHeight);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.accordionTrigger:hover {
+  background-color: var(--ds-accordion-item-background-hover);
+}
+
+.accordionTrigger:focus-visible {
+  outline: 2px solid var(--ds-color-semantic-background-accent);
+  outline-offset: -2px;
+}
+
+.accordionTrigger[data-disabled] {
+  color: var(--ds-accordion-trigger-color-disabled);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.accordionTrigger[data-disabled]:hover {
+  background-color: var(--ds-accordion-item-background);
+}
+
+.accordionTrigger[data-state="open"] .accordionIndicator {
+  transform: rotate(180deg);
+}
+
+.accordionContent {
+  overflow: hidden;
+  background-color: var(--ds-accordion-item-background);
+}
+
+.accordionContent[data-state="open"] {
+  animation: slideDown 0.2s ease-out;
+}
+
+.accordionContent[data-state="closed"] {
+  animation: slideUp 0.2s ease-out;
+}
+
+.accordionContentInner {
+  padding: 0 var(--ds-space-padding-l) var(--ds-space-padding-l);
+  color: var(--ds-accordion-content-color);
+  font-size: var(--ds-accordion-content-fontSize);
+  font-weight: var(--ds-accordion-content-fontWeight);
+  line-height: var(--ds-accordion-content-lineHeight);
+}
+
+.accordionIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: var(--ds-space-padding-m);
+  color: var(--ds-accordion-indicator-color);
+  transition: transform 0.2s ease;
+}
+
+.accordionIndicatorIcon {
+  width: 1em;
+  height: 1em;
+}
+
+@keyframes slideDown {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
