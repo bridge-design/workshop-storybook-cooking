@@ -14,9 +14,6 @@ const meta: Meta<typeof Button> = {
   },
   argTypes: {
     type: {
-      table: {
-        category: PropsCategory.ACCESSIBILITY,
-      },
     },
   },
   tags: ["autodocs"],

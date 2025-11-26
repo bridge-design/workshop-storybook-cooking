@@ -14,9 +14,6 @@ const meta: Meta<typeof Badge> = {
   argTypes: {
     status: {
       control: 'select',
-      table: {
-        category: PropsCategory.ACCESSIBILITY,
-      },
     },
   },
   tags: ["autodocs"],

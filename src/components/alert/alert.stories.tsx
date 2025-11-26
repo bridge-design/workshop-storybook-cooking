@@ -16,45 +16,24 @@ const meta: Meta<typeof Alert> = {
     variant: {
       control: 'select',
       options: ['Info', 'Warning', 'Success', 'Danger'],
-      table: {
-        category: PropsCategory.ACCESSIBILITY,
-      },
     },
     icon: {
       control: 'boolean',
-      table: {
-        category: PropsCategory.APPEARANCE,
-      },
     },
     link: {
       control: 'boolean',
-      table: {
-        category: PropsCategory.APPEARANCE,
-      },
     },
     dismissible: {
       control: 'boolean',
-      table: {
-        category: PropsCategory.APPEARANCE,
-      },
     },
     text: {
       control: 'text',
-      table: {
-        category: PropsCategory.CONTENT,
-      },
     },
     linkLabel: {
       control: 'text',
-      table: {
-        category: PropsCategory.CONTENT,
-      },
     },
     onDismiss: {
       action: 'dismissed',
-      table: {
-        category: PropsCategory.EVENTS,
-      },
     },
   },
   tags: ["autodocs"],

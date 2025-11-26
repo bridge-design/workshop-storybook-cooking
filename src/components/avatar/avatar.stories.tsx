@@ -14,9 +14,6 @@ const meta: Meta<typeof Avatar> = {
   },
   argTypes: {
     alt: {
-      table: {
-        category: PropsCategory.ACCESSIBILITY,
-      },
     },
   },
   tags: ["autodocs"],
