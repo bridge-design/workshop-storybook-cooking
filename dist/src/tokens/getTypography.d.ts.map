@@ -1,0 +1,1 @@
+{"version":3,"file":"getTypography.d.ts","sourceRoot":"","sources":["../../../src/tokens/getTypography.tsx"],"names":[],"mappings":"AA0CA,UAAU,mBAAmB;IAC3B,CAAC,QAAQ,EAAE,MAAM,GAAG;QAClB,CAAC,OAAO,EAAE,MAAM,GAAG,MAAM,CAAA;KAC1B,CAAA;CACF;AAED,eAAO,MAAM,aAAa,GAAI,iBAAiB,MAAM,KAAG,mBA4BvD,CAAA"}

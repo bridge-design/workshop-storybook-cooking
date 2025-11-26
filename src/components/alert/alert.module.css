@@ -1,0 +1,191 @@
+.alert {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alertContainer {
+  display: flex;
+  flex-direction: row !important;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-block: 0;
+  padding-inline: var(--ds-space-padding-l);
+  gap: var(--ds-space-padding-s);
+}
+
+.alertLeft {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  min-width: 0;
+}
+
+.alertIconContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-padding-s);
+  padding-block: var(--ds-space-padding-s);
+  padding-inline-end: var(--ds-space-padding-s);
+  flex-shrink: 0;
+}
+
+.alertIcon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.alertContent {
+  display: flex;
+  gap: var(--ds-space-padding-s);
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  white-space: nowrap;
+}
+
+.alertText {
+  font-family: var(--ds-typography-global-fontFamily);
+  font-size: var(--ds-typography-global-fontSize-base);
+  line-height: var(--ds-typography-global-lineHeight-normal);
+  font-weight: var(--ds-typography-global-fontWeight-normal);
+}
+
+.alertLink {
+  font-family: var(--ds-typography-global-fontFamily);
+  font-size: var(--ds-typography-global-fontSize-base);
+  line-height: var(--ds-typography-global-lineHeight-normal);
+  font-weight: var(--ds-typography-global-fontWeight-bold);
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  text-underline-position: from-font;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.alertLink:hover {
+  opacity: 0.8;
+}
+
+.alertDismissContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-padding-s);
+  padding-block: var(--ds-space-padding-s);
+  padding-inline-start: var(--ds-space-padding-s);
+  flex-shrink: 0;
+}
+
+.alertDismissButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.alertDismissButton:hover {
+  opacity: 0.8;
+}
+
+.alertDismissButton:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: var(--ds-radii-concept-s);
+}
+
+/* Variant: Info */
+.alert--info {
+  --ds-alert-background: var(--ds-color-semantic-background-info);
+  --ds-alert-text-color: var(--ds-color-semantic-foreground-information);
+  --ds-alert-icon-color: var(--ds-color-semantic-foreground-information);
+  
+  background-color: var(--ds-alert-background);
+  color: var(--ds-alert-text-color);
+}
+
+.alert--info .alertIcon {
+  color: var(--ds-alert-icon-color);
+}
+
+.alert--info .alertLink {
+  color: var(--ds-alert-text-color);
+}
+
+.alert--info .alertDismissButton {
+  color: var(--ds-alert-text-color);
+}
+
+/* Variant: Warning */
+.alert--warning {
+  --ds-alert-background: var(--ds-color-semantic-background-warning);
+  --ds-alert-text-color: var(--ds-color-semantic-foreground-warning);
+  --ds-alert-icon-color: var(--ds-color-semantic-foreground-warning);
+  
+  background-color: var(--ds-alert-background);
+  color: var(--ds-alert-text-color);
+}
+
+.alert--warning .alertIcon {
+  color: var(--ds-alert-icon-color);
+}
+
+.alert--warning .alertLink {
+  color: var(--ds-alert-text-color);
+}
+
+.alert--warning .alertDismissButton {
+  color: var(--ds-alert-text-color);
+}
+
+/* Variant: Success */
+.alert--success {
+  --ds-alert-background: var(--ds-color-semantic-background-success);
+  --ds-alert-text-color: var(--ds-color-semantic-foreground-success);
+  --ds-alert-icon-color: var(--ds-color-semantic-foreground-success);
+  
+  background-color: var(--ds-alert-background);
+  color: var(--ds-alert-text-color);
+}
+
+.alert--success .alertIcon {
+  color: var(--ds-alert-icon-color);
+}
+
+.alert--success .alertLink {
+  color: var(--ds-alert-text-color);
+}
+
+.alert--success .alertDismissButton {
+  color: var(--ds-alert-text-color);
+}
+
+/* Variant: Danger */
+.alert--danger {
+  --ds-alert-background: var(--ds-color-semantic-background-danger);
+  --ds-alert-text-color: var(--ds-color-semantic-foreground-danger);
+  --ds-alert-icon-color: var(--ds-color-semantic-foreground-danger);
+  
+  background-color: var(--ds-alert-background);
+  color: var(--ds-alert-text-color);
+}
+
+.alert--danger .alertIcon {
+  color: var(--ds-alert-icon-color);
+}
+
+.alert--danger .alertLink {
+  color: var(--ds-alert-text-color);
+}
+
+.alert--danger .alertDismissButton {
+  color: var(--ds-alert-text-color);
+}
+
+
