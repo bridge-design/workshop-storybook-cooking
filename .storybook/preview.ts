@@ -1,5 +1,4 @@
 import type { Preview } from '@storybook/react-vite'
-import { DocsPage } from './components/docs-page/docs-page'
 
 import '@/src/tokens/index.css';
 
@@ -23,10 +22,6 @@ const preview: Preview = {
       storySort: {
         order: ['Tokens', 'Components', 'Patterns', 'Templates', '*'],
       }
-    },
-
-    docs: {
-      page: DocsPage,
     },
   },
 };
