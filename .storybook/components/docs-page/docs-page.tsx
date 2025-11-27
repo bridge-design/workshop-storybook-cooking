@@ -12,7 +12,6 @@ import { ComponentDescription } from '../component-description/component-descrip
 import { ComponentTitle } from '../component-title/component-title';
 import { SectionHeading } from '../section-heading/section-heading';
 
-
 export const DocsPage = () => {
 
   const context = useContext(DocsContext);
