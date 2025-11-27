@@ -9,6 +9,7 @@ import {
 } from '@storybook/addon-docs/blocks';
 
 import { ComponentDescription } from '../component-description/component-description';
+import { ComponentImport } from '../component-import/component-import';
 import { ComponentTitle } from '../component-title/component-title';
 import { SectionHeading } from '../section-heading/section-heading';
 
@@ -30,6 +31,7 @@ export const DocsPage = () => {
       <Subtitle />
       <SectionHeading>Overview</SectionHeading>
       <ComponentDescription />
+      <ComponentImport />
       <Primary />
       <SectionHeading>Props</SectionHeading>
       <Controls />
