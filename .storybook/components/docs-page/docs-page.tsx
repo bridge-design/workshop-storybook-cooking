@@ -1,29 +1,18 @@
-import React, { useContext }  from 'react';
+import React from 'react';
 
 import {
   Controls,
-  Stories,
-  DocsContext,
   Subtitle,
   Primary
 } from '@storybook/addon-docs/blocks';
 
 import { ComponentDescription } from '../component-description/component-description';
+import { ComponentStories } from '../component-stories/component-stories';
 import { ComponentTitle } from '../component-title/component-title';
 import { SectionHeading } from '../section-heading/section-heading';
 
 
 export const DocsPage = () => {
-
-  const context = useContext(DocsContext);
-
-  const componentStories = context.componentStories();
-
-  const stories = componentStories
-    .filter((story) => !story.parameters?.['docs']?.disable)
-    .slice(1);
-
-  const isSingleStory = Object.keys(stories).length === 1;
 
   return (
     <>
@@ -34,12 +23,8 @@ export const DocsPage = () => {
       <Primary />
       <SectionHeading>Props</SectionHeading>
       <Controls />
-      {isSingleStory ? null : (
-        <>
-          <SectionHeading>Variants</SectionHeading>
-          <Stories />
-        </>
-      )}
+      <SectionHeading>Variants</SectionHeading>
+      <ComponentStories />
     </>
   );
 };

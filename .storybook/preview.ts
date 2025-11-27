@@ -22,10 +22,7 @@ const preview: Preview = {
     docs: {
       page: DocsPage,
     },
-
-    docs: {
-      page: DocsPage,
-    },
+    
   },
 };
 
