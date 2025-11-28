@@ -1,6 +1,6 @@
 {
   "name": "super-design-system",
-  "version": "1.0.0",
+  "version": "1.17.3",
   "description": "A demo design system to showcase integrations and customizations of Storybook",
   "main": "./dist/super-design-system.umd.js",
   "module": "./dist/super-design-system.es.js",
