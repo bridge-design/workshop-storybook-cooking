@@ -1,12 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { PropsCategory } from '@/.storybook/constants'
-
 import { Logo } from '@/src/components';
 
 
 const meta: Meta<typeof Logo> = {
-  title: 'Components/Logo',
+  title: 'Logo',
   component: Logo,
   parameters: {
     layout: 'centered',

@@ -7,7 +7,7 @@ type StyleWithCustomProps = React.CSSProperties & {
 };
 
 const meta: Meta<typeof Layout> = {
-  title: 'Components/Layout',
+  title: 'Layout',
   component: Layout,
   parameters: {
     layout: 'fullscreen',

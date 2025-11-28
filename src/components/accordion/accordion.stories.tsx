@@ -2,13 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { fn } from 'storybook/test';
 
-import { PropsCategory } from '@/.storybook/constants';
-
 import { Accordion } from '@/src/components';
 
 
 const meta = {
-  title: 'Components/Accordion',
+  title: 'Accordion',
   component: Accordion,
   parameters: {
     layout: 'padded',

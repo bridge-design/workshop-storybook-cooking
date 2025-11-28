@@ -1,12 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { PropsCategory } from '@/.storybook/constants'
-
 import { Badge } from '@/src/components';
 
 
 const meta: Meta<typeof Badge> = {
-  title: 'Components/Badge',
+  title: 'Badge',
   component: Badge,
   parameters: {
     layout: 'centered',

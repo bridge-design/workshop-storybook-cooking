@@ -1,12 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { PropsCategory } from '@/.storybook/constants'
-
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/src/components';
 
 
 const meta: Meta<typeof Tabs> = {
-  title: 'Components/Tabs',
+  title: 'Tabs',
   component: Tabs,
   parameters: {
     layout: 'centered',

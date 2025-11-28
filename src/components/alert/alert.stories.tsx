@@ -1,13 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from 'storybook/test';
 
-import { PropsCategory } from '@/.storybook/constants'
-
 import { Alert } from '@/src/components';
 
 
 const meta: Meta<typeof Alert> = {
-  title: 'Components/Alert',
+  title: 'Alert',
   component: Alert,
   parameters: {
     layout: 'padded',

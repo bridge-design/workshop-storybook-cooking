@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { PropsCategory } from '@/.storybook/constants'
-
 import { 
   Menubar, 
   MenubarItem
@@ -9,7 +7,7 @@ import {
 
 
 const meta: Meta<typeof Menubar> = {
-  title: 'Components/Menubar',
+  title: 'Menubar',
   component: Menubar,
   parameters: {
     layout: 'centered',

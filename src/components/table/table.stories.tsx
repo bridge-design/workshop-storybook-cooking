@@ -1,12 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { PropsCategory } from '@/.storybook/constants'
-
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/src/components';
 
 
 const meta: Meta<typeof Table> = {
-  title: 'Components/Table',
+  title: 'Table',
   component: Table,
   parameters: {
     layout: 'padded',

@@ -1,13 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from 'storybook/test';
 
-import { PropsCategory } from '@/.storybook/constants'
-
 import { Avatar } from '@/src/components';
 
 
 const meta: Meta<typeof Avatar> = {
-  title: 'Components/Avatar',
+  title: 'Avatar',
   component: Avatar,
   parameters: {
     layout: 'centered',

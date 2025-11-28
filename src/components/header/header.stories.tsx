@@ -3,7 +3,7 @@ import React from 'react';
 import { Header, Logo } from '@/src/components';
 
 const meta: Meta<typeof Header> = {
-  title: 'Components/Header',
+  title: 'Header',
   component: Header,
   parameters: {
     layout: 'fullscreen',
