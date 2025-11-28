@@ -4,7 +4,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/src/components';
 
 
 const meta: Meta<typeof Tabs> = {
-  title: 'Tabs',
+  title: 'Components/Tabs',
   component: Tabs,
   parameters: {
     layout: 'centered',
