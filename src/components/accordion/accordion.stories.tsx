@@ -6,7 +6,7 @@ import { Accordion } from '@/src/components';
 
 
 const meta = {
-  title: 'Accordion',
+  title: 'Components/Accordion',
   component: Accordion,
   parameters: {
     layout: 'padded',

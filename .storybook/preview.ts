@@ -18,6 +18,18 @@ const preview: Preview = {
       test: 'todo'
     },
 
+    options: {
+      storySort: {
+        order: [
+          'Introduction',
+          'Tokens',
+          'Components',
+          'Patterns',
+          'Templates',
+          '*'
+        ],
+      }
+    },
   },
 };
 
