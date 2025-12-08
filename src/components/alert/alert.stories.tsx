@@ -34,7 +34,7 @@ const meta: Meta<typeof Alert> = {
       action: 'dismissed',
     },
   },
-  tags: ["autodocs"],
+  tags: ["autodocs", "beta"],
 };
 
 export default meta;
