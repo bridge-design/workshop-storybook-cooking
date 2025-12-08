@@ -53,6 +53,7 @@ coverage
 # Vite
 .vite/
 dist/
+out/
 
 
 node_modules/

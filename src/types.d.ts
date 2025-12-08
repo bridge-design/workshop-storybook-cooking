@@ -9,4 +9,18 @@ declare module '*.svg?react' {
   export default ReactComponent;
 }
 
-declare module '*.css'
+declare module '*.svg' {
+  import type { ComponentType, SVGProps } from 'react';
+  const ReactComponent: ComponentType<SVGProps<SVGSVGElement>>;
+  export default ReactComponent;
+}
+
+declare module '*.module.css' {
+  const classes: { readonly [key: string]: string };
+  export default classes;
+}
+
+declare module '*.css' {
+  const content: Record<string, string>;
+  export default content;
+}
