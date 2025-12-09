@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { fn } from 'storybook/test';
+import { within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { Accordion } from '@/src/components';
 
@@ -19,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Controls: Story = {
   render: () => (
-    <Accordion onValueChange={fn()}>
+    <Accordion>
       <Accordion.Item value="item-1">
         <Accordion.Trigger>
           What is an accordion?
@@ -91,6 +92,96 @@ export const Default: Story = {
       </Accordion.Item>
     </Accordion>
   ),
+};
+
+/**
+ * Interaction test: Click to expand accordion items
+ */
+export const ClickToExpand: Story = {
+  render: () => (
+    <Accordion>
+      <Accordion.Item value="item-1">
+        <Accordion.Trigger>
+          Click Me
+          <Accordion.Indicator />
+        </Accordion.Trigger>
+        <Accordion.Content>
+          This content becomes visible when you click the trigger!
+        </Accordion.Content>
+      </Accordion.Item>
+      <Accordion.Item value="item-2">
+        <Accordion.Trigger>
+          Click Me Too
+          <Accordion.Indicator />
+        </Accordion.Trigger>
+        <Accordion.Content>
+          This is the second item's content.
+        </Accordion.Content>
+      </Accordion.Item>
+    </Accordion>
+  ),
+  play: async ({ canvasElement, step }: { canvasElement: HTMLElement; step: (label: string, callback: () => Promise<void>) => Promise<void> }) => {
+    const canvas = within(canvasElement);
+    const user = userEvent.setup();
+
+    await step('Click the first accordion trigger', async () => {
+      const firstTrigger = canvas.getByText('Click Me');
+      await user.click(firstTrigger);
+      await new Promise(resolve => setTimeout(resolve, 300));
+    });
+
+    await step('Click the second trigger (should collapse first)', async () => {
+      const secondTrigger = canvas.getByText('Click Me Too');
+      await user.click(secondTrigger);
+      await new Promise(resolve => setTimeout(resolve, 300));
+    });
+  },
+};
+
+/**
+ * Interaction test: Keyboard navigation with Enter and Space
+ */
+export const KeyboardNavigation: Story = {
+  render: () => (
+    <Accordion>
+      <Accordion.Item value="item-1">
+        <Accordion.Trigger>
+          Press Enter or Space
+          <Accordion.Indicator />
+        </Accordion.Trigger>
+        <Accordion.Content>
+          Content expanded via keyboard!
+        </Accordion.Content>
+      </Accordion.Item>
+      <Accordion.Item value="item-2">
+        <Accordion.Trigger>
+          Second Item
+          <Accordion.Indicator />
+        </Accordion.Trigger>
+        <Accordion.Content>
+          Second content
+        </Accordion.Content>
+      </Accordion.Item>
+    </Accordion>
+  ),
+  play: async ({ canvasElement, step }: { canvasElement: HTMLElement; step: (label: string, callback: () => Promise<void>) => Promise<void> }) => {
+    const canvas = within(canvasElement);
+    const user = userEvent.setup();
+
+    await step('Focus first trigger and press Enter', async () => {
+      const firstTrigger = canvas.getByText('Press Enter or Space').closest('button');
+      firstTrigger?.focus();
+      await user.keyboard('{Enter}');
+      await new Promise(resolve => setTimeout(resolve, 300));
+    });
+
+    await step('Focus second trigger and press Space', async () => {
+      const secondTrigger = canvas.getByText('Second Item').closest('button');
+      secondTrigger?.focus();
+      await user.keyboard(' ');
+      await new Promise(resolve => setTimeout(resolve, 300));
+    });
+  },
 };
 
 /**
