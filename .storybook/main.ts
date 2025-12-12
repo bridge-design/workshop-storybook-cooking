@@ -19,5 +19,12 @@ const config: StorybookConfig = {
     "name": "@storybook/react-vite",
     "options": {}
   },
+  viteFinal: async (config) => {
+    // Support BASE_PATH environment variable for deployment
+    if (process.env.BASE_PATH) {
+      config.base = process.env.BASE_PATH;
+    }
+    return config;
+  },
 };
 export default config;

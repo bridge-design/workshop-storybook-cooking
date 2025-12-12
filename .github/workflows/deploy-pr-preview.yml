@@ -1,0 +1,67 @@
+name: Deploy Storybook PR Preview
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.number }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+
+      - uses: actions/cache@v4
+        id: npm-cache
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build Storybook for PR
+        run: npm run build-storybook -- --output-dir ./storybook-static
+        env:
+          BASE_PATH: /workshop-storybook-cooking/pr:${{ github.event.number }}/storybook/
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ./storybook-static
+          target-folder: workshop-storybook-cooking/pr:${{ github.event.number }}/storybook
+          branch: gh-pages
+          clean: true
+          clean-exclude: |
+            .nojekyll
+            workshop-storybook-cooking/pr:**/*
+            workshop-storybook-cooking/storybook/**
+
+      - id: get-preview-url
+        name: Get preview URL
+        run: echo "preview-url=https://bridge-the-gap.dev/workshop-storybook-cooking/pr:${{ github.event.number }}/storybook/" >> ${GITHUB_OUTPUT}
+        shell: bash
+
+      - name: Post Preview Comment
+        uses: phulsechinmay/rewritable-pr-comment@v0.3.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMENT_IDENTIFIER: Storybook_preview_comment
+          message: |
+            🎨 **Storybook Preview**
+            
+            A preview of this PR's Storybook can be found at:
+            ${{ steps.get-preview-url.outputs.preview-url }}
+
