@@ -9,6 +9,7 @@ const meta: Meta<typeof Avatar> = {
   component: Avatar,
   parameters: {
     layout: 'centered',
+    figma: "https://www.figma.com/design/KkYF8soecQdfFnTy8awP8S/DS?node-id=4-105&t=vAVhyttvFg8GQM06-1",
   },
   argTypes: {
     alt: {
