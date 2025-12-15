@@ -57,7 +57,7 @@ const meta: Meta<typeof Alert> = {
       },
     },
   },
-  tags: ["autodocs"],
+  tags: ["autodocs", "beta"],
 };
 
 export default meta;

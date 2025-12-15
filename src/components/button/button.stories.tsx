@@ -19,7 +19,7 @@ const meta: Meta<typeof Button> = {
       },
     },
   },
-  tags: ["autodocs"],
+  tags: ["autodocs", "deprecated"],
 };
 
 export default meta;
