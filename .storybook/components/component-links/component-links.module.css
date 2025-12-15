@@ -1,0 +1,40 @@
+@import '../../styles/foundation.css';
+
+.links {
+  display: flex;
+  gap: var(--scale2);
+  margin-top: var(--scale3);
+  margin-bottom: var(--scale5);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--scale2);
+  padding: 4px 10px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-body);
+  background-color: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  line-height: 1.4;
+}
+
+.link:hover {
+  color: var(--text-primary);
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  object-fit: contain;
+  object-position: center;
+}
