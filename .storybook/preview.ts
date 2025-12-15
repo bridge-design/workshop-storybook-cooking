@@ -3,6 +3,7 @@ import type { Preview } from '@storybook/react-vite'
 import { DocsPage } from './components/docs-page/docs-page'
 import { TocTitle } from './components/toc-title/toc-title';
 import { addons } from 'storybook/preview-api';
+import { argTypesEnhancer } from './utils/propTypesCategorizer'
 
 import '@/src/tokens/index.css';
 
@@ -98,6 +99,7 @@ export const globalTypes = {
       showName: false,
     },
   },
+  argTypesEnhancers: [argTypesEnhancer],
 };
 
 export default preview;
