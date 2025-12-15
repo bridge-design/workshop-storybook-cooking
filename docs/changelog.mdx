@@ -1,0 +1,12 @@
+import { Meta, Markdown } from '@storybook/addon-docs/blocks';
+
+import changelog from '../CHANGELOG.md?raw';
+
+export const H2SkipToc = (props) => {
+  return <h2 {...props} data-skip-toc />;
+};
+
+
+<Meta title="Changelog" />
+
+<Markdown options={{overrides: {h2: H2SkipToc }}}>{changelog}</Markdown>
