@@ -1,29 +1,19 @@
-import React, { useContext }  from 'react';
+import React from 'react';
 
 import {
-  Stories,
-  DocsContext,
+  Controls,
   Subtitle,
   Primary
 } from '@storybook/addon-docs/blocks';
 
 import { ComponentDescription } from '../component-description/component-description';
 import { ComponentImport } from '../component-import/component-import';
+import { ComponentStories } from '../component-stories/component-stories';
 import { ComponentTitle } from '../component-title/component-title';
 import { SectionHeading } from '../section-heading/section-heading';
 import { StyledArgTypes } from '../styled-arg-types/styled-arg-types';
 
 export const DocsPage = () => {
-
-  const context = useContext(DocsContext);
-
-  const componentStories = context.componentStories();
-
-  const stories = componentStories
-    .filter((story) => !story.parameters?.['docs']?.disable)
-    .slice(1);
-
-  const isSingleStory = Object.keys(stories).length === 1;
 
   return (
     <>
@@ -34,13 +24,9 @@ export const DocsPage = () => {
       <ComponentImport />
       <Primary />
       <SectionHeading>Props</SectionHeading>
-      <StyledArgTypes />
-      {isSingleStory ? null : (
-        <>
-          <SectionHeading>Variants</SectionHeading>
-          <Stories />
-        </>
-      )}
+      <Controls />
+      <SectionHeading>Variants</SectionHeading>
+      <ComponentStories />
     </>
   );
 };
