@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite';
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync, watch } from 'fs';
-import { join } from 'path';
+import { join, dirname } from 'path';
 
 const STORYBOOK_VARIANT_SUFFIX_PATTERN = /--\w+$/g;
 
@@ -532,6 +532,11 @@ function generateAllMarkdownFiles(projectRoot: string, outputDir: string) {
       storyData.componentName,
       storyData.stories
     );
+
+    const outputDirForStory = join(outputDir, dirname(baseStoryId));
+    if (!existsSync(outputDirForStory)) {
+      mkdirSync(outputDirForStory, { recursive: true });
+    }
 
     const outputPath = join(outputDir, `${baseStoryId}.txt`);
     writeFileSync(outputPath, markdown, 'utf-8');
