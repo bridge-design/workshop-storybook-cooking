@@ -1,7 +1,6 @@
 import React, { useContext }  from 'react';
 
 import {
-  Controls,
   Stories,
   DocsContext,
   Subtitle,
@@ -12,7 +11,7 @@ import { ComponentDescription } from '../component-description/component-descrip
 import { ComponentImport } from '../component-import/component-import';
 import { ComponentTitle } from '../component-title/component-title';
 import { SectionHeading } from '../section-heading/section-heading';
-
+import { StyledArgTypes } from '../styled-arg-types/styled-arg-types';
 
 export const DocsPage = () => {
 
@@ -35,7 +34,7 @@ export const DocsPage = () => {
       <ComponentImport />
       <Primary />
       <SectionHeading>Props</SectionHeading>
-      <Controls />
+      <StyledArgTypes />
       {isSingleStory ? null : (
         <>
           <SectionHeading>Variants</SectionHeading>
