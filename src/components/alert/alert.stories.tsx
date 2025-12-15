@@ -7,7 +7,7 @@ import { Alert } from '@/src/components';
 
 
 const meta: Meta<typeof Alert> = {
-  title: 'Alert',
+  title: 'Components/Alert',
   component: Alert,
   parameters: {
     layout: 'padded',

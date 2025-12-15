@@ -40,6 +40,19 @@ const preview: Preview = {
       },
       page: DocsPage,
     },
+    
+    options: {
+      storySort: {
+        order: [
+          'Introduction',
+          'Tokens',
+          'Components',
+          'Patterns',
+          'Templates',
+          '*'
+        ],
+      }
+    },
   },
   decorators: [
     (Story, context) => {

@@ -7,7 +7,7 @@ import { Avatar } from '@/src/components';
 
 
 const meta: Meta<typeof Avatar> = {
-  title: 'Avatar',
+  title: 'Components/Avatar',
   component: Avatar,
   parameters: {
     layout: 'centered',
