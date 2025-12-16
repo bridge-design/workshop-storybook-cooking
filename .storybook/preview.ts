@@ -32,6 +32,12 @@ const preview: Preview = {
       test: 'todo'
     },
 
+    vitest: {
+      enabled: true,
+    },
+
+    tags: ['test'],
+
     docs: {
       toc: {
         headingSelector: 'h2, [data-include-toc]',
