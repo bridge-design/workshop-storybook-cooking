@@ -18,7 +18,12 @@ const preview: Preview = {
       test: 'todo'
     },
 
+    vitest: {
+      enabled: true,
+    },
   },
+
+  tags: ['test'],
 };
 
 export default preview;
