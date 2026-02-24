@@ -1,0 +1,25 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import accessTokensImg from './assets/access-tokens.png';
+import permissionsImg from './assets/permissions.png';
+import tokenImg from './assets/token.png';
+import ssoImg from './assets/sso.png';
+
+<Meta title="Get Started" />
+
+# Get Started
+
+## GitHub Access
+
+1. Create a personal access token at your [GitHub Developer Settings](https://github.com/settings/tokens) and select "Generate new token (classic)".
+
+<img src={accessTokensImg} alt="GitHub access tokens settings" />
+
+2. Select permissions for `repo`, `write:packages`, `user:email`, `read:project`
+
+<img src={permissionsImg} alt="GitHub access tokens settings" />
+
+3. Copy and store the generated token. This will be used later on.
+<img src={tokenImg} alt="GitHub access tokens settings" />
+
+4. After creating the token, select Configure SSO to enable Single Sign-On (SSO) for the yaradigitallabs.
+<img src={ssoImg} alt="GitHub access tokens settings" />
