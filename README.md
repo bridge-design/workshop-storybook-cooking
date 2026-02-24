@@ -2,7 +2,7 @@
 
 This project includes a simple Next.js setup to generate a static website with the dashboard template.
 
-## Getting Started
+## Getting Started 
 
 ### 1. Install Dependencies
 
