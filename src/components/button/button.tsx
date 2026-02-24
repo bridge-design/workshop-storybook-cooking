@@ -8,13 +8,18 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   children?: React.ReactNode;
   /** Type of the button. Defaults to 'button'. */
   type?: 'button' | 'submit' | 'reset';
+  /** Callback fired when the button is clicked
+   * @param event - The mouse event
+   * @returns void
+   * */
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const composeClassName = (base: string, extra?: string) =>
   extra ? `${base} ${extra}` : base;
 
-export const Button = ({ className, children, type = 'button', ...props }: ButtonProps) => (
-  <button type={type} className={composeClassName(cm.button, className)} {...props}>
+export const Button = ({ className, children, type = 'button', onClick, ...props }: ButtonProps) => (
+  <button type={type} className={composeClassName(cm.button, className)} onClick={onClick} {...props}>
     {children}
   </button>
 );

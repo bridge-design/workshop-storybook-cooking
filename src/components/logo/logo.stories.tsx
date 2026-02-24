@@ -10,6 +10,28 @@ const meta: Meta<typeof Logo> = {
     layout: 'centered',
   },
   tags: ["autodocs"],
+  argTypes: {
+    width: {
+      control: 'text',
+      table: {
+        type: { summary: 'number | string', detail: 'number → px; or CSS length string like "2rem", "50%"' },
+      },
+    },
+    height: {
+      control: 'text',
+      table: {
+        type: { summary: 'number | string', detail: 'number → px; or CSS length string like "2rem", "50%"' },
+      },
+    },
+    variant: {
+      control: 'select',
+      options: ['default', 'blank'],
+      table: {
+        type: { summary: "'default' | 'blank'" },
+        defaultValue: { summary: 'default' },
+      },
+    },
+  },
 };
 
 export default meta;
