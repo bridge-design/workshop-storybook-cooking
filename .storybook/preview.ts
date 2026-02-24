@@ -1,5 +1,7 @@
 import type { Preview } from '@storybook/react-vite'
 
+import pkg from '../package.json'
+
 import '@/src/tokens/index.css';
 
 const preview: Preview = {
@@ -22,3 +24,22 @@ const preview: Preview = {
 };
 
 export default preview;
+
+export const globalTypes = {
+  version: {
+    name: `v${pkg.version}`,
+    description: 'Design system version',
+    defaultValue: pkg.version,
+    toolbar: {
+      icon: 'tag',
+      items: [
+        {
+          value: pkg.version,
+          title: `📦 Super Design System v${pkg.version}`,
+        },
+      ],
+      showName: true,
+      dynamicTitle: true,
+    },
+  },
+};
