@@ -1,0 +1,11 @@
+@import '../../styles/foundation.css';
+
+.title {
+  text-transform: none;
+  color: var(--text-primary-light);
+  font-size: var(--scale3);
+  line-height: var(--scale4);
+  font-weight: var(--bold);
+  padding-bottom: var(--space-6);
+  font-family: var(--font-body);
+}

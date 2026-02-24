@@ -1,5 +1,7 @@
+import React from 'react';
 import type { Preview } from '@storybook/react-vite'
 import { DocsPage } from './components/docs-page/docs-page'
+import { TocTitle } from './components/toc-title/toc-title';
 
 import '@/src/tokens/index.css';
 
@@ -20,6 +22,11 @@ const preview: Preview = {
     },
 
     docs: {
+      toc: {
+        headingSelector: 'h2, [data-include-toc]',
+        title: React.createElement(TocTitle),
+        ignoreSelector: '[data-skip-toc]',
+      },
       page: DocsPage,
     },
   },
