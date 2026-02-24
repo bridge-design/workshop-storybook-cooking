@@ -54,3 +54,19 @@ All components use CSS modules (`*.module.css`) and share design tokens from `sr
 The dashboard loads data from JSON files in the `data/` directory:
 - `list-of-pages.data.json` - Table data
 - `menubar.data.json` - Menu structure
+
+## Deployment
+
+This project uses GitHub Actions to automatically deploy Storybook to GitHub Pages.
+
+### Storybook Deployments
+
+- **Main branch**: Automatically deployed to [https://bridge-the-gap.dev/workshop-storybook-cooking/storybook/](https://bridge-the-gap.dev/workshop-storybook-cooking/storybook/)
+- **Pull Requests**: Each PR gets a preview deployment at `https://bridge-the-gap.dev/workshop-storybook-cooking/pr:{PR_NUMBER}/storybook/`
+  - The preview URL is automatically posted as a comment on the PR
+  - Preview deployments are cleaned up when the PR is merged or closed
+
+### Workflows
+
+- `.github/workflows/deploy-main-storybook.yml` - Deploys Storybook to the main path on pushes to `main`
+- `.github/workflows/deploy-pr-preview.yml` - Deploys Storybook previews for pull requests
