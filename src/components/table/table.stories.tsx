@@ -4,7 +4,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@
 
 
 const meta: Meta<typeof Table> = {
-  title: 'Table',
+  title: 'Components/Table',
   component: Table,
   parameters: {
     layout: 'padded',

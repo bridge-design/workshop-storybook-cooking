@@ -4,7 +4,7 @@ import { Logo } from '@/src/components';
 
 
 const meta: Meta<typeof Logo> = {
-  title: 'Logo',
+  title: 'Components/Logo',
   component: Logo,
   parameters: {
     layout: 'centered',
