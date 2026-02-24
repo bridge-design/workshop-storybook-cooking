@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { PropsCategory } from '@/.storybook/constants';
+
 import { Badge } from '@/src/components';
 
 
@@ -12,6 +14,9 @@ const meta: Meta<typeof Badge> = {
   argTypes: {
     status: {
       control: 'select',
+      table: {
+        category: PropsCategory.ACCESSIBILITY,
+      },
     },
   },
   tags: ["autodocs"],
