@@ -7,7 +7,7 @@ import {
 
 
 const meta: Meta<typeof Menubar> = {
-  title: 'Menubar',
+  title: 'Components/Menubar',
   component: Menubar,
   parameters: {
     layout: 'centered',

@@ -4,7 +4,7 @@ import { Badge } from '@/src/components';
 
 
 const meta: Meta<typeof Badge> = {
-  title: 'Badge',
+  title: 'Components/Badge',
   component: Badge,
   parameters: {
     layout: 'centered',
