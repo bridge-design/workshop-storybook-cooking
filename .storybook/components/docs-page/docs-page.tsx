@@ -11,6 +11,7 @@ import {
 import { ComponentDescription } from '../component-description/component-description';
 import { ComponentTitle } from '../component-title/component-title';
 import { SectionHeading } from '../section-heading/section-heading';
+import { Footer } from '../footer/footer';
 
 
 export const DocsPage = () => {
@@ -40,6 +41,7 @@ export const DocsPage = () => {
           <Stories />
         </>
       )}
+      <Footer />
     </>
   );
 };
