@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from 'storybook/test';
 
+import { PropsCategory } from '@/.storybook/constants';
+
 import { Avatar } from '@/src/components';
 
 
@@ -12,6 +14,9 @@ const meta: Meta<typeof Avatar> = {
   },
   argTypes: {
     alt: {
+      table: {
+        category: PropsCategory.ACCESSIBILITY,
+      },
     },
   },
   tags: ["autodocs"],
