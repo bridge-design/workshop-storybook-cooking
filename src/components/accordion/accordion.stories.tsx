@@ -17,9 +17,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Controls: Story = {
-  render: () => (
-    <Accordion onValueChange={fn()}>
+const defaultArgs = {
+  children: (
+    <>
       <Accordion.Item value="item-1">
         <Accordion.Trigger>
           What is an accordion?
@@ -47,9 +47,13 @@ export const Controls: Story = {
           Yes! The accordion supports full keyboard navigation and screen reader announcements.
         </Accordion.Content>
       </Accordion.Item>
-    </Accordion>
+    </>
   ),
-} as Story;
+}
+
+export const Controls: Story = {
+  args: defaultArgs,
+}
 
 /**
  * Basic accordion with multiple items.
@@ -60,37 +64,40 @@ export const Controls: Story = {
  * - Progressive disclosure
  */
 export const Default: Story = {
-  render: () => (
-    <Accordion>
-      <Accordion.Item value="item-1">
-        <Accordion.Trigger>
-          First Item
-          <Accordion.Indicator />
-        </Accordion.Trigger>
-        <Accordion.Content>
-          This is the content for the first accordion item. It can contain any React elements, text, or components.
-        </Accordion.Content>
-      </Accordion.Item>
-      <Accordion.Item value="item-2">
-        <Accordion.Trigger>
-          Second Item
-          <Accordion.Indicator />
-        </Accordion.Trigger>
-        <Accordion.Content>
-          This is the content for the second accordion item. You can include complex nested structures here.
-        </Accordion.Content>
-      </Accordion.Item>
-      <Accordion.Item value="item-3">
-        <Accordion.Trigger>
-          Third Item
-          <Accordion.Indicator />
-        </Accordion.Trigger>
-        <Accordion.Content>
-          This is the content for the third accordion item. The accordion provides smooth animations when expanding and collapsing.
-        </Accordion.Content>
-      </Accordion.Item>
-    </Accordion>
-  ),
+  args: {
+    ...defaultArgs,
+    children: (
+      <>
+        <Accordion.Item value="item-1">
+          <Accordion.Trigger>
+            First Item
+            <Accordion.Indicator />
+          </Accordion.Trigger>
+          <Accordion.Content>
+            This is the content for the first accordion item. It can contain any React elements, text, or components.
+          </Accordion.Content>
+        </Accordion.Item>
+        <Accordion.Item value="item-2">
+          <Accordion.Trigger>
+            Second Item
+            <Accordion.Indicator />
+          </Accordion.Trigger>
+          <Accordion.Content>
+            This is the content for the second accordion item. You can include complex nested structures here.
+          </Accordion.Content>
+        </Accordion.Item>
+        <Accordion.Item value="item-3">
+          <Accordion.Trigger>
+            Third Item
+            <Accordion.Indicator />
+          </Accordion.Trigger>
+          <Accordion.Content>
+            This is the content for the third accordion item. The accordion provides smooth animations when expanding and collapsing.
+          </Accordion.Content>
+        </Accordion.Item>
+      </>
+    ),
+  },
 };
 
 /**
@@ -100,7 +107,7 @@ export const Default: Story = {
  * - When you need to programmatically control which items are open
  * - When integrating with form state management
  */
-export const Controlled: Story = {
+export const Controlled = {
   render: () => {
     const [value, setValue] = React.useState<string>('item-1');
 
@@ -127,7 +134,7 @@ export const Controlled: Story = {
       </Accordion>
     );
   },
-} as Story;
+};
 
 /**
  * Accordion with multiple items expanded simultaneously.
@@ -137,37 +144,41 @@ export const Controlled: Story = {
  * - Settings panels where multiple options need to be visible
  */
 export const Multiple: Story = {
-  render: () => (
-    <Accordion type="multiple" defaultValue={['item-1', 'item-2']}>
-      <Accordion.Item value="item-1">
-        <Accordion.Trigger>
-          First Item
-          <Accordion.Indicator />
-        </Accordion.Trigger>
-        <Accordion.Content>
-          With multiple mode enabled, multiple items can be expanded at the same time.
-        </Accordion.Content>
-      </Accordion.Item>
-      <Accordion.Item value="item-2">
-        <Accordion.Trigger>
-          Second Item
-          <Accordion.Indicator />
-        </Accordion.Trigger>
-        <Accordion.Content>
-          This item is also expanded by default. Both items can remain open simultaneously.
-        </Accordion.Content>
-      </Accordion.Item>
-      <Accordion.Item value="item-3">
-        <Accordion.Trigger>
-          Third Item
-          <Accordion.Indicator />
-        </Accordion.Trigger>
-        <Accordion.Content>
-          You can expand this item without collapsing the others.
-        </Accordion.Content>
-      </Accordion.Item>
-    </Accordion>
-  ),
+  args: {
+    type: 'multiple',
+    defaultValue: ['item-1', 'item-2'],
+    children: (
+      <>
+        <Accordion.Item value="item-1">
+          <Accordion.Trigger>
+            First Item
+            <Accordion.Indicator />
+          </Accordion.Trigger>
+          <Accordion.Content>
+            With multiple mode enabled, multiple items can be expanded at the same time.
+          </Accordion.Content>
+        </Accordion.Item>
+        <Accordion.Item value="item-2">
+          <Accordion.Trigger>
+            Second Item
+            <Accordion.Indicator />
+          </Accordion.Trigger>
+          <Accordion.Content>
+            This item is also expanded by default. Both items can remain open simultaneously.
+          </Accordion.Content>
+        </Accordion.Item>
+        <Accordion.Item value="item-3">
+          <Accordion.Trigger>
+            Third Item
+            <Accordion.Indicator />
+          </Accordion.Trigger>
+          <Accordion.Content>
+            You can expand this item without collapsing the others.
+          </Accordion.Content>
+        </Accordion.Item>
+      </>
+    ),
+  },
 };
 
 /**
@@ -178,28 +189,32 @@ export const Multiple: Story = {
  * - FAQ sections where all questions can be collapsed
  */
 export const Collapsible: Story = {
-  render: () => (
-    <Accordion collapsible defaultValue="item-1">
-      <Accordion.Item value="item-1">
-        <Accordion.Trigger>
-          First Item
-          <Accordion.Indicator />
-        </Accordion.Trigger>
-        <Accordion.Content>
-          With collapsible enabled, you can click this item again to collapse it, leaving no items expanded.
-        </Accordion.Content>
-      </Accordion.Item>
-      <Accordion.Item value="item-2">
-        <Accordion.Trigger>
-          Second Item
-          <Accordion.Indicator />
-        </Accordion.Trigger>
-        <Accordion.Content>
-          This allows for a more flexible user experience where users can hide all content if needed.
-        </Accordion.Content>
-      </Accordion.Item>
-    </Accordion>
-  ),
+  args: {
+    collapsible: true,
+    defaultValue: 'item-1',
+    children: (
+      <>
+        <Accordion.Item value="item-1">
+          <Accordion.Trigger>
+            First Item
+            <Accordion.Indicator />
+          </Accordion.Trigger>
+          <Accordion.Content>
+            With collapsible enabled, you can click this item again to collapse it, leaving no items expanded.
+          </Accordion.Content>
+        </Accordion.Item>
+        <Accordion.Item value="item-2">
+          <Accordion.Trigger>
+            Second Item
+            <Accordion.Indicator />
+          </Accordion.Trigger>
+          <Accordion.Content>
+            This allows for a more flexible user experience where users can hide all content if needed.
+          </Accordion.Content>
+        </Accordion.Item>
+      </>
+    ),
+  },
 };
 
 /**
@@ -210,37 +225,39 @@ export const Collapsible: Story = {
  * - When you need to show unavailable options
  */
 export const WithDisabledItem: Story = {
-  render: () => (
-    <Accordion>
-      <Accordion.Item value="item-1">
-        <Accordion.Trigger>
-          Enabled Item
-          <Accordion.Indicator />
-        </Accordion.Trigger>
-        <Accordion.Content>
-          This item can be toggled normally.
-        </Accordion.Content>
-      </Accordion.Item>
-      <Accordion.Item value="item-2" disabled>
-        <Accordion.Trigger>
-          Disabled Item
-          <Accordion.Indicator />
-        </Accordion.Trigger>
-        <Accordion.Content>
-          This item is disabled and cannot be expanded or collapsed.
-        </Accordion.Content>
-      </Accordion.Item>
-      <Accordion.Item value="item-3">
-        <Accordion.Trigger>
-          Another Enabled Item
-          <Accordion.Indicator />
-        </Accordion.Trigger>
-        <Accordion.Content>
-          This item can also be toggled normally.
-        </Accordion.Content>
-      </Accordion.Item>
-    </Accordion>
-  ),
+  args: {
+    children: (
+      <>
+        <Accordion.Item value="item-1">
+          <Accordion.Trigger>
+            Enabled Item
+            <Accordion.Indicator />
+          </Accordion.Trigger>
+          <Accordion.Content>
+            This item can be toggled normally.
+          </Accordion.Content>
+        </Accordion.Item>
+        <Accordion.Item value="item-2" disabled>
+          <Accordion.Trigger>
+            Disabled Item
+            <Accordion.Indicator />
+          </Accordion.Trigger>
+          <Accordion.Content>
+            This item is disabled and cannot be expanded or collapsed.
+          </Accordion.Content>
+        </Accordion.Item>
+        <Accordion.Item value="item-3">
+          <Accordion.Trigger>
+            Another Enabled Item
+            <Accordion.Indicator />
+          </Accordion.Trigger>
+          <Accordion.Content>
+            This item can also be toggled normally.
+          </Accordion.Content>
+        </Accordion.Item>
+      </>
+    ),
+  },
 };
 
 /**
@@ -251,26 +268,28 @@ export const WithDisabledItem: Story = {
  * - Space-constrained layouts
  */
 export const WithoutIndicator: Story = {
-  render: () => (
-    <Accordion>
-      <Accordion.Item value="item-1">
-        <Accordion.Trigger>
-          Item without Indicator
-        </Accordion.Trigger>
-        <Accordion.Content>
-          This accordion item doesn't have an indicator icon. The state is still clearly communicated through the content visibility.
-        </Accordion.Content>
-      </Accordion.Item>
-      <Accordion.Item value="item-2">
-        <Accordion.Trigger>
-          Another Item
-        </Accordion.Trigger>
-        <Accordion.Content>
-          The accordion still functions perfectly without the visual indicator.
-        </Accordion.Content>
-      </Accordion.Item>
-    </Accordion>
-  ),
+  args: {
+    children: (
+      <>
+        <Accordion.Item value="item-1">
+          <Accordion.Trigger>
+            Item without Indicator
+          </Accordion.Trigger>
+          <Accordion.Content>
+            This accordion item doesn't have an indicator icon. The state is still clearly communicated through the content visibility.
+          </Accordion.Content>
+        </Accordion.Item>
+        <Accordion.Item value="item-2">
+          <Accordion.Trigger>
+            Another Item
+          </Accordion.Trigger>
+          <Accordion.Content>
+            The accordion still functions perfectly without the visual indicator.
+          </Accordion.Content>
+        </Accordion.Item>
+      </>
+    ),
+  },
 };
 
 /**
@@ -282,45 +301,47 @@ export const WithoutIndicator: Story = {
  * - Multi-element layouts
  */
 export const WithComplexContent: Story = {
-  render: () => (
-    <Accordion>
-      <Accordion.Item value="item-1">
-        <Accordion.Trigger>
-          Product Information
-          <Accordion.Indicator />
-        </Accordion.Trigger>
-        <Accordion.Content>
-          <div>
-            <h3 style={{ marginTop: 0, marginBottom: '0.5rem' }}>Product Details</h3>
-            <p style={{ marginBottom: '0.5rem' }}>
-              This accordion panel can contain complex nested content including headings, paragraphs, lists, and other components.
-            </p>
-            <ul style={{ marginTop: '0.5rem', paddingLeft: '1.5rem' }}>
-              <li>Feature one</li>
-              <li>Feature two</li>
-              <li>Feature three</li>
-            </ul>
-          </div>
-        </Accordion.Content>
-      </Accordion.Item>
-      <Accordion.Item value="item-2">
-        <Accordion.Trigger>
-          Specifications
-          <Accordion.Indicator />
-        </Accordion.Trigger>
-        <Accordion.Content>
-          <div>
-            <h3 style={{ marginTop: 0, marginBottom: '0.5rem' }}>Technical Specs</h3>
-            <dl style={{ margin: 0 }}>
-              <dt style={{ fontWeight: 'bold' }}>Dimensions:</dt>
-              <dd style={{ marginLeft: '1rem', marginBottom: '0.5rem' }}>10 x 5 x 3 inches</dd>
-              <dt style={{ fontWeight: 'bold' }}>Weight:</dt>
-              <dd style={{ marginLeft: '1rem' }}>2.5 lbs</dd>
-            </dl>
-          </div>
-        </Accordion.Content>
-      </Accordion.Item>
-    </Accordion>
-  ),
+  args: {
+    children: (
+      <>
+        <Accordion.Item value="item-1">
+          <Accordion.Trigger>
+            Product Information
+            <Accordion.Indicator />
+          </Accordion.Trigger>
+          <Accordion.Content>
+            <div>
+              <h3 style={{ marginTop: 0, marginBottom: '0.5rem' }}>Product Details</h3>
+              <p style={{ marginBottom: '0.5rem' }}>
+                This accordion panel can contain complex nested content including headings, paragraphs, lists, and other components.
+              </p>
+              <ul style={{ marginTop: '0.5rem', paddingLeft: '1.5rem' }}>
+                <li>Feature one</li>
+                <li>Feature two</li>
+                <li>Feature three</li>
+              </ul>
+            </div>
+          </Accordion.Content>
+        </Accordion.Item>
+        <Accordion.Item value="item-2">
+          <Accordion.Trigger>
+            Specifications
+            <Accordion.Indicator />
+          </Accordion.Trigger>
+          <Accordion.Content>
+            <div>
+              <h3 style={{ marginTop: 0, marginBottom: '0.5rem' }}>Technical Specs</h3>
+              <dl style={{ margin: 0 }}>
+                <dt style={{ fontWeight: 'bold' }}>Dimensions:</dt>
+                <dd style={{ marginLeft: '1rem', marginBottom: '0.5rem' }}>10 x 5 x 3 inches</dd>
+                <dt style={{ fontWeight: 'bold' }}>Weight:</dt>
+                <dd style={{ marginLeft: '1rem' }}>2.5 lbs</dd>
+              </dl>
+            </div>
+          </Accordion.Content>
+        </Accordion.Item>
+      </>
+    ),
+  },
 };
 
