@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/react-vite';
+import { markdownGeneratorPlugin } from './plugins/markdown-generator.ts';
 
 const config: StorybookConfig = {
   "stories": [
@@ -13,6 +14,15 @@ const config: StorybookConfig = {
   "framework": {
     "name": "@storybook/react-vite",
     "options": {}
+  },
+  async viteFinal(config) {
+    // Add markdown generator plugin for dev mode
+    if (config.plugins) {
+      config.plugins.push(markdownGeneratorPlugin());
+    } else {
+      config.plugins = [markdownGeneratorPlugin()];
+    }
+    return config;
   },
 };
 export default config;
