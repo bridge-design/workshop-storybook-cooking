@@ -11,7 +11,7 @@ import {
 import { ComponentDescription } from '../component-description/component-description';
 import { ComponentTitle } from '../component-title/component-title';
 import { SectionHeading } from '../section-heading/section-heading';
-
+import { StyledStoryToolbar } from '../styled-story-toolbar/styled-story-toolbar';
 
 export const DocsPage = () => {
 
@@ -31,7 +31,9 @@ export const DocsPage = () => {
       <Subtitle />
       <SectionHeading>Overview</SectionHeading>
       <ComponentDescription />
-      <Primary />
+      <StyledStoryToolbar>
+        <Primary />
+      </StyledStoryToolbar>
       <SectionHeading>Props</SectionHeading>
       <Controls />
       {isSingleStory ? null : (
