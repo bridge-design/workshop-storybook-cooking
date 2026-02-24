@@ -11,6 +11,8 @@ import {
 import { ComponentDescription } from '../component-description/component-description';
 import { ComponentTitle } from '../component-title/component-title';
 import { SectionHeading } from '../section-heading/section-heading';
+import { CopyAsMarkdown } from '../copy-as-markdown/copy-as-markdown';
+import styles from './docs-page.module.css';
 
 
 export const DocsPage = () => {
@@ -27,7 +29,10 @@ export const DocsPage = () => {
 
   return (
     <>
-      <ComponentTitle />
+      <div className={styles.header}>
+        <ComponentTitle />
+        <CopyAsMarkdown />
+      </div>
       <Subtitle />
       <SectionHeading>Overview</SectionHeading>
       <ComponentDescription />
