@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-// @ts-ignore
-import { Icon, IconProps, IconName } from './Icon';
+// @ts-ignore - lowercase path to match filesystem
+import { Icon, IconProps, IconName } from './icon';
 import { IconGallery, IconItem } from '../../../.storybook/components/icon-gallery/icon-gallery';
 
 const meta: Meta<typeof Icon> = {
@@ -25,7 +25,7 @@ export const Default: Story = {
 const iconNames: IconName[] = ['home', 'user', 'search', 'heart', 'star', 'settings', 'bell', 'mail', 'check', 'close'];
 
 export const AllIcons: Story = {
-  render: (args) => {
+  render: (args: IconProps) => {
     const iconSize = args.size || 24;
     const iconColor = args.color || '#000000';
 
