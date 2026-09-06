@@ -1,0 +1,38 @@
+# Components/Avatar
+
+## Props
+
+See Storybook controls for interactive prop documentation.
+
+## Stories
+
+### Small
+
+Small avatar size is ideal for compact UI elements where space is limited. Use cases: - User mentions in comments or chat messages - Inline user tags in text content - Activity logs or notification lists - Compact user lists or tables
+
+```tsx
+<Avatar src="https://i.pravatar.cc/150" alt="User Avatar" size="small" />
+```
+
+### Medium
+
+Medium avatar size is the default and most commonly used size. Use cases: - Standard user profiles in lists - Navigation bars and headers - Comment sections and forums - Social media feeds - Team member directories
+
+```tsx
+<Avatar src="https://i.pravatar.cc/150" alt="User Avatar" size="medium" />
+```
+
+### Large
+
+Large avatar size provides maximum visibility for user profiles. Use cases: - User profile pages and detailed views - Account settings and preferences - Contact cards and detailed user information - Featured user displays or hero sections - Authentication and welcome screens
+
+```tsx
+<Avatar src="https://i.pravatar.cc/150" alt="User Avatar" size="large" />
+```
+
+### Controls
+
+```tsx
+<Avatar src="https://i.pravatar.cc/150" alt="User Avatar" />
+```
+

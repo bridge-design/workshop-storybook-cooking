@@ -1,0 +1,46 @@
+# Components/Logo
+
+## Props
+
+See Storybook controls for interactive prop documentation.
+
+## Stories
+
+### Default
+
+Default logo size displays the brand logo at standard size. Use cases: - Navigation bars - Headers - Brand identity - Application branding
+
+```tsx
+<Logo />
+```
+
+### CustomSize
+
+Logo with custom size. Use cases: - Different layout contexts - Responsive designs - Footer logos - Mobile navigation
+
+```tsx
+<div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+<Logo width={24} height={24} />
+<Logo width={32} height={32} />
+<Logo width={48} height={48} />
+<Logo width={64} height={64} />
+</div>
+```
+
+### BlankVariant
+
+Logo with blank variant uses the blank color token. Use cases: - Light backgrounds - Header components with gradient backgrounds - High contrast contexts
+
+```tsx
+<div style={{ display: 'flex', gap: '16px', alignItems: 'center', background: 'var(--ds-color-semantic-background-accent)', padding: '16px', borderRadius: '8px' }}>
+<Logo variant="default" />
+<Logo variant="blank" />
+</div>
+```
+
+### Controls
+
+```tsx
+<Logo />
+```
+

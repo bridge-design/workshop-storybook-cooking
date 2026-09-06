@@ -1,0 +1,4100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Components Manifest</title>
+  <style>
+      :root {
+          --bg: #0b0c10;
+          --panel: #121318;
+          --muted: #9aa0a6;
+          --fg: #e8eaed;
+          --ok: #22c55e;
+          --info: #1e88e5;
+          --err: #c62828;
+          --ok-bg: #0c1a13;
+          --info-bg: #0c1624;
+          --err-bg: #1a0e0e;
+          --chip: #1f2330;
+          --border: #2b2f3a;
+          --link: #8ab4f8;
+          --active-ring: 1px; /* 1px active ring for pills and toggles */
+      }
+
+      * {
+          box-sizing: border-box;
+      }
+
+      html,
+      body {
+          margin: 0;
+          background: var(--bg);
+          color: var(--fg);
+          font: 14px/1.5 system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Ubuntu,
+          Cantarell,
+          'Helvetica Neue',
+          Arial,
+          'Noto Sans';
+      }
+
+      .wrap {
+          max-width: 1100px;
+          margin: 0 auto;
+          padding: 16px 20px;
+      }
+
+      header {
+          position: sticky;
+          top: 0;
+          backdrop-filter: blur(6px);
+          background: color-mix(in srgb, var(--bg) 84%, transparent);
+          border-bottom: 1px solid var(--border);
+          z-index: 10;
+      }
+
+      h1 {
+          font-size: 20px;
+          margin: 0 0 6px;
+      }
+
+      .summary {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+          align-items: center;
+      }
+
+      /* Top filter pills */
+      .filter-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 12px;
+          border: 1px solid var(--border);
+          border-radius: 999px;
+          background: var(--panel);
+          text-decoration: none;
+          cursor: pointer;
+          user-select: none;
+          color: var(--fg);
+      }
+
+      .filter-pill.ok {
+          color: #b9f6ca;
+          border-color: color-mix(in srgb, var(--ok) 55%, var(--border));
+          background: color-mix(in srgb, var(--ok) 18%, #000);
+      }
+
+      .filter-pill.info {
+          color: #b3d9ff;
+          border-color: color-mix(in srgb, var(--info) 55%, var(--border));
+          background: var(--info-bg);
+      }
+
+      .filter-pill.err {
+          color: #ff9aa0;
+          border-color: color-mix(in srgb, var(--err) 55%, var(--border));
+          background: var(--err-bg);
+      }
+
+      .filter-pill.all {
+          color: #d7dbe0;
+          border-color: var(--border);
+          background: var(--panel);
+      }
+
+      .filter-pill[aria-disabled='true'] {
+          cursor: default;
+          text-decoration: none;
+      }
+
+      .filter-pill:focus,
+      .filter-pill:active {
+          outline: none;
+          box-shadow: none;
+      }
+
+      /* Selected top pill ring via :target */
+      #filter-all:target ~ header .filter-pill[data-k='all'],
+      #filter-errors:target ~ header .filter-pill[data-k='errors'],
+      #filter-infos:target ~ header .filter-pill[data-k='infos'],
+      #filter-story-errors:target ~ header .filter-pill[data-k='story-errors'],
+      #filter-story-warnings:target ~ header .filter-pill[data-k='story-warnings'],
+      #filter-no-api:target ~ header .filter-pill[data-k='no-api'],
+      #filter-doc-errors:target ~ header .filter-pill[data-k='docs'],
+      #filter-docs:target ~ header .filter-pill[data-k='docs'] {
+          box-shadow: 0 0 0 var(--active-ring) currentColor;
+          border-color: currentColor;
+      }
+
+      /* Hidden targets for filtering */
+      #filter-all,
+      #filter-errors,
+      #filter-infos,
+      #filter-story-errors,
+      #filter-story-warnings,
+      #filter-no-api,
+      #filter-doc-errors,
+      #filter-docs {
+          display: none;
+      }
+
+      main {
+          padding: 36px 0 40px;
+      }
+
+      .grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 18px;
+      }
+
+      /* one card per row */
+
+      .card {
+          border: 1px solid var(--border);
+          background: var(--panel);
+          border-radius: 14px;
+          padding: 14px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          /* Keep a deep-linked card clear of the sticky header when scrolled into view */
+          scroll-margin-top: 110px;
+      }
+
+      /* Highlight the card deep-linked via components.html#<manifest-id> */
+      .card:target {
+          box-shadow: 0 0 0 2px var(--info);
+          border-color: var(--info);
+      }
+
+      .head {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+      }
+
+      .title {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+      }
+
+      .title h2 {
+          font-size: 16px;
+          margin: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+      }
+
+      .meta {
+          font-size: 12px;
+          color: var(--muted);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+      }
+
+      .kv {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+      }
+
+      .chip {
+          font-size: 12px;
+          padding: 4px 8px;
+          border-radius: 999px;
+          background: var(--chip);
+          border: 1px solid var(--border);
+      }
+
+      .hint {
+          color: var(--muted);
+          font-size: 12px;
+      }
+
+      .badges {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+      }
+
+      /* Per-card badges: labels become toggles when clickable */
+      .badge {
+          font-size: 12px;
+          padding: 3px 8px;
+          border-radius: 999px;
+          border: 1px solid var(--border);
+          background: var(--chip);
+          color: #d7dbe0;
+      }
+
+      .badge.ok {
+          color: #b9f6ca;
+          border-color: color-mix(in srgb, var(--ok) 55%, var(--border));
+      }
+
+      .badge.info {
+          color: #b3d9ff;
+          border-color: color-mix(in srgb, var(--info) 55%, var(--border));
+      }
+
+      .badge.err {
+          color: #ff9aa0;
+          border-color: color-mix(in srgb, var(--err) 55%, var(--border));
+      }
+
+      .snippet-warning {
+          margin-top: 8px;
+          padding: 8px 10px;
+          border-radius: 8px;
+          border: 1px solid color-mix(in srgb, var(--info) 45%, var(--border));
+          background: var(--info-bg);
+          color: #b3d9ff;
+          font-size: 12px;
+      }
+
+      .as-toggle {
+          cursor: pointer;
+      }
+
+      /* 1px ring on active toggle */
+      .tg-err:checked + label.as-toggle,
+      .tg-info:checked + label.as-toggle,
+      .tg-stories:checked + label.as-toggle,
+      .tg-docs:checked + label.as-toggle,
+      .tg-subcomponents:checked + label.as-toggle,
+      .tg-content:checked + label.as-toggle,
+      .tg-props:checked + label.as-toggle {
+          box-shadow: 0 0 0 var(--active-ring) currentColor;
+          border-color: currentColor;
+      }
+
+      /* Panels: hidden by default, shown when respective toggle checked */
+      .panels {
+          display: grid;
+          gap: 10px;
+      }
+
+      .panel {
+          display: none;
+      }
+
+      .tg-err:checked ~ .panels .panel-err {
+          display: grid;
+      }
+
+      .tg-info:checked ~ .panels .panel-info {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-stories:checked ~ .panels .panel-stories {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-docs:checked ~ .panels .panel-docs {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-subcomponents:checked ~ .panels .panel-subcomponents {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-content:checked ~ .panels .panel-content {
+          display: grid;
+          gap: 8px;
+      }
+
+      .tg-props:checked ~ .panels .panel-props {
+          display: grid;
+      }
+
+      /* Colored notes for API error + info */
+      .note {
+          padding: 12px;
+          border: 1px solid var(--border);
+          border-radius: 10px;
+      }
+
+      .note.err {
+          border-color: color-mix(in srgb, var(--err) 55%, var(--border));
+          background: var(--err-bg);
+          color: #ffd1d4;
+      }
+
+      .note.info {
+          border-color: color-mix(in srgb, var(--info) 55%, var(--border));
+          background: var(--info-bg);
+          color: #d6e8ff;
+      }
+
+      .note.ok {
+          border-color: color-mix(in srgb, var(--ok) 55%, var(--border));
+          background: var(--ok-bg);
+          color: var(--fg);
+      }
+
+      .note-title {
+          font-weight: 600;
+          margin-bottom: 6px;
+      }
+
+      .note-body {
+          white-space: normal;
+      }
+
+      /* Story error cards */
+      .ex {
+          padding: 10px;
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          background: #0f131b;
+      }
+
+      .ex.err {
+          border-color: color-mix(in srgb, var(--err) 55%, var(--border));
+      }
+
+      .row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: wrap;
+      }
+
+      .status-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          display: inline-block;
+      }
+
+      .dot-ok {
+          background: var(--ok);
+      }
+
+      .dot-err {
+          background: var(--err);
+      }
+
+      .ex-name {
+          font-weight: 600;
+      }
+
+      /* Error groups (visible in errors filter) */
+      .error-groups {
+          display: none;
+          margin-bottom: 16px;
+      }
+
+      .group {
+          border: 1px solid var(--border);
+          background: var(--panel);
+          border-radius: 14px;
+          overflow: hidden;
+      }
+
+      .group + .group {
+          margin-top: 12px;
+      }
+
+      .group-header {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 12px 14px;
+          cursor: pointer;
+          border-bottom: 1px solid var(--border);
+      }
+
+      .group-header:hover {
+          background: #141722;
+      }
+
+      .group-title {
+          font-weight: 600;
+          flex: 1;
+      }
+
+      .group-count {
+          font-size: 12px;
+          color: var(--muted);
+      }
+
+      .group-cards {
+          display: none;
+          padding: 12px;
+      }
+
+      .group .card {
+          margin: 12px 0;
+      }
+
+      .group .card:first-child {
+          margin-top: 0;
+      }
+
+      .group .card:last-child {
+          margin-bottom: 0;
+      }
+
+      /* caret rotation */
+      .group-tg:checked + label .caret {
+          transform: rotate(90deg);
+      }
+
+      .caret {
+          transition: transform 0.15s ease;
+      }
+
+      /* toggle body */
+      .group-tg:checked ~ .group-cards {
+          display: block;
+      }
+
+      /* CSS-only filtering of cards via top pills */
+      #filter-errors:target ~ main .card:not(.has-error):not(.has-story-error) {
+          display: none;
+      }
+
+      #filter-infos:target ~ main .card:not(.has-info) {
+          display: none;
+      }
+
+      #filter-story-errors:target ~ main .card:not(.has-story-error) {
+          display: none;
+      }
+
+      #filter-story-warnings:target ~ main .card:not(.has-story-warning) {
+          display: none;
+      }
+
+      #filter-no-api:target ~ main .card:not(.missing-api) {
+          display: none;
+      }
+
+      #filter-doc-errors:target ~ main .card:not(.has-doc-error) {
+          display: none;
+      }
+
+      #filter-docs:target ~ main .card:has(> .tg-docs),
+      #filter-docs:target ~ main .card.is-doc {
+          display: block;
+      }
+
+      #filter-docs:target ~ main .card:not(:has(> .tg-docs)):not(.is-doc) {
+          display: none;
+      }
+
+      #filter-all:target ~ main .card {
+          display: block;
+      }
+
+      /* In errors view, hide standalone component-error cards in the regular grid (they will appear in groups) */
+      #filter-errors:target ~ main .grid .card.has-error {
+          display: none;
+      }
+
+      /* Show grouped section only in errors view */
+      #filter-errors:target ~ main .error-groups {
+          display: block;
+      }
+
+      /* Section titles */
+      .section-title {
+          font-size: 16px;
+          font-weight: 600;
+          color: var(--muted);
+          margin: 24px 0 12px;
+          padding-bottom: 8px;
+          border-bottom: 1px solid var(--border);
+      }
+      .section-title:first-child {
+          margin-top: 0;
+      }
+
+      /* When a toggle is checked, show the corresponding panel */
+      .card > .tg-err:checked ~ .panels .panel-err {
+          display: grid;
+      }
+      
+      .card > .tg-info:checked ~ .panels .panel-info {
+          display: grid;
+      }
+      
+      .card > .tg-stories:checked ~ .panels .panel-stories {
+          display: grid;
+      }
+
+      .card > .tg-docs:checked ~ .panels .panel-docs {
+          display: grid;
+      }
+
+      .card > .tg-subcomponents:checked ~ .panels .panel-subcomponents {
+          display: grid;
+      }
+
+      .card > .tg-content:checked ~ .panels .panel-content {
+          display: grid;
+      }
+
+      /* Add vertical spacing around panels only when any panel is visible */
+      .card > .tg-err:checked ~ .panels,
+      .card > .tg-info:checked ~ .panels,
+      .card > .tg-stories:checked ~ .panels,
+      .card > .tg-docs:checked ~ .panels,
+      .card > .tg-subcomponents:checked ~ .panels,
+      .card > .tg-content:checked ~ .panels,
+      .card > .tg-props:checked ~ .panels {
+          margin: 10px 0;
+      }
+
+      /* Optional: a subtle 1px ring on the active badge, using :has() if available */
+      @supports selector(.card:has(.tg-err:checked)) {
+          .card:has(.tg-err:checked) label[for$='-err'],
+          .card:has(.tg-info:checked) label[for$='-info'],
+          .card:has(.tg-stories:checked) label[for$='-stories'],
+          .card:has(.tg-docs:checked) label[for$='-docs'],
+          .card:has(.tg-subcomponents:checked) label[for$='-subcomponents'],
+          .card:has(.tg-content:checked) label[for$='-content'],
+          .card:has(.tg-props:checked) label[for$='-props'] {
+              box-shadow: 0 0 0 1px currentColor;
+              border-color: currentColor;
+          }
+      }
+
+      /* Wrap long lines in code blocks at ~120 characters */
+      pre, code {
+          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      }
+      pre {
+          white-space: pre-wrap;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+          overflow-x: auto; /* fallback for extremely long tokens */
+          margin: 8px 0 0;
+      }
+      pre > code {
+          display: block;
+          white-space: inherit;
+          overflow-wrap: inherit;
+          word-break: inherit;
+          inline-size: min(100%, 120ch);
+      }
+
+      /* MDX content container for docs */
+      .mdx-content {
+          background: #0f131b;
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          padding: 12px;
+          max-height: 400px;
+          overflow-y: auto;
+          margin-top: 8px;
+      }
+  </style>
+</head>
+<body>
+<!-- Hidden targets for the top-level filters -->
+<span id="filter-all"></span>
+<span id="filter-errors"></span>
+<span id="filter-infos"></span>
+<span id="filter-story-errors"></span>
+<span id="filter-story-warnings"></span>
+<span id="filter-no-api"></span>
+<span id="filter-doc-errors"></span>
+<span id="filter-docs"></span>
+<header>
+  <div class="wrap">
+    <h1>Manifest Debugger</h1>
+    <div class="summary"><a class="filter-pill all" data-k="all" href="#filter-all">All</a><a class="filter-pill err" data-k="errors" href="#filter-errors">2/15 API errors</a><a class="filter-pill info" data-k="infos" href="#filter-infos">13/15 infos</a><span class="filter-pill ok" aria-disabled="true">55 stories ok</span><a class="filter-pill info" data-k="story-warnings" href="#filter-story-warnings">1/55 incomplete snippets</a><a class="filter-pill ok" data-k="docs" href="#filter-docs">3 docs ok</a></div>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <div class="note info" style="margin-bottom: 16px;">
+            <strong>Tip:</strong> You are using <code>react-docgen</code> (the default). Generation took <strong>0.5s</strong>. For higher quality prop types, consider switching to <code>react-docgen-typescript</code> in your <code>main.ts</code>:
+            <pre><code>typescript: {
+  reactDocgen: 'react-docgen-typescript',
+}</code></pre>
+            Note: <code>react-docgen-typescript</code> can be slower. If performance is acceptable for your project, it generally produces better results.
+            <a href="https://storybook.js.org/docs/api/main-config/main-config-typescript#reactdocgen" target="_blank">Learn more</a>
+          </div>
+    <h2 class="section-title">Components</h2>
+    <div class="grid" role="list">
+      
+<article
+  id="components-accordion"
+  class="card 
+  no-error
+  no-info
+  no-story-error
+  no-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="Accordion">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Accordion</h2>
+      <div class="badges">
+        <label for="c-0-components-accordion-props" class="badge ok as-toggle">2 prop types</label>
+        
+        <label for="c-0-components-accordion-stories" class="badge ok as-toggle">8 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/accordion/accordion.stories.tsx">components-accordion · ./src/components/accordion/accordion.stories.tsx</div>
+    
+    <div class="hint">The Accordion component displays a vertically stacked set of interactive sections
+that allow users to expand and collapse content panels.
+
+Key Features:
+- Supports both controlled and uncontrolled usage
+- Allows single or multiple items to be expanded
+- Fully accessible with keyboard navigation and screen reader support
+- Smooth expand/collapse animations
+- Customizable styling via className props
+
+[Github](https://github.com/your-org/repo/tree/main/src/components/accordion)</div>
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  
+  <input id="c-0-components-accordion-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-0-components-accordion-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">2 prop types</span>
+            </div>
+            <pre><code>Component: src/components/accordion/accordion.tsx::Accordion</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>/**
+ * Accordion content, typically consisting of one or more Accordion.Item components
+ */
+children: React.ReactNode
+
+/**
+ * Optional className for adding custom CSS classes to the Accordion element
+ */
+className?: string</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Accordion } from 'super-design-system';
+import { Accordion } from '@/src/components';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Controls</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Controls = () =&gt; &lt;Accordion&gt;(&lt;&gt;
+      &lt;Accordion.Item value=&quot;item-1&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          What is an accordion?
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          An accordion is a vertically stacked set of interactive sections that allow users to expand and collapse content panels.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+      &lt;Accordion.Item value=&quot;item-2&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          How does it work?
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          Click on a header to expand or collapse its content panel. Only one item can be expanded at a time by default.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+      &lt;Accordion.Item value=&quot;item-3&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          Is it accessible?
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          Yes! The accordion supports full keyboard navigation and screen reader announcements.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+    &lt;/&gt;)&lt;/Accordion&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Basic accordion with multiple items.
+Use cases:
+- FAQ sections
+- Settings panels
+- Content organization
+- Progressive disclosure</div>
+              <pre><code>const Default = () =&gt; &lt;Accordion&gt;(&lt;&gt;
+      &lt;Accordion.Item value=&quot;item-1&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          First Item
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          This is the content for the first accordion item. It can contain any React elements, text, or components.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+      &lt;Accordion.Item value=&quot;item-2&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          Second Item
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          This is the content for the second accordion item. You can include complex nested structures here.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+      &lt;Accordion.Item value=&quot;item-3&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          Third Item
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          This is the content for the third accordion item. The accordion provides smooth animations when expanding and collapsing.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+    &lt;/&gt;)&lt;/Accordion&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Controlled</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Controlled accordion where the expanded state is managed externally.
+Use cases:
+- When you need to sync accordion state with other UI elements
+- When you need to programmatically control which items are open
+- When integrating with form state management</div>
+              <pre><code>const Controlled = () =&gt; {
+  const [value, setValue] = React.useState&lt;string&gt;(&#39;item-1&#39;);
+
+  return (
+    &lt;Accordion value={value} onValueChange={setValue}&gt;
+      &lt;Accordion.Item value=&quot;item-1&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          First Item (Controlled)
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          This accordion is controlled. The expanded state is managed by React state.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+      &lt;Accordion.Item value=&quot;item-2&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          Second Item (Controlled)
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          You can programmatically change which item is expanded by updating the value prop.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+    &lt;/Accordion&gt;
+  );
+};</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Multiple</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Accordion with multiple items expanded simultaneously.
+Use cases:
+- When users need to compare content across multiple sections
+- When all sections should be independently expandable
+- Settings panels where multiple options need to be visible</div>
+              <pre><code>const Multiple = () =&gt; &lt;Accordion type=&quot;multiple&quot; defaultValue={[&#39;item-1&#39;, &#39;item-2&#39;]}&gt;(&lt;&gt;
+      &lt;Accordion.Item value=&quot;item-1&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          First Item
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          With multiple mode enabled, multiple items can be expanded at the same time.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+      &lt;Accordion.Item value=&quot;item-2&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          Second Item
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          This item is also expanded by default. Both items can remain open simultaneously.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+      &lt;Accordion.Item value=&quot;item-3&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          Third Item
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          You can expand this item without collapsing the others.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+    &lt;/&gt;)&lt;/Accordion&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Collapsible</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Accordion with collapsible behavior - allows the currently expanded item to be collapsed.
+Use cases:
+- When you want to allow users to collapse all items
+- When the accordion state should be completely user-controlled
+- FAQ sections where all questions can be collapsed</div>
+              <pre><code>const Collapsible = () =&gt; &lt;Accordion collapsible defaultValue=&quot;item-1&quot;&gt;(&lt;&gt;
+      &lt;Accordion.Item value=&quot;item-1&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          First Item
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          With collapsible enabled, you can click this item again to collapse it, leaving no items expanded.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+      &lt;Accordion.Item value=&quot;item-2&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          Second Item
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          This allows for a more flexible user experience where users can hide all content if needed.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+    &lt;/&gt;)&lt;/Accordion&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Disabled Item</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Accordion with disabled items that cannot be expanded or collapsed.
+Use cases:
+- When certain sections are not yet available
+- When content is conditionally accessible
+- When you need to show unavailable options</div>
+              <pre><code>const WithDisabledItem = () =&gt; &lt;Accordion&gt;(&lt;&gt;
+      &lt;Accordion.Item value=&quot;item-1&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          Enabled Item
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          This item can be toggled normally.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+      &lt;Accordion.Item value=&quot;item-2&quot; disabled&gt;
+        &lt;Accordion.Trigger&gt;
+          Disabled Item
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          This item is disabled and cannot be expanded or collapsed.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+      &lt;Accordion.Item value=&quot;item-3&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          Another Enabled Item
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          This item can also be toggled normally.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+    &lt;/&gt;)&lt;/Accordion&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Without Indicator</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Accordion without indicator icons for a minimal design.
+Use cases:
+- Minimal design requirements
+- When the expand/collapse state is clear from context
+- Space-constrained layouts</div>
+              <pre><code>const WithoutIndicator = () =&gt; &lt;Accordion&gt;(&lt;&gt;
+      &lt;Accordion.Item value=&quot;item-1&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          Item without Indicator
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          This accordion item doesn&#39;t have an indicator icon. The state is still clearly communicated through the content visibility.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+      &lt;Accordion.Item value=&quot;item-2&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          Another Item
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          The accordion still functions perfectly without the visual indicator.
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+    &lt;/&gt;)&lt;/Accordion&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Complex Content</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Accordion with complex nested content in the panels.
+Use cases:
+- Rich content display
+- Forms within accordion panels
+- Lists and structured data
+- Multi-element layouts</div>
+              <pre><code>const WithComplexContent = () =&gt; &lt;Accordion&gt;(&lt;&gt;
+      &lt;Accordion.Item value=&quot;item-1&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          Product Information
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          &lt;div&gt;
+            &lt;h3 style={{ marginTop: 0, marginBottom: &#39;0.5rem&#39; }}&gt;Product Details&lt;/h3&gt;
+            &lt;p style={{ marginBottom: &#39;0.5rem&#39; }}&gt;
+              This accordion panel can contain complex nested content including headings, paragraphs, lists, and other components.
+            &lt;/p&gt;
+            &lt;ul style={{ marginTop: &#39;0.5rem&#39;, paddingLeft: &#39;1.5rem&#39; }}&gt;
+              &lt;li&gt;Feature one&lt;/li&gt;
+              &lt;li&gt;Feature two&lt;/li&gt;
+              &lt;li&gt;Feature three&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/div&gt;
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+      &lt;Accordion.Item value=&quot;item-2&quot;&gt;
+        &lt;Accordion.Trigger&gt;
+          Specifications
+          &lt;Accordion.Indicator /&gt;
+        &lt;/Accordion.Trigger&gt;
+        &lt;Accordion.Content&gt;
+          &lt;div&gt;
+            &lt;h3 style={{ marginTop: 0, marginBottom: &#39;0.5rem&#39; }}&gt;Technical Specs&lt;/h3&gt;
+            &lt;dl style={{ margin: 0 }}&gt;
+              &lt;dt style={{ fontWeight: &#39;bold&#39; }}&gt;Dimensions:&lt;/dt&gt;
+              &lt;dd style={{ marginLeft: &#39;1rem&#39;, marginBottom: &#39;0.5rem&#39; }}&gt;10 x 5 x 3 inches&lt;/dd&gt;
+              &lt;dt style={{ fontWeight: &#39;bold&#39; }}&gt;Weight:&lt;/dt&gt;
+              &lt;dd style={{ marginLeft: &#39;1rem&#39; }}&gt;2.5 lbs&lt;/dd&gt;
+            &lt;/dl&gt;
+          &lt;/div&gt;
+        &lt;/Accordion.Content&gt;
+      &lt;/Accordion.Item&gt;
+    &lt;/&gt;)&lt;/Accordion&gt;;</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  id="components-alert"
+  class="card 
+  no-error
+  has-info
+  no-story-error
+  no-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="Alert">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Alert</h2>
+      <div class="badges">
+        <label for="c-1-components-alert-props" class="badge ok as-toggle">9 prop types</label>
+        <label for="c-1-components-alert-info" class="badge info as-toggle">1 info</label>
+        <label for="c-1-components-alert-stories" class="badge ok as-toggle">10 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/alert/alert.stories.tsx">components-alert · ./src/components/alert/alert.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-1-components-alert-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-1-components-alert-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-1-components-alert-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">9 prop types</span>
+            </div>
+            <pre><code>Component: src/components/alert/alert.tsx::Alert</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>/**
+ * Custom content. When provided, text and linkLabel are ignored.
+ */
+children?: React.ReactNode
+
+/**
+ * Optional className for adding custom CSS classes to the Alert element
+ */
+className?: string
+
+/**
+ * Whether the alert is dismissible. Defaults to true.
+ */
+dismissible?: boolean = true
+
+/**
+ * Whether to show the icon. Defaults to true.
+ */
+icon?: boolean = true
+
+/**
+ * Whether to show the link. Defaults to true.
+ */
+link?: boolean = true
+
+/**
+ * The label for the link. Defaults to &#39;Link&#39;.
+ */
+linkLabel?: string = &#39;Link&#39;
+
+/**
+ * Callback fired when the alert is dismissed
+ */
+onDismiss?: () =&gt; void
+
+/**
+ * The main text content of the alert
+ */
+text?: string = &#39;Emphasized description.&#39;
+
+/**
+ * Variant of the alert. Defaults to &#39;Info&#39;.
+ */
+variant?: &quot;Info&quot; | &quot;Warning&quot; | &quot;Success&quot; | &quot;Danger&quot; = &#39;Info&#39;</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Alert } from 'super-design-system';
+import { fn } from 'storybook/test';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Controls</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Controls = () =&gt; &lt;Alert
+    variant=&quot;Info&quot;
+    icon
+    link
+    dismissible
+    text=&quot;Emphasized description.&quot;
+    linkLabel=&quot;Link&quot;
+    onDismiss={fn()} /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Info</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Info variant is used for informational messages.
+Use cases:
+- General information
+- Tips and hints
+- System updates
+- Feature announcements</div>
+              <pre><code>const Info = () =&gt; &lt;Alert
+    variant=&quot;Info&quot;
+    icon
+    link
+    dismissible
+    text=&quot;Emphasized description.&quot;
+    linkLabel=&quot;Link&quot;
+    onDismiss={fn()} /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Warning</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Warning variant is used for cautionary messages.
+Use cases:
+- Important notices
+- Upcoming changes
+- Action required warnings
+- Deprecation notices</div>
+              <pre><code>const Warning = () =&gt; &lt;Alert
+    variant=&quot;Warning&quot;
+    icon
+    link
+    dismissible
+    text=&quot;Emphasized description.&quot;
+    linkLabel=&quot;Link&quot;
+    onDismiss={fn()} /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Success</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Success variant is used for positive confirmation messages.
+Use cases:
+- Successful operations
+- Completion confirmations
+- Achievement notifications
+- Positive feedback</div>
+              <pre><code>const Success = () =&gt; &lt;Alert
+    variant=&quot;Success&quot;
+    icon
+    link
+    dismissible
+    text=&quot;Emphasized description.&quot;
+    linkLabel=&quot;Link&quot;
+    onDismiss={fn()} /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Danger</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Danger variant is used for critical error messages.
+Use cases:
+- Error notifications
+- Critical warnings
+- System failures
+- Security alerts</div>
+              <pre><code>const Danger = () =&gt; &lt;Alert
+    variant=&quot;Danger&quot;
+    icon
+    link
+    dismissible
+    text=&quot;Emphasized description.&quot;
+    linkLabel=&quot;Link&quot;
+    onDismiss={fn()} /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Without Icon</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Alert without icon.
+Use cases:
+- Minimal design requirements
+- Space-constrained layouts
+- When icon is redundant</div>
+              <pre><code>const WithoutIcon = () =&gt; &lt;Alert
+    variant=&quot;Info&quot;
+    icon={false}
+    link
+    dismissible
+    text=&quot;Emphasized description.&quot;
+    linkLabel=&quot;Link&quot;
+    onDismiss={fn()} /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Without Link</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Alert without link.
+Use cases:
+- Simple notifications
+- When no action is needed
+- Standalone messages</div>
+              <pre><code>const WithoutLink = () =&gt; &lt;Alert
+    variant=&quot;Info&quot;
+    icon
+    link={false}
+    dismissible
+    text=&quot;Emphasized description.&quot;
+    linkLabel=&quot;Link&quot;
+    onDismiss={fn()} /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Non Dismissible</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Non-dismissible alert.
+Use cases:
+- Critical system messages
+- Required acknowledgments
+- Persistent notifications</div>
+              <pre><code>const NonDismissible = () =&gt; &lt;Alert
+    variant=&quot;Info&quot;
+    icon
+    link
+    dismissible={false}
+    text=&quot;Emphasized description.&quot;
+    linkLabel=&quot;Link&quot;
+    onDismiss={fn()} /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Custom Content</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Alert with custom content using children prop.
+When children are provided, text and linkLabel are ignored.</div>
+              <pre><code>const CustomContent = () =&gt; &lt;Alert
+    variant=&quot;Info&quot;
+    icon
+    link
+    dismissible
+    text=&quot;Emphasized description.&quot;
+    linkLabel=&quot;Link&quot;
+    onDismiss={fn()}&gt;(&lt;&gt;
+      &lt;span&gt;Custom alert message with &lt;strong&gt;bold text&lt;/strong&gt;.&lt;/span&gt;
+      &lt;a href=&quot;#&quot; onClick={(e) =&gt; e.preventDefault()}&gt;Learn more&lt;/a&gt;
+    &lt;/&gt;)&lt;/Alert&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">All Variants</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">All alert variants displayed together.</div>
+              <pre><code>const AllVariants = () =&gt; (
+  &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;8px&#39; }}&gt;
+    &lt;Alert variant=&quot;Info&quot; text=&quot;This is an info alert&quot; /&gt;
+    &lt;Alert variant=&quot;Warning&quot; text=&quot;This is a warning alert&quot; /&gt;
+    &lt;Alert variant=&quot;Success&quot; text=&quot;This is a success alert&quot; /&gt;
+    &lt;Alert variant=&quot;Danger&quot; text=&quot;This is a danger alert&quot; /&gt;
+  &lt;/div&gt;
+);</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  id="components-avatar"
+  class="card 
+  no-error
+  no-info
+  no-story-error
+  no-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="Avatar">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Avatar</h2>
+      <div class="badges">
+        <label for="c-2-components-avatar-props" class="badge ok as-toggle">7 prop types</label>
+        
+        <label for="c-2-components-avatar-stories" class="badge ok as-toggle">4 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/avatar/avatar.stories.tsx">components-avatar · ./src/components/avatar/avatar.stories.tsx</div>
+    
+    <div class="hint">The Avatar component displays a user&#39;s profile picture or fallback icon in a circular format.
+
+Key Features:
+- Image Support: Displays user images with automatic fallback handling.
+- Size Variations: The Avatar supports different sizes (small, medium, large) to fit various UI contexts.
+- Accessibility: The component includes proper alt text support for screen readers.
+
+[Github](https://github.com/bridge-design/super-design-system/tree/main/src/components/avatar)
+
+[Figma Design](https://www.figma.com/design/abc123xyz/Super-Design-System?node-id=1234-5678)
+
+[Guidelines](https://super-design-system.dev/guidelines/avatar)</div>
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  
+  <input id="c-2-components-avatar-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-2-components-avatar-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">7 prop types</span>
+            </div>
+            <pre><code>Component: src/components/avatar/avatar.tsx::Avatar</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>/**
+ * Alternative text for the avatar image, used for accessibility
+ */
+alt: string
+
+/**
+ * Optional className for adding custom CSS classes to the Avatar element.
+ */
+className?: string
+
+/**
+ * Optional id of the top element
+ */
+id?: string
+
+/**
+ * Optional click event handler
+ */
+onClick?: React.MouseEventHandler&lt;HTMLDivElement&gt;
+
+/**
+ * Optional image for placeholder, which is displayed while avatar is loading or in case of error
+ */
+placeholderSrc?: string
+
+/**
+ * Size variant of the avatar. Can be &#39;small&#39;, &#39;medium&#39;, or &#39;large&#39;. Defaults to &#39;medium&#39;
+ */
+size?: typeof avatarSizes[number] = &#39;medium&#39;
+
+/**
+ * The source URL of the avatar image
+ */
+src: string</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Avatar } from 'super-design-system';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Controls</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Controls = () =&gt; &lt;Avatar src=&quot;https://i.pravatar.cc/150&quot; alt=&quot;User Avatar&quot; /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Small</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Small avatar size is ideal for compact UI elements where space is limited.
+Use cases:
+- User mentions in comments or chat messages
+- Inline user tags in text content
+- Activity logs or notification lists
+- Compact user lists or tables</div>
+              <pre><code>const Small = () =&gt; &lt;Avatar src=&quot;https://i.pravatar.cc/150&quot; alt=&quot;User Avatar&quot; size=&quot;small&quot; /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Medium</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Medium avatar size is the default and most commonly used size.
+Use cases:
+- Standard user profiles in lists
+- Navigation bars and headers
+- Comment sections and forums
+- Social media feeds
+- Team member directories</div>
+              <pre><code>const Medium = () =&gt; &lt;Avatar src=&quot;https://i.pravatar.cc/150&quot; alt=&quot;User Avatar&quot; size=&quot;medium&quot; /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Large</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Large avatar size provides maximum visibility for user profiles.
+Use cases:
+- User profile pages and detailed views
+- Account settings and preferences
+- Contact cards and detailed user information
+- Featured user displays or hero sections
+- Authentication and welcome screens</div>
+              <pre><code>const Large = () =&gt; &lt;Avatar src=&quot;https://i.pravatar.cc/150&quot; alt=&quot;User Avatar&quot; size=&quot;large&quot; /&gt;;</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  id="components-badge"
+  class="card 
+  no-error
+  has-info
+  no-story-error
+  no-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="Badge">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Badge</h2>
+      <div class="badges">
+        <label for="c-3-components-badge-props" class="badge ok as-toggle">3 prop types</label>
+        <label for="c-3-components-badge-info" class="badge info as-toggle">1 info</label>
+        <label for="c-3-components-badge-stories" class="badge ok as-toggle">6 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/badge/badge.stories.tsx">components-badge · ./src/components/badge/badge.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-3-components-badge-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-3-components-badge-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-3-components-badge-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">3 prop types</span>
+            </div>
+            <pre><code>Component: src/components/badge/badge.tsx::Badge</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>/**
+ * Custom text content. When provided, status is ignored and no status icons are shown.
+ */
+children?: React.ReactNode
+
+/**
+ * Optional className for adding custom CSS classes to the Badge element
+ */
+className?: string
+
+/**
+ * Status of the badge. Required when no children are provided. Can be &#39;planned&#39;, &#39;in progress&#39;, or &#39;done&#39;. The text is automatically derived from the status.
+ */
+status?: typeof badgeStatuses[number]</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Badge } from 'super-design-system';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Controls</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Controls = () =&gt; &lt;Badge status=&quot;planned&quot; /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Planned</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Planned status badge indicates items that are scheduled or queued.
+Use cases:
+- Task management systems
+- Project planning boards
+- Feature roadmaps
+- Work item tracking</div>
+              <pre><code>const Planned = () =&gt; &lt;Badge status=&quot;planned&quot; /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">In Progress</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">In progress status badge indicates items currently being worked on.
+Use cases:
+- Active task indicators
+- Work-in-progress items
+- Current sprint items
+- Ongoing projects</div>
+              <pre><code>const InProgress = () =&gt; &lt;Badge status=&quot;in progress&quot; /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Done</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Done status badge indicates completed items.
+Use cases:
+- Completed tasks
+- Finished features
+- Resolved issues
+- Delivered milestones</div>
+              <pre><code>const Done = () =&gt; &lt;Badge status=&quot;done&quot; /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">All Statuses</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Badge text is automatically derived from the status.
+The component displays predefined text based on the status value.</div>
+              <pre><code>const AllStatuses = () =&gt; (
+  &lt;div style={{ display: &#39;flex&#39;, gap: &#39;8px&#39;, flexWrap: &#39;wrap&#39;, alignItems: &#39;center&#39; }}&gt;
+    &lt;Badge status=&quot;planned&quot; /&gt;
+    &lt;Badge status=&quot;in progress&quot; /&gt;
+    &lt;Badge status=&quot;done&quot; /&gt;
+  &lt;/div&gt;
+);</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Custom Text</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Badge component supports custom text through the `children` prop.
+When children are provided, status is ignored and no status icons are shown.
+Use cases:
+- Custom status labels
+- Task names or identifiers
+- Feature tags with specific names
+- Any custom badge text</div>
+              <pre><code>const CustomText = () =&gt; (
+  &lt;div style={{ display: &#39;flex&#39;, flexDirection: &#39;column&#39;, gap: &#39;12px&#39;, alignItems: &#39;flex-start&#39; }}&gt;
+    &lt;div style={{ display: &#39;flex&#39;, gap: &#39;8px&#39;, flexWrap: &#39;wrap&#39;, alignItems: &#39;center&#39; }}&gt;
+      &lt;Badge&gt;Q1 2024&lt;/Badge&gt;
+      &lt;Badge&gt;Sprint 12&lt;/Badge&gt;
+      &lt;Badge&gt;Version 2.0&lt;/Badge&gt;
+    &lt;/div&gt;
+    &lt;div style={{ display: &#39;flex&#39;, gap: &#39;8px&#39;, flexWrap: &#39;wrap&#39;, alignItems: &#39;center&#39; }}&gt;
+      &lt;Badge&gt;Feature: Dark Mode&lt;/Badge&gt;
+      &lt;Badge&gt;Bug Fix #123&lt;/Badge&gt;
+      &lt;Badge&gt;Deployed&lt;/Badge&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+);</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  id="components-button"
+  class="card 
+  no-error
+  has-info
+  no-story-error
+  no-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="Button">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Button</h2>
+      <div class="badges">
+        <label for="c-4-components-button-props" class="badge ok as-toggle">4 prop types</label>
+        <label for="c-4-components-button-info" class="badge info as-toggle">1 info</label>
+        <label for="c-4-components-button-stories" class="badge ok as-toggle">5 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/button/button.stories.tsx">components-button · ./src/components/button/button.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-4-components-button-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-4-components-button-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-4-components-button-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">4 prop types</span>
+            </div>
+            <pre><code>Component: src/components/button/button.tsx::Button</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>/**
+ * Custom text content. When provided, status is ignored and no status icons are shown.
+ */
+children?: React.ReactNode
+
+/**
+ * Optional className for adding custom CSS classes to the Button element
+ */
+className?: string
+
+/**
+ * Callback fired when the button is clicked
+ * @param event - The mouse event
+ * @returns void
+ */
+onClick?: (event: React.MouseEvent&lt;HTMLButtonElement&gt;) =&gt; void
+
+/**
+ * Type of the button. Defaults to &#39;button&#39;.
+ */
+type?: &#39;button&#39; | &#39;submit&#39; | &#39;reset&#39; = &#39;button&#39;</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Button } from 'super-design-system';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Controls</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Controls = () =&gt; &lt;Button&gt;Button&lt;/Button&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Standard button type is used for general actions.
+Use cases:
+- General UI actions
+- Navigation triggers
+- Modal actions</div>
+              <pre><code>const Default = () =&gt; &lt;Button type=&quot;button&quot;&gt;Button&lt;/Button&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Submit</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Submit button type is used for form submissions.
+Use cases:
+- Form submit actions
+- Data submission
+- Form wizards</div>
+              <pre><code>const Submit = () =&gt; &lt;Button type=&quot;submit&quot;&gt;Submit&lt;/Button&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Reset</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Reset button type is used to reset form fields.
+Use cases:
+- Form reset actions
+- Clearing form data</div>
+              <pre><code>const Reset = () =&gt; &lt;Button type=&quot;reset&quot;&gt;Reset&lt;/Button&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Disabled</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Disabled button state is used when an action is not available.
+Use cases:
+- Form validation (disable submit until form is valid)
+- Loading states
+- Permission-based actions
+- Temporarily unavailable features</div>
+              <pre><code>const Disabled = () =&gt; &lt;Button disabled&gt;Disabled Button&lt;/Button&gt;;</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  id="templates-dashboard"
+  class="card 
+  has-error
+  has-info
+  no-story-error
+  no-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="Dashboard">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Dashboard</h2>
+      <div class="badges">
+        <label for="c-5-templates-dashboard-err" class="badge err as-toggle">API error</label>
+        <label for="c-5-templates-dashboard-info" class="badge info as-toggle">1 info</label>
+        <label for="c-5-templates-dashboard-stories" class="badge ok as-toggle">1 story</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/templates/dashboard.stories.tsx">templates-dashboard · ./src/templates/dashboard.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-5-templates-dashboard-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-5-templates-dashboard-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-5-templates-dashboard-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">API error</div>
+      <div class="note-body"><pre><code>We could not detect the component from your story file. Specify meta.component.
+  21 |
+  22 |
+&gt; 23 | const meta: Meta = {
+     | ^
+  24 |   title: &#39;Templates/Dashboard&#39;,
+  25 |   parameters: {
+  26 |     layout: &#39;fullscreen&#39;,
+
+./src/templates/dashboard.stories.tsx:
+import type { Meta, StoryObj } from &#39;@storybook/react&#39;;
+import React from &#39;react&#39;;
+import { Alert } from &#39;@/src/components&#39;;
+import { Header, Layout, Logo, Avatar } from &#39;@/src/components&#39;;
+import { Menubar, MenubarItem } from &#39;@/src/components&#39;;
+import { Tabs, TabsList, TabsTrigger, TabsContent } from &#39;@/src/components&#39;;
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from &#39;@/src/components&#39;;
+import { Badge } from &#39;@/src/components&#39;;
+// @ts-ignore - JSON import from data directory
+import pagesData from &#39;@/data/list-of-pages.data.json&#39;;
+
+interface Page {
+  id: number;
+  header: string;
+  sectionType: string;
+  status: string;
+  target: number;
+  limit: number;
+  reviewer: string | null;
+}
+
+
+const meta: Meta = {
+  title: &#39;Templates/Dashboard&#39;,
+  parameters: {
+    layout: &#39;fullscreen&#39;,
+  },
+};
+
+export default meta;
+type Story = StoryObj;
+
+const Template = () =&gt; {
+  const getStatusBadge = (status: string) =&gt; {
+    const statusLower = status.toLowerCase();
+    if (statusLower === &#39;done&#39;) {
+      return &lt;Badge status=&quot;done&quot; /&gt;;
+    } else if (statusLower.includes(&#39;process&#39;)) {
+      return &lt;Badge status=&quot;in progress&quot; /&gt;;
+    }
+    return &lt;Badge status=&quot;planned&quot; /&gt;;
+  };
+
+  return (
+    &lt;&gt;
+      &lt;Alert 
+        variant=&quot;Info&quot; 
+        text=&quot;Welcome to the dashboard. Review and manage your pages below.&quot; 
+        linkLabel=&quot;Learn more&quot;
+      /&gt;
+      &lt;Header
+        left={&lt;Logo variant=&quot;blank&quot; /&gt;}
+        middle={
+          &lt;Menubar variant=&quot;transparent&quot;&gt;
+            &lt;MenubarItem&gt;Products&lt;/MenubarItem&gt;
+            &lt;MenubarItem active&gt;Solutions&lt;/MenubarItem&gt;
+            &lt;MenubarItem&gt;Resources&lt;/MenubarItem&gt;
+            &lt;MenubarItem&gt;Company&lt;/MenubarItem&gt;
+          &lt;/Menubar&gt;
+        }
+        right={&lt;Avatar src=&quot;https://i.pravatar.cc/150&quot; alt=&quot;User Avatar&quot; size=&quot;small&quot; /&gt;}
+      /&gt;
+      &lt;Layout&gt;
+        &lt;Tabs defaultValue=&quot;pages&quot;&gt;
+          &lt;TabsList&gt;
+            &lt;TabsTrigger value=&quot;pages&quot;&gt;Pages&lt;/TabsTrigger&gt;
+            &lt;TabsTrigger value=&quot;settings&quot;&gt;Settings&lt;/TabsTrigger&gt;
+          &lt;/TabsList&gt;
+          &lt;TabsContent value=&quot;pages&quot;&gt;
+            &lt;Table&gt;
+              &lt;TableHeader&gt;
+                &lt;TableRow&gt;
+                  &lt;TableHead&gt;Header&lt;/TableHead&gt;
+                  &lt;TableHead&gt;Section Type&lt;/TableHead&gt;
+                  &lt;TableHead&gt;Status&lt;/TableHead&gt;
+                  &lt;TableHead&gt;Target&lt;/TableHead&gt;
+                  &lt;TableHead&gt;Limit&lt;/TableHead&gt;
+                  &lt;TableHead&gt;Reviewer&lt;/TableHead&gt;
+                &lt;/TableRow&gt;
+              &lt;/TableHeader&gt;
+              &lt;TableBody&gt;
+                {(pagesData.pages as Page[]).map((page) =&gt; (
+                  &lt;TableRow key={page.id}&gt;
+                    &lt;TableCell&gt;{page.header}&lt;/TableCell&gt;
+                    &lt;TableCell&gt;{page.sectionType}&lt;/TableCell&gt;
+                    &lt;TableCell&gt;{getStatusBadge(page.status)}&lt;/TableCell&gt;
+                    &lt;TableCell&gt;{page.target}&lt;/TableCell&gt;
+                    &lt;TableCell&gt;{page.limit}&lt;/TableCell&gt;
+                    &lt;TableCell&gt;{page.reviewer || &#39;Assign reviewer&#39;}&lt;/TableCell&gt;
+                  &lt;/TableRow&gt;
+                ))}
+              &lt;/TableBody&gt;
+            &lt;/Table&gt;
+          &lt;/TabsContent&gt;
+          &lt;TabsContent value=&quot;settings&quot;&gt;
+            &lt;p&gt;Settings content will be here&lt;/p&gt;
+          &lt;/TabsContent&gt;
+        &lt;/Tabs&gt;
+      &lt;/Layout&gt;
+    &lt;/&gt;
+  );
+};
+
+export const Default: Story = {
+  render: () =&gt; &lt;Template /&gt;,
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import {
+  Alert,
+  Avatar,
+  Badge,
+  Header,
+  Layout,
+  Logo,
+  Menubar,
+  MenubarItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from 'super-design-system';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; &lt;Template /&gt;;</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  id="components-header"
+  class="card 
+  no-error
+  has-info
+  no-story-error
+  no-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="Header">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Header</h2>
+      <div class="badges">
+        <label for="c-6-components-header-props" class="badge ok as-toggle">4 prop types</label>
+        <label for="c-6-components-header-info" class="badge info as-toggle">1 info</label>
+        <label for="c-6-components-header-stories" class="badge ok as-toggle">1 story</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/header/header.stories.tsx">components-header · ./src/components/header/header.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-6-components-header-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-6-components-header-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-6-components-header-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">4 prop types</span>
+            </div>
+            <pre><code>Component: src/components/header/header.tsx::Header</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>/**
+ * Optional className for adding custom CSS classes to the Header element
+ */
+className?: string
+
+/**
+ * Content to display on the left side of the header
+ */
+left?: React.ReactNode
+
+/**
+ * Content to display in the middle of the header
+ */
+middle?: React.ReactNode
+
+/**
+ * Content to display on the right side of the header
+ */
+right?: React.ReactNode</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Header, Logo } from 'super-design-system';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; (
+  &lt;Header
+    left={&lt;Logo variant=&quot;blank&quot; /&gt;}
+    middle=&quot;Header Title&quot;
+    right=&quot;User Menu&quot;
+  /&gt;
+);</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  id="patterns-header"
+  class="card 
+  no-error
+  has-info
+  no-story-error
+  no-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="Header">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Header</h2>
+      <div class="badges">
+        <label for="c-7-patterns-header-props" class="badge ok as-toggle">4 prop types</label>
+        <label for="c-7-patterns-header-info" class="badge info as-toggle">1 info</label>
+        <label for="c-7-patterns-header-stories" class="badge ok as-toggle">1 story</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/patterns/header/header.stories.tsx">patterns-header · ./src/patterns/header/header.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-7-patterns-header-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-7-patterns-header-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-7-patterns-header-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">4 prop types</span>
+            </div>
+            <pre><code>Component: src/components/header/header.tsx::Header</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>/**
+ * Optional className for adding custom CSS classes to the Header element
+ */
+className?: string
+
+/**
+ * Content to display on the left side of the header
+ */
+left?: React.ReactNode
+
+/**
+ * Content to display in the middle of the header
+ */
+middle?: React.ReactNode
+
+/**
+ * Content to display on the right side of the header
+ */
+right?: React.ReactNode</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Avatar, Header, Logo, Menubar, MenubarItem } from 'super-design-system';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Header pattern displays a complete application header with logo, navigation menu, and user avatar.
+
+Use cases:
+- Application headers
+- Dashboard navigation
+- Main application layouts
+- Multi-page applications</div>
+              <pre><code>const Default = () =&gt; (
+  &lt;Header
+    left={&lt;Logo variant=&quot;blank&quot; /&gt;}
+    middle={
+      &lt;Menubar variant=&quot;transparent&quot;&gt;
+        &lt;MenubarItem&gt;Products&lt;/MenubarItem&gt;
+        &lt;MenubarItem active&gt;Solutions&lt;/MenubarItem&gt;
+        &lt;MenubarItem&gt;Resources&lt;/MenubarItem&gt;
+        &lt;MenubarItem&gt;Company&lt;/MenubarItem&gt;
+      &lt;/Menubar&gt;
+    }
+    right={&lt;Avatar src=&quot;https://i.pravatar.cc/150&quot; alt=&quot;User Avatar&quot; size=&quot;small&quot; /&gt;}
+  /&gt;
+);</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  id="components-icon"
+  class="card 
+  no-error
+  has-info
+  no-story-error
+  no-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="Icon">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Icon</h2>
+      <div class="badges">
+        <label for="c-8-components-icon-props" class="badge ok as-toggle">4 prop types</label>
+        <label for="c-8-components-icon-info" class="badge info as-toggle">1 info</label>
+        <label for="c-8-components-icon-stories" class="badge ok as-toggle">2 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/Icon/icon.stories.tsx">components-icon · ./src/components/Icon/icon.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-8-components-icon-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-8-components-icon-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-8-components-icon-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">4 prop types</span>
+            </div>
+            <pre><code>Component: src/components/Icon/icon.tsx::Icon</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>className?: string
+
+color?: string
+
+name: keyof typeof icons
+
+size?: number = 24</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Icon, IconGallery, IconItem } from 'super-design-system';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; &lt;Icon name=&quot;home&quot; size={24} color=&quot;#000000&quot; /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">All Icons</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const AllIcons = (args: IconProps) =&gt; {
+  const iconSize = args.size || 24;
+  const iconColor = args.color || &#39;#000000&#39;;
+
+  return (
+    &lt;IconGallery&gt;
+      {iconNames.map((iconName) =&gt; (
+        &lt;IconItem key={iconName} name={iconName} iconSize={iconSize} iconColor={iconColor}&gt;
+          &lt;Icon name={iconName} size={iconSize} color={iconColor} /&gt;
+        &lt;/IconItem&gt;
+      ))}
+    &lt;/IconGallery&gt;
+  );
+};</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  id="components-layout"
+  class="card 
+  no-error
+  has-info
+  no-story-error
+  no-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="Layout">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Layout</h2>
+      <div class="badges">
+        <label for="c-9-components-layout-props" class="badge ok as-toggle">1 prop type</label>
+        <label for="c-9-components-layout-info" class="badge info as-toggle">1 info</label>
+        <label for="c-9-components-layout-stories" class="badge ok as-toggle">2 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/layout/layout.stories.tsx">components-layout · ./src/components/layout/layout.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-9-components-layout-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-9-components-layout-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-9-components-layout-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">1 prop type</span>
+            </div>
+            <pre><code>Component: src/components/layout/layout.tsx::Layout</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>children: React.ReactNode</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Layout } from 'super-design-system';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; &lt;Layout style={{ &#39;backgroundColor&#39;: &#39;lightblue&#39; }}&gt;(&lt;&gt;
+      &lt;div style={{ backgroundColor: &#39;pink&#39; }}&gt;Placeholder content&lt;/div&gt;
+    &lt;/&gt;)&lt;/Layout&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Wide</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Wide = () =&gt; &lt;Layout
+    style={{ &#39;--layout-max-width&#39;: &#39;1200px&#39;, &#39;backgroundColor&#39;: &#39;lightblue&#39; }}&gt;(&lt;&gt;
+      &lt;div style={{ backgroundColor: &#39;pink&#39; }}&gt;Placeholder content&lt;/div&gt;
+    &lt;/&gt;)&lt;/Layout&gt;;</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  id="patterns-list-of-pages"
+  class="card 
+  has-error
+  has-info
+  no-story-error
+  no-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="ListofPages">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> ListofPages</h2>
+      <div class="badges">
+        <label for="c-10-patterns-list-of-pages-err" class="badge err as-toggle">API error</label>
+        <label for="c-10-patterns-list-of-pages-info" class="badge info as-toggle">1 info</label>
+        <label for="c-10-patterns-list-of-pages-stories" class="badge ok as-toggle">1 story</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/patterns/list-of-pages/list-of-pages.stories.tsx">patterns-list-of-pages · ./src/patterns/list-of-pages/list-of-pages.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-10-patterns-list-of-pages-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-10-patterns-list-of-pages-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-10-patterns-list-of-pages-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">API error</div>
+      <div class="note-body"><pre><code>We could not detect the component from your story file. Specify meta.component.
+  16 | }
+  17 |
+&gt; 18 | const meta: Meta = {
+     | ^
+  19 |   title: &#39;Patterns/List of Pages&#39;,
+  20 |   parameters: {
+  21 |     layout: &#39;padded&#39;,
+
+./src/patterns/list-of-pages/list-of-pages.stories.tsx:
+import type { Meta, StoryObj } from &#39;@storybook/react&#39;;
+import React from &#39;react&#39;;
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from &#39;@/src/components&#39;;
+import { Badge } from &#39;@/src/components&#39;;
+// @ts-ignore - JSON import from data directory
+import pagesData from &#39;@/data/list-of-pages.data.json&#39;;
+
+interface Page {
+  id: number;
+  header: string;
+  sectionType: string;
+  status: string;
+  target: number;
+  limit: number;
+  reviewer: string | null;
+}
+
+const meta: Meta = {
+  title: &#39;Patterns/List of Pages&#39;,
+  parameters: {
+    layout: &#39;padded&#39;,
+  },
+};
+
+export default meta;
+type Story = StoryObj;
+
+/**
+ * List of pages pattern displays a table with page information including
+ * header, section type, status, target/limit counts, and reviewer assignment.
+ * 
+ * Use cases:
+ * - Document management systems
+ * - Proposal page tracking
+ * - Content review workflows
+ * - Project documentation
+ */
+export const Default: Story = {
+  render: () =&gt; {
+    const getStatusBadge = (status: string) =&gt; {
+      const statusLower = status.toLowerCase();
+      if (statusLower === &#39;done&#39;) {
+        return &lt;Badge status=&quot;done&quot; /&gt;;
+      } else if (statusLower.includes(&#39;process&#39;)) {
+        return &lt;Badge status=&quot;in progress&quot; /&gt;;
+      }
+      return &lt;Badge status=&quot;planned&quot; /&gt;;
+    };
+
+    return (
+      &lt;Table&gt;
+        &lt;TableHeader&gt;
+          &lt;TableRow&gt;
+            &lt;TableHead&gt;Header&lt;/TableHead&gt;
+            &lt;TableHead&gt;Section Type&lt;/TableHead&gt;
+            &lt;TableHead&gt;Status&lt;/TableHead&gt;
+            &lt;TableHead&gt;Target&lt;/TableHead&gt;
+            &lt;TableHead&gt;Limit&lt;/TableHead&gt;
+            &lt;TableHead&gt;Reviewer&lt;/TableHead&gt;
+          &lt;/TableRow&gt;
+        &lt;/TableHeader&gt;
+        &lt;TableBody&gt;
+          {(pagesData.pages as Page[]).map((page) =&gt; (
+            &lt;TableRow key={page.id}&gt;
+              &lt;TableCell&gt;{page.header}&lt;/TableCell&gt;
+              &lt;TableCell&gt;{page.sectionType}&lt;/TableCell&gt;
+              &lt;TableCell&gt;{getStatusBadge(page.status)}&lt;/TableCell&gt;
+              &lt;TableCell&gt;{page.target}&lt;/TableCell&gt;
+              &lt;TableCell&gt;{page.limit}&lt;/TableCell&gt;
+              &lt;TableCell&gt;{page.reviewer || &#39;Assign reviewer&#39;}&lt;/TableCell&gt;
+            &lt;/TableRow&gt;
+          ))}
+        &lt;/TableBody&gt;
+      &lt;/Table&gt;
+    );
+  },
+};
+
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Badge, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'super-design-system';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">List of pages pattern displays a table with page information including
+header, section type, status, target/limit counts, and reviewer assignment.
+
+Use cases:
+- Document management systems
+- Proposal page tracking
+- Content review workflows
+- Project documentation</div>
+              <pre><code>const Default = () =&gt; {
+  const getStatusBadge = (status: string) =&gt; {
+    const statusLower = status.toLowerCase();
+    if (statusLower === &#39;done&#39;) {
+      return &lt;Badge status=&quot;done&quot; /&gt;;
+    } else if (statusLower.includes(&#39;process&#39;)) {
+      return &lt;Badge status=&quot;in progress&quot; /&gt;;
+    }
+    return &lt;Badge status=&quot;planned&quot; /&gt;;
+  };
+
+  return (
+    &lt;Table&gt;
+      &lt;TableHeader&gt;
+        &lt;TableRow&gt;
+          &lt;TableHead&gt;Header&lt;/TableHead&gt;
+          &lt;TableHead&gt;Section Type&lt;/TableHead&gt;
+          &lt;TableHead&gt;Status&lt;/TableHead&gt;
+          &lt;TableHead&gt;Target&lt;/TableHead&gt;
+          &lt;TableHead&gt;Limit&lt;/TableHead&gt;
+          &lt;TableHead&gt;Reviewer&lt;/TableHead&gt;
+        &lt;/TableRow&gt;
+      &lt;/TableHeader&gt;
+      &lt;TableBody&gt;
+        {(pagesData.pages as Page[]).map((page) =&gt; (
+          &lt;TableRow key={page.id}&gt;
+            &lt;TableCell&gt;{page.header}&lt;/TableCell&gt;
+            &lt;TableCell&gt;{page.sectionType}&lt;/TableCell&gt;
+            &lt;TableCell&gt;{getStatusBadge(page.status)}&lt;/TableCell&gt;
+            &lt;TableCell&gt;{page.target}&lt;/TableCell&gt;
+            &lt;TableCell&gt;{page.limit}&lt;/TableCell&gt;
+            &lt;TableCell&gt;{page.reviewer || &#39;Assign reviewer&#39;}&lt;/TableCell&gt;
+          &lt;/TableRow&gt;
+        ))}
+      &lt;/TableBody&gt;
+    &lt;/Table&gt;
+  );
+};</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  id="components-logo"
+  class="card 
+  no-error
+  has-info
+  no-story-error
+  no-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="Logo">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Logo</h2>
+      <div class="badges">
+        <label for="c-11-components-logo-props" class="badge ok as-toggle">4 prop types</label>
+        <label for="c-11-components-logo-info" class="badge info as-toggle">1 info</label>
+        <label for="c-11-components-logo-stories" class="badge ok as-toggle">4 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/logo/logo.stories.tsx">components-logo · ./src/components/logo/logo.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-11-components-logo-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-11-components-logo-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-11-components-logo-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">4 prop types</span>
+            </div>
+            <pre><code>Component: src/components/logo/logo.tsx::Logo</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>/**
+ * Optional className for adding custom CSS classes to the Logo element
+ */
+className?: string
+
+/**
+ * Optional height of the logo
+ */
+height?: number | string
+
+/**
+ * Variant of the logo. &#39;blank&#39; uses blank color, default uses primary color
+ */
+variant?: &#39;blank&#39; | &#39;default&#39; = &#39;default&#39;
+
+/**
+ * Optional width of the logo
+ */
+width?: number | string</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Logo } from 'super-design-system';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Controls</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Controls = () =&gt; &lt;Logo /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Default logo size displays the brand logo at standard size.
+Use cases:
+- Navigation bars
+- Headers
+- Brand identity
+- Application branding</div>
+              <pre><code>const Default = () =&gt; &lt;Logo /&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Custom Size</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Logo with custom size.
+Use cases:
+- Different layout contexts
+- Responsive designs
+- Footer logos
+- Mobile navigation</div>
+              <pre><code>const CustomSize = () =&gt; (
+  &lt;div style={{ display: &#39;flex&#39;, gap: &#39;16px&#39;, alignItems: &#39;center&#39; }}&gt;
+    &lt;Logo width={24} height={24} /&gt;
+    &lt;Logo width={32} height={32} /&gt;
+    &lt;Logo width={48} height={48} /&gt;
+    &lt;Logo width={64} height={64} /&gt;
+  &lt;/div&gt;
+);</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Blank Variant</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Logo with blank variant uses the blank color token.
+Use cases:
+- Light backgrounds
+- Header components with gradient backgrounds
+- High contrast contexts</div>
+              <pre><code>const BlankVariant = () =&gt; (
+  &lt;div style={{ display: &#39;flex&#39;, gap: &#39;16px&#39;, alignItems: &#39;center&#39;, background: &#39;var(--ds-color-semantic-background-accent)&#39;, padding: &#39;16px&#39;, borderRadius: &#39;8px&#39; }}&gt;
+    &lt;Logo variant=&quot;default&quot; /&gt;
+    &lt;Logo variant=&quot;blank&quot; /&gt;
+  &lt;/div&gt;
+);</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  id="components-menubar"
+  class="card 
+  no-error
+  has-info
+  no-story-error
+  no-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="Menubar">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Menubar</h2>
+      <div class="badges">
+        <label for="c-12-components-menubar-props" class="badge ok as-toggle">3 prop types</label>
+        <label for="c-12-components-menubar-info" class="badge info as-toggle">1 info</label>
+        <label for="c-12-components-menubar-stories" class="badge ok as-toggle">3 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/menubar/menubar.stories.tsx">components-menubar · ./src/components/menubar/menubar.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-12-components-menubar-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-12-components-menubar-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-12-components-menubar-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">3 prop types</span>
+            </div>
+            <pre><code>Component: src/components/menubar/menubar.tsx::Menubar</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>/**
+ * Menubar content
+ */
+children: React.ReactNode
+
+/**
+ * Optional className for adding custom CSS classes to the Menubar element
+ */
+className?: string
+
+/**
+ * Variant of the menubar
+ * @default &#39;default&#39;
+ */
+variant?: &#39;default&#39; | &#39;transparent&#39; = &#39;default&#39;</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Menubar, MenubarItem } from 'super-design-system';
+import { MenubarItem } from '@/src/components';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Controls</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Controls = () =&gt; &lt;Menubar variant=&quot;default&quot;&gt;(&lt;&gt;
+      &lt;MenubarItem&gt;New&lt;/MenubarItem&gt;
+      &lt;MenubarItem active&gt;Open&lt;/MenubarItem&gt;
+      &lt;MenubarItem&gt;Save&lt;/MenubarItem&gt;
+    &lt;/&gt;)&lt;/Menubar&gt;;</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Basic menubar with items.
+Use cases:
+- Application navigation
+- Menu systems
+- Toolbar menus</div>
+              <pre><code>const Default = () =&gt; (
+  &lt;Menubar&gt;
+    &lt;MenubarItem&gt;File&lt;/MenubarItem&gt;
+    &lt;MenubarItem active&gt;Edit&lt;/MenubarItem&gt;
+    &lt;MenubarItem&gt;View&lt;/MenubarItem&gt;
+    &lt;MenubarItem&gt;Help&lt;/MenubarItem&gt;
+  &lt;/Menubar&gt;
+);</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Transparent</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Transparent menubar variant with no border and transparent background.
+Font color is inherited from parent component.
+Use cases:
+- Overlay navigation
+- Dark themed interfaces
+- Hero sections with navigation</div>
+              <pre><code>const Transparent = () =&gt; (
+  &lt;div
+    style={{
+      backgroundColor: &#39;var(--ds-color-global-neutral-950)&#39;,
+      color: &#39;#ffffff&#39;,
+      padding: &#39;2rem&#39;,
+      borderRadius: &#39;var(--ds-radii-concept-m)&#39;,
+    }}
+  &gt;
+    &lt;Menubar variant=&quot;transparent&quot;&gt;
+      &lt;MenubarItem&gt;File&lt;/MenubarItem&gt;
+      &lt;MenubarItem active&gt;Edit&lt;/MenubarItem&gt;
+      &lt;MenubarItem&gt;View&lt;/MenubarItem&gt;
+      &lt;MenubarItem&gt;Help&lt;/MenubarItem&gt;
+    &lt;/Menubar&gt;
+    &lt;p style={{ marginTop: &#39;1rem&#39;, color: &#39;#ffffff&#39; }}&gt;
+      This is text in the container. The menubar inherits the white color from its parent.{&#39; &#39;}
+      &lt;a href=&quot;#&quot; style={{ color: &#39;#ffffff&#39;, textDecoration: &#39;underline&#39; }}&gt;
+        This is a link
+      &lt;/a&gt;
+      {&#39; &#39;}with white color.
+    &lt;/p&gt;
+  &lt;/div&gt;
+);</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  id="components-table"
+  class="card 
+  no-error
+  has-info
+  no-story-error
+  has-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="Table">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Table</h2>
+      <div class="badges">
+        <label for="c-13-components-table-props" class="badge ok as-toggle">2 prop types</label>
+        <label for="c-13-components-table-info" class="badge info as-toggle">1 info</label>
+        <label for="c-13-components-table-stories" class="badge ok as-toggle">3 stories · 1 incomplete</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/table/table.stories.tsx">components-table · ./src/components/table/table.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-13-components-table-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-13-components-table-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-13-components-table-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">2 prop types</span>
+            </div>
+            <pre><code>Component: src/components/table/table.tsx::Table</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>/**
+ * Table content
+ */
+children: React.ReactNode
+
+/**
+ * Optional className for adding custom CSS classes to the Table element
+ */
+className?: string</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'super-design-system';
+import { TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/src/components';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Controls</span>
+                <span class="badge info">incomplete example</span>
+              </div>
+              
+              
+              <pre><code>const Controls = () =&gt; &lt;Table&gt;(&lt;&gt;
+      &lt;TableHeader&gt;
+        &lt;TableRow&gt;
+          {defaultTableData.headers.map((header, index) =&gt; (
+            &lt;TableHead key={index}&gt;{header}&lt;/TableHead&gt;
+          ))}
+        &lt;/TableRow&gt;
+      &lt;/TableHeader&gt;
+      &lt;TableBody&gt;
+        {defaultTableData.rows.map((row, rowIndex) =&gt; (
+          &lt;TableRow key={rowIndex}&gt;
+            {row.map((cell, cellIndex) =&gt; (
+              &lt;TableCell key={cellIndex}&gt;{cell}&lt;/TableCell&gt;
+            ))}
+          &lt;/TableRow&gt;
+        ))}
+      &lt;/TableBody&gt;
+    &lt;/&gt;)&lt;/Table&gt;;</code></pre>
+              <div class="snippet-warning">Incomplete snippet: `defaultTableData` could not be resolved statically.</div>
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Basic table with header and body sections.
+Use cases:
+- Data display
+- User lists
+- Product catalogs
+- Reports and dashboards</div>
+              <pre><code>const Default = () =&gt; (
+  &lt;Table&gt;
+    &lt;TableHeader&gt;
+      &lt;TableRow&gt;
+        &lt;TableHead&gt;Product&lt;/TableHead&gt;
+        &lt;TableHead&gt;Price&lt;/TableHead&gt;
+        &lt;TableHead&gt;Stock&lt;/TableHead&gt;
+      &lt;/TableRow&gt;
+    &lt;/TableHeader&gt;
+    &lt;TableBody&gt;
+      &lt;TableRow&gt;
+        &lt;TableCell&gt;Widget A&lt;/TableCell&gt;
+        &lt;TableCell&gt;$29.99&lt;/TableCell&gt;
+        &lt;TableCell&gt;150&lt;/TableCell&gt;
+      &lt;/TableRow&gt;
+      &lt;TableRow&gt;
+        &lt;TableCell&gt;Widget B&lt;/TableCell&gt;
+        &lt;TableCell&gt;$39.99&lt;/TableCell&gt;
+        &lt;TableCell&gt;75&lt;/TableCell&gt;
+      &lt;/TableRow&gt;
+      &lt;TableRow&gt;
+        &lt;TableCell&gt;Widget C&lt;/TableCell&gt;
+        &lt;TableCell&gt;$49.99&lt;/TableCell&gt;
+        &lt;TableCell&gt;200&lt;/TableCell&gt;
+      &lt;/TableRow&gt;
+    &lt;/TableBody&gt;
+  &lt;/Table&gt;
+);</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Multiple Rows</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Table with multiple columns and rows.
+Use cases:
+- Complex data sets
+- Detailed reports
+- Comparison tables</div>
+              <pre><code>const MultipleRows = () =&gt; (
+  &lt;Table&gt;
+    &lt;TableHeader&gt;
+      &lt;TableRow&gt;
+        &lt;TableHead&gt;ID&lt;/TableHead&gt;
+        &lt;TableHead&gt;Name&lt;/TableHead&gt;
+        &lt;TableHead&gt;Status&lt;/TableHead&gt;
+        &lt;TableHead&gt;Created&lt;/TableHead&gt;
+      &lt;/TableRow&gt;
+    &lt;/TableHeader&gt;
+    &lt;TableBody&gt;
+      &lt;TableRow&gt;
+        &lt;TableCell&gt;#001&lt;/TableCell&gt;
+        &lt;TableCell&gt;Project Alpha&lt;/TableCell&gt;
+        &lt;TableCell&gt;Active&lt;/TableCell&gt;
+        &lt;TableCell&gt;2024-01-15&lt;/TableCell&gt;
+      &lt;/TableRow&gt;
+      &lt;TableRow&gt;
+        &lt;TableCell&gt;#002&lt;/TableCell&gt;
+        &lt;TableCell&gt;Project Beta&lt;/TableCell&gt;
+        &lt;TableCell&gt;Completed&lt;/TableCell&gt;
+        &lt;TableCell&gt;2024-02-20&lt;/TableCell&gt;
+      &lt;/TableRow&gt;
+      &lt;TableRow&gt;
+        &lt;TableCell&gt;#003&lt;/TableCell&gt;
+        &lt;TableCell&gt;Project Gamma&lt;/TableCell&gt;
+        &lt;TableCell&gt;Planning&lt;/TableCell&gt;
+        &lt;TableCell&gt;2024-03-10&lt;/TableCell&gt;
+      &lt;/TableRow&gt;
+      &lt;TableRow&gt;
+        &lt;TableCell&gt;#004&lt;/TableCell&gt;
+        &lt;TableCell&gt;Project Delta&lt;/TableCell&gt;
+        &lt;TableCell&gt;Active&lt;/TableCell&gt;
+        &lt;TableCell&gt;2024-03-25&lt;/TableCell&gt;
+      &lt;/TableRow&gt;
+    &lt;/TableBody&gt;
+  &lt;/Table&gt;
+);</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  id="components-tabs"
+  class="card 
+  no-error
+  has-info
+  no-story-error
+  no-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="Tabs">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Tabs</h2>
+      <div class="badges">
+        <label for="c-14-components-tabs-props" class="badge ok as-toggle">2 prop types</label>
+        <label for="c-14-components-tabs-info" class="badge info as-toggle">1 info</label>
+        <label for="c-14-components-tabs-stories" class="badge ok as-toggle">4 stories</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/components/tabs/tabs.stories.tsx">components-tabs · ./src/components/tabs/tabs.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="c-14-components-tabs-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-14-components-tabs-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  <input id="c-14-components-tabs-props" class="tg tg-props" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+        <div class="panel panel-props">
+          <div class="note ok">
+            <div class="row">
+              <span class="ex-name">Prop types <small>(react-docgen)</small></span>
+              <span class="badge ok">2 prop types</span>
+            </div>
+            <pre><code>Component: src/components/tabs/tabs.tsx::Tabs</code></pre>
+            <pre><code>Props:</code></pre>
+            <pre><code>/**
+ * Tabs content
+ */
+children: React.ReactNode
+
+/**
+ * Optional className for adding custom CSS classes to the Tabs element
+ */
+className?: string</code></pre>
+          </div>
+        </div>
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Tabs, TabsContent, TabsList, TabsTrigger } from 'super-design-system';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Controls</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Controls = () =&gt; (
+  &lt;Tabs defaultValue=&quot;tab1&quot;&gt;
+    &lt;TabsList&gt;
+      &lt;TabsTrigger value=&quot;tab1&quot;&gt;Tab 1&lt;/TabsTrigger&gt;
+      &lt;TabsTrigger value=&quot;tab2&quot;&gt;Tab 2&lt;/TabsTrigger&gt;
+      &lt;TabsTrigger value=&quot;tab3&quot;&gt;Tab 3&lt;/TabsTrigger&gt;
+    &lt;/TabsList&gt;
+    &lt;TabsContent value=&quot;tab1&quot;&gt;Content for Tab 1&lt;/TabsContent&gt;
+    &lt;TabsContent value=&quot;tab2&quot;&gt;Content for Tab 2&lt;/TabsContent&gt;
+    &lt;TabsContent value=&quot;tab3&quot;&gt;Content for Tab 3&lt;/TabsContent&gt;
+  &lt;/Tabs&gt;
+);</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Basic tabs with multiple tab panels.
+Use cases:
+- Content organization
+- Settings panels
+- Multi-section forms
+- Tabbed interfaces</div>
+              <pre><code>const Default = () =&gt; (
+  &lt;Tabs defaultValue=&quot;overview&quot;&gt;
+    &lt;TabsList&gt;
+      &lt;TabsTrigger value=&quot;overview&quot;&gt;Overview&lt;/TabsTrigger&gt;
+      &lt;TabsTrigger value=&quot;details&quot;&gt;Details&lt;/TabsTrigger&gt;
+      &lt;TabsTrigger value=&quot;settings&quot;&gt;Settings&lt;/TabsTrigger&gt;
+    &lt;/TabsList&gt;
+    &lt;TabsContent value=&quot;overview&quot;&gt;
+      &lt;p&gt;This is the overview content.&lt;/p&gt;
+    &lt;/TabsContent&gt;
+    &lt;TabsContent value=&quot;details&quot;&gt;
+      &lt;p&gt;This is the details content.&lt;/p&gt;
+    &lt;/TabsContent&gt;
+    &lt;TabsContent value=&quot;settings&quot;&gt;
+      &lt;p&gt;This is the settings content.&lt;/p&gt;
+    &lt;/TabsContent&gt;
+  &lt;/Tabs&gt;
+);</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">With Content</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Tabs with more content in each panel.
+Use cases:
+- Detailed information display
+- Complex tabbed interfaces
+- Multi-step workflows</div>
+              <pre><code>const WithContent = () =&gt; (
+  &lt;Tabs defaultValue=&quot;profile&quot;&gt;
+    &lt;TabsList&gt;
+      &lt;TabsTrigger value=&quot;profile&quot;&gt;Profile&lt;/TabsTrigger&gt;
+      &lt;TabsTrigger value=&quot;account&quot;&gt;Account&lt;/TabsTrigger&gt;
+      &lt;TabsTrigger value=&quot;notifications&quot;&gt;Notifications&lt;/TabsTrigger&gt;
+    &lt;/TabsList&gt;
+    &lt;TabsContent value=&quot;profile&quot;&gt;
+      &lt;div&gt;
+        &lt;h3&gt;Profile Information&lt;/h3&gt;
+        &lt;p&gt;Manage your profile settings and personal information here.&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/TabsContent&gt;
+    &lt;TabsContent value=&quot;account&quot;&gt;
+      &lt;div&gt;
+        &lt;h3&gt;Account Settings&lt;/h3&gt;
+        &lt;p&gt;Update your account preferences and security settings.&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/TabsContent&gt;
+    &lt;TabsContent value=&quot;notifications&quot;&gt;
+      &lt;div&gt;
+        &lt;h3&gt;Notification Preferences&lt;/h3&gt;
+        &lt;p&gt;Configure how and when you receive notifications.&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/TabsContent&gt;
+  &lt;/Tabs&gt;
+);</code></pre>
+              
+            </div>
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Interaction Test</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">Interactive test that demonstrates tab switching behavior.
+This story includes a play function that automatically tests tab interactions.</div>
+              <pre><code>const InteractionTest = () =&gt; (
+  &lt;Tabs defaultValue=&quot;tab1&quot;&gt;
+    &lt;TabsList&gt;
+      &lt;TabsTrigger value=&quot;tab1&quot;&gt;Tab 1&lt;/TabsTrigger&gt;
+      &lt;TabsTrigger value=&quot;tab2&quot;&gt;Tab 2&lt;/TabsTrigger&gt;
+      &lt;TabsTrigger value=&quot;tab3&quot;&gt;Tab 3&lt;/TabsTrigger&gt;
+    &lt;/TabsList&gt;
+    &lt;TabsContent value=&quot;tab1&quot;&gt;
+      &lt;p&gt;Content for Tab 1&lt;/p&gt;
+    &lt;/TabsContent&gt;
+    &lt;TabsContent value=&quot;tab2&quot;&gt;
+      &lt;p&gt;Content for Tab 2&lt;/p&gt;
+    &lt;/TabsContent&gt;
+    &lt;TabsContent value=&quot;tab3&quot;&gt;
+      &lt;p&gt;Content for Tab 3&lt;/p&gt;
+    &lt;/TabsContent&gt;
+  &lt;/Tabs&gt;
+);</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+    </div>
+    <div class="error-groups" role="region" aria-label="API error groups">
+        <section class="group">
+          <input id="no-component-found-toggle" class="group-tg" type="checkbox" hidden />
+          <label for="no-component-found-toggle" class="group-header">
+            <span class="caret">▸</span>
+            <span class="group-title">No component found</span>
+            <span class="group-count">2</span>
+          </label>
+          <div class="group-cards">
+<article
+  
+  class="card 
+  has-error
+  has-info
+  no-story-error
+  no-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="Dashboard">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> Dashboard</h2>
+      <div class="badges">
+        <label for="c-error-0-templates-dashboard-err" class="badge err as-toggle">API error</label>
+        <label for="c-error-0-templates-dashboard-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-0-templates-dashboard-stories" class="badge ok as-toggle">1 story</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/templates/dashboard.stories.tsx">templates-dashboard · ./src/templates/dashboard.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-0-templates-dashboard-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-0-templates-dashboard-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-0-templates-dashboard-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">API error</div>
+      <div class="note-body"><pre><code>We could not detect the component from your story file. Specify meta.component.
+  21 |
+  22 |
+&gt; 23 | const meta: Meta = {
+     | ^
+  24 |   title: &#39;Templates/Dashboard&#39;,
+  25 |   parameters: {
+  26 |     layout: &#39;fullscreen&#39;,
+
+./src/templates/dashboard.stories.tsx:
+import type { Meta, StoryObj } from &#39;@storybook/react&#39;;
+import React from &#39;react&#39;;
+import { Alert } from &#39;@/src/components&#39;;
+import { Header, Layout, Logo, Avatar } from &#39;@/src/components&#39;;
+import { Menubar, MenubarItem } from &#39;@/src/components&#39;;
+import { Tabs, TabsList, TabsTrigger, TabsContent } from &#39;@/src/components&#39;;
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from &#39;@/src/components&#39;;
+import { Badge } from &#39;@/src/components&#39;;
+// @ts-ignore - JSON import from data directory
+import pagesData from &#39;@/data/list-of-pages.data.json&#39;;
+
+interface Page {
+  id: number;
+  header: string;
+  sectionType: string;
+  status: string;
+  target: number;
+  limit: number;
+  reviewer: string | null;
+}
+
+
+const meta: Meta = {
+  title: &#39;Templates/Dashboard&#39;,
+  parameters: {
+    layout: &#39;fullscreen&#39;,
+  },
+};
+
+export default meta;
+type Story = StoryObj;
+
+const Template = () =&gt; {
+  const getStatusBadge = (status: string) =&gt; {
+    const statusLower = status.toLowerCase();
+    if (statusLower === &#39;done&#39;) {
+      return &lt;Badge status=&quot;done&quot; /&gt;;
+    } else if (statusLower.includes(&#39;process&#39;)) {
+      return &lt;Badge status=&quot;in progress&quot; /&gt;;
+    }
+    return &lt;Badge status=&quot;planned&quot; /&gt;;
+  };
+
+  return (
+    &lt;&gt;
+      &lt;Alert 
+        variant=&quot;Info&quot; 
+        text=&quot;Welcome to the dashboard. Review and manage your pages below.&quot; 
+        linkLabel=&quot;Learn more&quot;
+      /&gt;
+      &lt;Header
+        left={&lt;Logo variant=&quot;blank&quot; /&gt;}
+        middle={
+          &lt;Menubar variant=&quot;transparent&quot;&gt;
+            &lt;MenubarItem&gt;Products&lt;/MenubarItem&gt;
+            &lt;MenubarItem active&gt;Solutions&lt;/MenubarItem&gt;
+            &lt;MenubarItem&gt;Resources&lt;/MenubarItem&gt;
+            &lt;MenubarItem&gt;Company&lt;/MenubarItem&gt;
+          &lt;/Menubar&gt;
+        }
+        right={&lt;Avatar src=&quot;https://i.pravatar.cc/150&quot; alt=&quot;User Avatar&quot; size=&quot;small&quot; /&gt;}
+      /&gt;
+      &lt;Layout&gt;
+        &lt;Tabs defaultValue=&quot;pages&quot;&gt;
+          &lt;TabsList&gt;
+            &lt;TabsTrigger value=&quot;pages&quot;&gt;Pages&lt;/TabsTrigger&gt;
+            &lt;TabsTrigger value=&quot;settings&quot;&gt;Settings&lt;/TabsTrigger&gt;
+          &lt;/TabsList&gt;
+          &lt;TabsContent value=&quot;pages&quot;&gt;
+            &lt;Table&gt;
+              &lt;TableHeader&gt;
+                &lt;TableRow&gt;
+                  &lt;TableHead&gt;Header&lt;/TableHead&gt;
+                  &lt;TableHead&gt;Section Type&lt;/TableHead&gt;
+                  &lt;TableHead&gt;Status&lt;/TableHead&gt;
+                  &lt;TableHead&gt;Target&lt;/TableHead&gt;
+                  &lt;TableHead&gt;Limit&lt;/TableHead&gt;
+                  &lt;TableHead&gt;Reviewer&lt;/TableHead&gt;
+                &lt;/TableRow&gt;
+              &lt;/TableHeader&gt;
+              &lt;TableBody&gt;
+                {(pagesData.pages as Page[]).map((page) =&gt; (
+                  &lt;TableRow key={page.id}&gt;
+                    &lt;TableCell&gt;{page.header}&lt;/TableCell&gt;
+                    &lt;TableCell&gt;{page.sectionType}&lt;/TableCell&gt;
+                    &lt;TableCell&gt;{getStatusBadge(page.status)}&lt;/TableCell&gt;
+                    &lt;TableCell&gt;{page.target}&lt;/TableCell&gt;
+                    &lt;TableCell&gt;{page.limit}&lt;/TableCell&gt;
+                    &lt;TableCell&gt;{page.reviewer || &#39;Assign reviewer&#39;}&lt;/TableCell&gt;
+                  &lt;/TableRow&gt;
+                ))}
+              &lt;/TableBody&gt;
+            &lt;/Table&gt;
+          &lt;/TabsContent&gt;
+          &lt;TabsContent value=&quot;settings&quot;&gt;
+            &lt;p&gt;Settings content will be here&lt;/p&gt;
+          &lt;/TabsContent&gt;
+        &lt;/Tabs&gt;
+      &lt;/Layout&gt;
+    &lt;/&gt;
+  );
+};
+
+export const Default: Story = {
+  render: () =&gt; &lt;Template /&gt;,
+};
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import {
+  Alert,
+  Avatar,
+  Badge,
+  Header,
+  Layout,
+  Logo,
+  Menubar,
+  MenubarItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from 'super-design-system';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              
+              <pre><code>const Default = () =&gt; &lt;Template /&gt;;</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article>
+<article
+  
+  class="card 
+  has-error
+  has-info
+  no-story-error
+  no-story-warning
+  
+  no-doc-error"
+  role="listitem"
+  aria-label="ListofPages">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-err"></span> ListofPages</h2>
+      <div class="badges">
+        <label for="c-error-1-patterns-list-of-pages-err" class="badge err as-toggle">API error</label>
+        <label for="c-error-1-patterns-list-of-pages-info" class="badge info as-toggle">1 info</label>
+        <label for="c-error-1-patterns-list-of-pages-stories" class="badge ok as-toggle">1 story</label>
+        
+        
+      </div>
+    </div>
+    <div class="meta" title="./src/patterns/list-of-pages/list-of-pages.stories.tsx">patterns-list-of-pages · ./src/patterns/list-of-pages/list-of-pages.stories.tsx</div>
+    
+    
+    
+  </div>
+
+  <!-- ⬇️ Hidden toggles must be siblings BEFORE .panels -->
+  <input id="c-error-1-patterns-list-of-pages-err" class="tg tg-err" type="checkbox" hidden />
+  <input id="c-error-1-patterns-list-of-pages-info" class="tg tg-info" type="checkbox" hidden />
+  <input id="c-error-1-patterns-list-of-pages-stories" class="tg tg-stories" type="checkbox" hidden />
+  
+  
+  
+
+  <div class="panels">
+    
+        <div class="panel panel-err">
+          
+    <div class="note err">
+      <div class="note-title">API error</div>
+      <div class="note-body"><pre><code>We could not detect the component from your story file. Specify meta.component.
+  16 | }
+  17 |
+&gt; 18 | const meta: Meta = {
+     | ^
+  19 |   title: &#39;Patterns/List of Pages&#39;,
+  20 |   parameters: {
+  21 |     layout: &#39;padded&#39;,
+
+./src/patterns/list-of-pages/list-of-pages.stories.tsx:
+import type { Meta, StoryObj } from &#39;@storybook/react&#39;;
+import React from &#39;react&#39;;
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from &#39;@/src/components&#39;;
+import { Badge } from &#39;@/src/components&#39;;
+// @ts-ignore - JSON import from data directory
+import pagesData from &#39;@/data/list-of-pages.data.json&#39;;
+
+interface Page {
+  id: number;
+  header: string;
+  sectionType: string;
+  status: string;
+  target: number;
+  limit: number;
+  reviewer: string | null;
+}
+
+const meta: Meta = {
+  title: &#39;Patterns/List of Pages&#39;,
+  parameters: {
+    layout: &#39;padded&#39;,
+  },
+};
+
+export default meta;
+type Story = StoryObj;
+
+/**
+ * List of pages pattern displays a table with page information including
+ * header, section type, status, target/limit counts, and reviewer assignment.
+ * 
+ * Use cases:
+ * - Document management systems
+ * - Proposal page tracking
+ * - Content review workflows
+ * - Project documentation
+ */
+export const Default: Story = {
+  render: () =&gt; {
+    const getStatusBadge = (status: string) =&gt; {
+      const statusLower = status.toLowerCase();
+      if (statusLower === &#39;done&#39;) {
+        return &lt;Badge status=&quot;done&quot; /&gt;;
+      } else if (statusLower.includes(&#39;process&#39;)) {
+        return &lt;Badge status=&quot;in progress&quot; /&gt;;
+      }
+      return &lt;Badge status=&quot;planned&quot; /&gt;;
+    };
+
+    return (
+      &lt;Table&gt;
+        &lt;TableHeader&gt;
+          &lt;TableRow&gt;
+            &lt;TableHead&gt;Header&lt;/TableHead&gt;
+            &lt;TableHead&gt;Section Type&lt;/TableHead&gt;
+            &lt;TableHead&gt;Status&lt;/TableHead&gt;
+            &lt;TableHead&gt;Target&lt;/TableHead&gt;
+            &lt;TableHead&gt;Limit&lt;/TableHead&gt;
+            &lt;TableHead&gt;Reviewer&lt;/TableHead&gt;
+          &lt;/TableRow&gt;
+        &lt;/TableHeader&gt;
+        &lt;TableBody&gt;
+          {(pagesData.pages as Page[]).map((page) =&gt; (
+            &lt;TableRow key={page.id}&gt;
+              &lt;TableCell&gt;{page.header}&lt;/TableCell&gt;
+              &lt;TableCell&gt;{page.sectionType}&lt;/TableCell&gt;
+              &lt;TableCell&gt;{getStatusBadge(page.status)}&lt;/TableCell&gt;
+              &lt;TableCell&gt;{page.target}&lt;/TableCell&gt;
+              &lt;TableCell&gt;{page.limit}&lt;/TableCell&gt;
+              &lt;TableCell&gt;{page.reviewer || &#39;Assign reviewer&#39;}&lt;/TableCell&gt;
+            &lt;/TableRow&gt;
+          ))}
+        &lt;/TableBody&gt;
+      &lt;/Table&gt;
+    );
+  },
+};
+
+</code></pre></div>
+    </div>
+        </div>
+    
+        <div class="panel panel-info">
+          
+    <div class="note info">
+      <div class="note-title">Info</div>
+      <div class="note-body">No description found. Write a jsdoc comment such as /** Component description */.</div>
+    </div>
+        </div>
+    
+    
+        <div class="panel panel-stories">
+          
+          
+          
+          <div class="note ok">
+                <div class="row">
+                  <span class="ex-name">Imports</span>
+                </div>
+                <pre><code>import { Badge, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'super-design-system';</code></pre>
+              </div>
+          
+          
+            <div class="note ok">
+              <div class="row">
+                <span class="ex-name">Default</span>
+                <span class="badge ok">story ok</span>
+              </div>
+              
+              <div class="hint">List of pages pattern displays a table with page information including
+header, section type, status, target/limit counts, and reviewer assignment.
+
+Use cases:
+- Document management systems
+- Proposal page tracking
+- Content review workflows
+- Project documentation</div>
+              <pre><code>const Default = () =&gt; {
+  const getStatusBadge = (status: string) =&gt; {
+    const statusLower = status.toLowerCase();
+    if (statusLower === &#39;done&#39;) {
+      return &lt;Badge status=&quot;done&quot; /&gt;;
+    } else if (statusLower.includes(&#39;process&#39;)) {
+      return &lt;Badge status=&quot;in progress&quot; /&gt;;
+    }
+    return &lt;Badge status=&quot;planned&quot; /&gt;;
+  };
+
+  return (
+    &lt;Table&gt;
+      &lt;TableHeader&gt;
+        &lt;TableRow&gt;
+          &lt;TableHead&gt;Header&lt;/TableHead&gt;
+          &lt;TableHead&gt;Section Type&lt;/TableHead&gt;
+          &lt;TableHead&gt;Status&lt;/TableHead&gt;
+          &lt;TableHead&gt;Target&lt;/TableHead&gt;
+          &lt;TableHead&gt;Limit&lt;/TableHead&gt;
+          &lt;TableHead&gt;Reviewer&lt;/TableHead&gt;
+        &lt;/TableRow&gt;
+      &lt;/TableHeader&gt;
+      &lt;TableBody&gt;
+        {(pagesData.pages as Page[]).map((page) =&gt; (
+          &lt;TableRow key={page.id}&gt;
+            &lt;TableCell&gt;{page.header}&lt;/TableCell&gt;
+            &lt;TableCell&gt;{page.sectionType}&lt;/TableCell&gt;
+            &lt;TableCell&gt;{getStatusBadge(page.status)}&lt;/TableCell&gt;
+            &lt;TableCell&gt;{page.target}&lt;/TableCell&gt;
+            &lt;TableCell&gt;{page.limit}&lt;/TableCell&gt;
+            &lt;TableCell&gt;{page.reviewer || &#39;Assign reviewer&#39;}&lt;/TableCell&gt;
+          &lt;/TableRow&gt;
+        ))}
+      &lt;/TableBody&gt;
+    &lt;/Table&gt;
+  );
+};</code></pre>
+              
+            </div>
+        </div>
+    
+    
+  </div>
+</article></div>
+        </section>
+      </div>
+    <h2 class="section-title">Unattached Docs</h2>
+    <div class="grid" role="list">
+      
+<article
+  class="card is-doc no-doc-error"
+  role="listitem"
+  aria-label="Docs">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> About</h2>
+      <div class="badges">
+        
+        <label for="doc-0-about-docs-content" class="badge ok as-toggle">view content</label>
+      </div>
+    </div>
+    <div class="meta" title="./docs/about.mdx">about--docs · ./docs/about.mdx</div>
+    <div># Welcome Welcome to the Design System documentation. This library provides a comprehensiv...</div>
+  </div>
+
+  <!-- Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="doc-0-about-docs-content" class="tg tg-content" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-content">
+          <div class="mdx-content">
+            <pre><code>import { Meta } from &#39;@storybook/addon-docs/blocks&#39;;
+
+&lt;Meta title=&quot;About&quot; /&gt;
+
+# Welcome
+
+Welcome to the Design System documentation. This library provides a comprehensive collection of reusable React components, design tokens, and patterns to help you build consistent and accessible user interfaces.
+
+## What&#39;s Inside
+
+This design system includes:
+
+- **Components** - A set of production-ready React components including buttons, alerts, tables, accordions, and more
+- **Design Tokens** - Consistent color palettes, typography, spacing, and other design foundations
+- **Patterns** - Reusable component compositions and templates
+- **Documentation** - Comprehensive guides, examples, and API references for each component</code></pre>
+          </div>
+        </div>
+  </div>
+</article>
+<article
+  class="card is-doc no-doc-error"
+  role="listitem"
+  aria-label="Docs">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Changelog</h2>
+      <div class="badges">
+        
+        <label for="doc-1-changelog-docs-content" class="badge ok as-toggle">view content</label>
+      </div>
+    </div>
+    <div class="meta" title="./docs/changelog.mdx">changelog--docs · ./docs/changelog.mdx</div>
+    <div>export const H2SkipToc = (props) =&gt; ;</div>
+  </div>
+
+  <!-- Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="doc-1-changelog-docs-content" class="tg tg-content" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-content">
+          <div class="mdx-content">
+            <pre><code>import { Meta, Markdown } from &#39;@storybook/addon-docs/blocks&#39;;
+
+import changelog from &#39;../CHANGELOG.md?raw&#39;;
+
+export const H2SkipToc = (props) =&gt; {
+  return &lt;h2 {...props} data-skip-toc /&gt;;
+};
+
+
+&lt;Meta title=&quot;Changelog&quot; /&gt;
+
+&lt;Markdown options={{overrides: {h2: H2SkipToc }}}&gt;{changelog}&lt;/Markdown&gt;</code></pre>
+          </div>
+        </div>
+  </div>
+</article>
+<article
+  class="card is-doc no-doc-error"
+  role="listitem"
+  aria-label="Docs">
+  <div class="head">
+    <div class="title">
+      <h2><span class="status-dot dot-ok"></span> Get Started</h2>
+      <div class="badges">
+        
+        <label for="doc-2-get-started-docs-content" class="badge ok as-toggle">view content</label>
+      </div>
+    </div>
+    <div class="meta" title="./docs/get-strated.mdx">get-started--docs · ./docs/get-strated.mdx</div>
+    <div># Get Started ## GitHub Access 1. Create a personal access token at your [GitHub Developer...</div>
+  </div>
+
+  <!-- Hidden toggles must be siblings BEFORE .panels -->
+  
+  <input id="doc-2-get-started-docs-content" class="tg tg-content" type="checkbox" hidden />
+
+  <div class="panels">
+    
+    
+        <div class="panel panel-content">
+          <div class="mdx-content">
+            <pre><code>import { Meta } from &#39;@storybook/addon-docs/blocks&#39;;
+import accessTokensImg from &#39;./assets/access-tokens.png&#39;;
+import permissionsImg from &#39;./assets/permissions.png&#39;;
+import tokenImg from &#39;./assets/token.png&#39;;
+import ssoImg from &#39;./assets/sso.png&#39;;
+
+&lt;Meta title=&quot;Get Started&quot; /&gt;
+
+# Get Started
+
+## GitHub Access
+
+1. Create a personal access token at your [GitHub Developer Settings](https://github.com/settings/tokens) and select &quot;Generate new token (classic)&quot;.
+
+&lt;img src={accessTokensImg} alt=&quot;GitHub access tokens settings&quot; /&gt;
+
+2. Select permissions for `repo`, `write:packages`, `user:email`, `read:project`
+
+&lt;img src={permissionsImg} alt=&quot;GitHub access tokens settings&quot; /&gt;
+
+3. Copy and store the generated token. This will be used later on.
+&lt;img src={tokenImg} alt=&quot;GitHub access tokens settings&quot; /&gt;
+
+4. After creating the token, select Configure SSO to enable Single Sign-On (SSO) for the yaradigitallabs.
+&lt;img src={ssoImg} alt=&quot;GitHub access tokens settings&quot; /&gt;</code></pre>
+          </div>
+        </div>
+  </div>
+</article>
+    </div>
+    
+  </div>
+</main>
+</body>
+</html>  

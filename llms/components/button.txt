@@ -1,0 +1,56 @@
+# Components/Button
+
+## Props
+
+See Storybook controls for interactive prop documentation.
+
+## Stories
+
+### Default
+
+Standard button type is used for general actions. Use cases: - General UI actions - Navigation triggers - Modal actions
+
+```tsx
+<Button type="button">
+  Button
+</Button>
+```
+
+### Submit
+
+Submit button type is used for form submissions. Use cases: - Form submit actions - Data submission - Form wizards
+
+```tsx
+<Button type="submit">
+  Button
+</Button>
+```
+
+### Reset
+
+Reset button type is used to reset form fields. Use cases: - Form reset actions - Clearing form data
+
+```tsx
+<Button type="reset">
+  Button
+</Button>
+```
+
+### Disabled
+
+Disabled button state is used when an action is not available. Use cases: - Form validation (disable submit until form is valid) - Loading states - Permission-based actions - Temporarily unavailable features
+
+```tsx
+<Button disabled>
+  Button
+</Button>
+```
+
+### Controls
+
+```tsx
+<Button>
+  Button
+</Button>
+```
+

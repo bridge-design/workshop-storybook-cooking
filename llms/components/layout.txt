@@ -1,0 +1,16 @@
+# Components/Layout
+
+## Stories
+
+### Default
+
+```tsx
+<Layout />
+```
+
+### Wide
+
+```tsx
+<Layout />
+```
+

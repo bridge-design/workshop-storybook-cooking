@@ -1,0 +1,20 @@
+# Components/Icon
+
+## Props
+
+See Storybook controls for interactive prop documentation.
+
+## Stories
+
+### Default
+
+```tsx
+<Icon />
+```
+
+### AllIcons
+
+```tsx
+<Icon size={32} color="#000000" />
+```
+

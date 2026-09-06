@@ -1,0 +1,29 @@
+{
+  "v": 0,
+  "docs": {
+    "about--docs": {
+      "id": "about--docs",
+      "name": "Docs",
+      "path": "./docs/about.mdx",
+      "title": "About",
+      "content": "import { Meta } from '@storybook/addon-docs/blocks';\n\n<Meta title=\"About\" />\n\n# Welcome\n\nWelcome to the Design System documentation. This library provides a comprehensive collection of reusable React components, design tokens, and patterns to help you build consistent and accessible user interfaces.\n\n## What's Inside\n\nThis design system includes:\n\n- **Components** - A set of production-ready React components including buttons, alerts, tables, accordions, and more\n- **Design Tokens** - Consistent color palettes, typography, spacing, and other design foundations\n- **Patterns** - Reusable component compositions and templates\n- **Documentation** - Comprehensive guides, examples, and API references for each component",
+      "summary": "# Welcome Welcome to the Design System documentation. This library provides a comprehensiv..."
+    },
+    "changelog--docs": {
+      "id": "changelog--docs",
+      "name": "Docs",
+      "path": "./docs/changelog.mdx",
+      "title": "Changelog",
+      "content": "import { Meta, Markdown } from '@storybook/addon-docs/blocks';\n\nimport changelog from '../CHANGELOG.md?raw';\n\nexport const H2SkipToc = (props) => {\n  return <h2 {...props} data-skip-toc />;\n};\n\n\n<Meta title=\"Changelog\" />\n\n<Markdown options={{overrides: {h2: H2SkipToc }}}>{changelog}</Markdown>",
+      "summary": "export const H2SkipToc = (props) => ;"
+    },
+    "get-started--docs": {
+      "id": "get-started--docs",
+      "name": "Docs",
+      "path": "./docs/get-strated.mdx",
+      "title": "Get Started",
+      "content": "import { Meta } from '@storybook/addon-docs/blocks';\nimport accessTokensImg from './assets/access-tokens.png';\nimport permissionsImg from './assets/permissions.png';\nimport tokenImg from './assets/token.png';\nimport ssoImg from './assets/sso.png';\n\n<Meta title=\"Get Started\" />\n\n# Get Started\n\n## GitHub Access\n\n1. Create a personal access token at your [GitHub Developer Settings](https://github.com/settings/tokens) and select \"Generate new token (classic)\".\n\n<img src={accessTokensImg} alt=\"GitHub access tokens settings\" />\n\n2. Select permissions for `repo`, `write:packages`, `user:email`, `read:project`\n\n<img src={permissionsImg} alt=\"GitHub access tokens settings\" />\n\n3. Copy and store the generated token. This will be used later on.\n<img src={tokenImg} alt=\"GitHub access tokens settings\" />\n\n4. After creating the token, select Configure SSO to enable Single Sign-On (SSO) for the yaradigitallabs.\n<img src={ssoImg} alt=\"GitHub access tokens settings\" />",
+      "summary": "# Get Started ## GitHub Access 1. Create a personal access token at your [GitHub Developer..."
+    }
+  }
+}

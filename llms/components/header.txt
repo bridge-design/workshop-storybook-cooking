@@ -1,0 +1,14 @@
+# Components/Header
+
+## Stories
+
+### Default
+
+```tsx
+<Header
+left={<Logo variant="blank" />}
+middle="Header Title"
+right="User Menu"
+/>
+```
+

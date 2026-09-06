@@ -1,0 +1,58 @@
+# Components/Menubar
+
+## Stories
+
+### Default
+
+Basic menubar with items. Use cases: - Application navigation - Menu systems - Toolbar menus
+
+```tsx
+<Menubar>
+<MenubarItem>File</MenubarItem>
+<MenubarItem active>Edit</MenubarItem>
+<MenubarItem>View</MenubarItem>
+<MenubarItem>Help</MenubarItem>
+</Menubar>
+```
+
+### Transparent
+
+Transparent menubar variant with no border and transparent background. Font color is inherited from parent component. Use cases: - Overlay navigation - Dark themed interfaces - Hero sections with navigation
+
+```tsx
+<div
+style={{
+backgroundColor: 'var(--ds-color-global-neutral-950)',
+color: '#ffffff',
+padding: '2rem',
+borderRadius: 'var(--ds-radii-concept-m)',
+}}
+>
+<Menubar variant="transparent">
+<MenubarItem>File</MenubarItem>
+<MenubarItem active>Edit</MenubarItem>
+<MenubarItem>View</MenubarItem>
+<MenubarItem>Help</MenubarItem>
+</Menubar>
+<p style={{ marginTop: '1rem', color: '#ffffff' }}>
+This is text in the container. The menubar inherits the white color from its parent.{' '}
+<a href="#" style={{ color: '#ffffff', textDecoration: 'underline' }}>
+This is a link
+</a>
+{' '}with white color.
+</p>
+</div>
+```
+
+### Controls
+
+```tsx
+<Menubar variant="default">
+<>
+  <MenubarItem>New</MenubarItem>
+  <MenubarItem active>Open</MenubarItem>
+  <MenubarItem>Save</MenubarItem>
+  </>
+</Menubar>
+```
+

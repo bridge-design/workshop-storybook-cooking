@@ -1,0 +1,3 @@
+import{j as r}from"./iframe-vvvxRbio.js";import{H as a,L as t}from"./tabs-BvdFeniO.js";import"./preload-helper-CfTaPvCy.js";const d={title:"Components/Header",component:a,parameters:{layout:"fullscreen"},tags:["autodocs"]},e={render:()=>r.jsx(a,{left:r.jsx(t,{variant:"blank"}),middle:"Header Title",right:"User Menu"})},m=["Default"];e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:`{
+  render: () => <Header left={<Logo variant="blank" />} middle="Header Title" right="User Menu" />
+}`,...e.parameters?.docs?.source}}};export{e as Default,m as __namedExportsOrder,d as default};

@@ -1,0 +1,1228 @@
+{
+  "v": 0,
+  "components": {
+    "components-icon": {
+      "id": "components-icon",
+      "name": "Icon",
+      "path": "./src/components/Icon/icon.stories.tsx",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "Icon",
+        "definedInFile": "/home/runner/work/workshop-storybook-cooking/workshop-storybook-cooking/src/components/Icon/icon.tsx",
+        "actualName": "Icon",
+        "exportName": "Icon",
+        "props": {
+          "name": {
+            "required": true,
+            "tsType": {
+              "name": "union",
+              "raw": "keyof typeof icons",
+              "elements": [
+                {
+                  "name": "literal",
+                  "value": "home"
+                },
+                {
+                  "name": "literal",
+                  "value": "user"
+                },
+                {
+                  "name": "literal",
+                  "value": "search"
+                },
+                {
+                  "name": "literal",
+                  "value": "heart"
+                },
+                {
+                  "name": "literal",
+                  "value": "star"
+                },
+                {
+                  "name": "literal",
+                  "value": "settings"
+                },
+                {
+                  "name": "literal",
+                  "value": "bell"
+                },
+                {
+                  "name": "literal",
+                  "value": "mail"
+                },
+                {
+                  "name": "literal",
+                  "value": "check"
+                },
+                {
+                  "name": "literal",
+                  "value": "close"
+                }
+              ]
+            },
+            "description": ""
+          },
+          "size": {
+            "required": false,
+            "tsType": {
+              "name": "number"
+            },
+            "description": "",
+            "defaultValue": {
+              "value": "24",
+              "computed": false
+            }
+          },
+          "color": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": ""
+          },
+          "className": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": ""
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "components-icon--default",
+          "name": "Default",
+          "snippet": "const Default = () => <Icon name=\"home\" size={24} color=\"#000000\" />;"
+        },
+        {
+          "id": "components-icon--all-icons",
+          "name": "All Icons",
+          "snippet": "const AllIcons = (args: IconProps) => {\n  const iconSize = args.size || 24;\n  const iconColor = args.color || '#000000';\n\n  return (\n    <IconGallery>\n      {iconNames.map((iconName) => (\n        <IconItem key={iconName} name={iconName} iconSize={iconSize} iconColor={iconColor}>\n          <Icon name={iconName} size={iconSize} color={iconColor} />\n        </IconItem>\n      ))}\n    </IconGallery>\n  );\n};"
+        }
+      ],
+      "import": "import { Icon, IconGallery, IconItem } from 'super-design-system';"
+    },
+    "components-accordion": {
+      "id": "components-accordion",
+      "name": "Accordion",
+      "path": "./src/components/accordion/accordion.stories.tsx",
+      "jsDocTags": {},
+      "description": "The Accordion component displays a vertically stacked set of interactive sections\nthat allow users to expand and collapse content panels.\n\nKey Features:\n- Supports both controlled and uncontrolled usage\n- Allows single or multiple items to be expanded\n- Fully accessible with keyboard navigation and screen reader support\n- Smooth expand/collapse animations\n- Customizable styling via className props\n\n[Github](https://github.com/your-org/repo/tree/main/src/components/accordion)",
+      "reactDocgen": {
+        "description": "The Accordion component displays a vertically stacked set of interactive sections\nthat allow users to expand and collapse content panels.\n\nKey Features:\n- Supports both controlled and uncontrolled usage\n- Allows single or multiple items to be expanded\n- Fully accessible with keyboard navigation and screen reader support\n- Smooth expand/collapse animations\n- Customizable styling via className props\n\n[Github](https://github.com/your-org/repo/tree/main/src/components/accordion)",
+        "methods": [
+          {
+            "name": "Item",
+            "docblock": null,
+            "modifiers": [
+              "static"
+            ],
+            "params": [
+              {
+                "name": "{ className, children, ...props }: AccordionItemProps",
+                "optional": false,
+                "type": {
+                  "name": "AccordionItemProps",
+                  "alias": "AccordionItemProps"
+                }
+              }
+            ],
+            "returns": null
+          },
+          {
+            "name": "Trigger",
+            "docblock": null,
+            "modifiers": [
+              "static"
+            ],
+            "params": [
+              {
+                "name": "{ className, children, ...props }: AccordionTriggerProps",
+                "optional": false,
+                "type": {
+                  "name": "AccordionTriggerProps",
+                  "alias": "AccordionTriggerProps"
+                }
+              }
+            ],
+            "returns": null
+          },
+          {
+            "name": "Content",
+            "docblock": null,
+            "modifiers": [
+              "static"
+            ],
+            "params": [
+              {
+                "name": "{ className, children, ...props }: AccordionContentProps",
+                "optional": false,
+                "type": {
+                  "name": "AccordionContentProps",
+                  "alias": "AccordionContentProps"
+                }
+              }
+            ],
+            "returns": null
+          },
+          {
+            "name": "Indicator",
+            "docblock": null,
+            "modifiers": [
+              "static"
+            ],
+            "params": [
+              {
+                "name": "{ className, ...props }: AccordionIndicatorProps",
+                "optional": false,
+                "type": {
+                  "name": "AccordionIndicatorProps",
+                  "alias": "AccordionIndicatorProps"
+                }
+              }
+            ],
+            "returns": null
+          }
+        ],
+        "displayName": "Accordion",
+        "definedInFile": "/home/runner/work/workshop-storybook-cooking/workshop-storybook-cooking/src/components/accordion/accordion.tsx",
+        "actualName": "Accordion",
+        "exportName": "Accordion",
+        "props": {
+          "className": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "Optional className for adding custom CSS classes to the Accordion element"
+          },
+          "children": {
+            "required": true,
+            "tsType": {
+              "name": "ReactReactNode",
+              "raw": "React.ReactNode"
+            },
+            "description": "Accordion content, typically consisting of one or more Accordion.Item components"
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "components-accordion--controls",
+          "name": "Controls",
+          "snippet": "const Controls = () => <Accordion>(<>\n      <Accordion.Item value=\"item-1\">\n        <Accordion.Trigger>\n          What is an accordion?\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          An accordion is a vertically stacked set of interactive sections that allow users to expand and collapse content panels.\n        </Accordion.Content>\n      </Accordion.Item>\n      <Accordion.Item value=\"item-2\">\n        <Accordion.Trigger>\n          How does it work?\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          Click on a header to expand or collapse its content panel. Only one item can be expanded at a time by default.\n        </Accordion.Content>\n      </Accordion.Item>\n      <Accordion.Item value=\"item-3\">\n        <Accordion.Trigger>\n          Is it accessible?\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          Yes! The accordion supports full keyboard navigation and screen reader announcements.\n        </Accordion.Content>\n      </Accordion.Item>\n    </>)</Accordion>;"
+        },
+        {
+          "id": "components-accordion--default",
+          "name": "Default",
+          "snippet": "const Default = () => <Accordion>(<>\n      <Accordion.Item value=\"item-1\">\n        <Accordion.Trigger>\n          First Item\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          This is the content for the first accordion item. It can contain any React elements, text, or components.\n        </Accordion.Content>\n      </Accordion.Item>\n      <Accordion.Item value=\"item-2\">\n        <Accordion.Trigger>\n          Second Item\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          This is the content for the second accordion item. You can include complex nested structures here.\n        </Accordion.Content>\n      </Accordion.Item>\n      <Accordion.Item value=\"item-3\">\n        <Accordion.Trigger>\n          Third Item\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          This is the content for the third accordion item. The accordion provides smooth animations when expanding and collapsing.\n        </Accordion.Content>\n      </Accordion.Item>\n    </>)</Accordion>;",
+          "description": "Basic accordion with multiple items.\nUse cases:\n- FAQ sections\n- Settings panels\n- Content organization\n- Progressive disclosure"
+        },
+        {
+          "id": "components-accordion--controlled",
+          "name": "Controlled",
+          "snippet": "const Controlled = () => {\n  const [value, setValue] = React.useState<string>('item-1');\n\n  return (\n    <Accordion value={value} onValueChange={setValue}>\n      <Accordion.Item value=\"item-1\">\n        <Accordion.Trigger>\n          First Item (Controlled)\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          This accordion is controlled. The expanded state is managed by React state.\n        </Accordion.Content>\n      </Accordion.Item>\n      <Accordion.Item value=\"item-2\">\n        <Accordion.Trigger>\n          Second Item (Controlled)\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          You can programmatically change which item is expanded by updating the value prop.\n        </Accordion.Content>\n      </Accordion.Item>\n    </Accordion>\n  );\n};",
+          "description": "Controlled accordion where the expanded state is managed externally.\nUse cases:\n- When you need to sync accordion state with other UI elements\n- When you need to programmatically control which items are open\n- When integrating with form state management"
+        },
+        {
+          "id": "components-accordion--multiple",
+          "name": "Multiple",
+          "snippet": "const Multiple = () => <Accordion type=\"multiple\" defaultValue={['item-1', 'item-2']}>(<>\n      <Accordion.Item value=\"item-1\">\n        <Accordion.Trigger>\n          First Item\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          With multiple mode enabled, multiple items can be expanded at the same time.\n        </Accordion.Content>\n      </Accordion.Item>\n      <Accordion.Item value=\"item-2\">\n        <Accordion.Trigger>\n          Second Item\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          This item is also expanded by default. Both items can remain open simultaneously.\n        </Accordion.Content>\n      </Accordion.Item>\n      <Accordion.Item value=\"item-3\">\n        <Accordion.Trigger>\n          Third Item\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          You can expand this item without collapsing the others.\n        </Accordion.Content>\n      </Accordion.Item>\n    </>)</Accordion>;",
+          "description": "Accordion with multiple items expanded simultaneously.\nUse cases:\n- When users need to compare content across multiple sections\n- When all sections should be independently expandable\n- Settings panels where multiple options need to be visible"
+        },
+        {
+          "id": "components-accordion--collapsible",
+          "name": "Collapsible",
+          "snippet": "const Collapsible = () => <Accordion collapsible defaultValue=\"item-1\">(<>\n      <Accordion.Item value=\"item-1\">\n        <Accordion.Trigger>\n          First Item\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          With collapsible enabled, you can click this item again to collapse it, leaving no items expanded.\n        </Accordion.Content>\n      </Accordion.Item>\n      <Accordion.Item value=\"item-2\">\n        <Accordion.Trigger>\n          Second Item\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          This allows for a more flexible user experience where users can hide all content if needed.\n        </Accordion.Content>\n      </Accordion.Item>\n    </>)</Accordion>;",
+          "description": "Accordion with collapsible behavior - allows the currently expanded item to be collapsed.\nUse cases:\n- When you want to allow users to collapse all items\n- When the accordion state should be completely user-controlled\n- FAQ sections where all questions can be collapsed"
+        },
+        {
+          "id": "components-accordion--with-disabled-item",
+          "name": "With Disabled Item",
+          "snippet": "const WithDisabledItem = () => <Accordion>(<>\n      <Accordion.Item value=\"item-1\">\n        <Accordion.Trigger>\n          Enabled Item\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          This item can be toggled normally.\n        </Accordion.Content>\n      </Accordion.Item>\n      <Accordion.Item value=\"item-2\" disabled>\n        <Accordion.Trigger>\n          Disabled Item\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          This item is disabled and cannot be expanded or collapsed.\n        </Accordion.Content>\n      </Accordion.Item>\n      <Accordion.Item value=\"item-3\">\n        <Accordion.Trigger>\n          Another Enabled Item\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          This item can also be toggled normally.\n        </Accordion.Content>\n      </Accordion.Item>\n    </>)</Accordion>;",
+          "description": "Accordion with disabled items that cannot be expanded or collapsed.\nUse cases:\n- When certain sections are not yet available\n- When content is conditionally accessible\n- When you need to show unavailable options"
+        },
+        {
+          "id": "components-accordion--without-indicator",
+          "name": "Without Indicator",
+          "snippet": "const WithoutIndicator = () => <Accordion>(<>\n      <Accordion.Item value=\"item-1\">\n        <Accordion.Trigger>\n          Item without Indicator\n        </Accordion.Trigger>\n        <Accordion.Content>\n          This accordion item doesn't have an indicator icon. The state is still clearly communicated through the content visibility.\n        </Accordion.Content>\n      </Accordion.Item>\n      <Accordion.Item value=\"item-2\">\n        <Accordion.Trigger>\n          Another Item\n        </Accordion.Trigger>\n        <Accordion.Content>\n          The accordion still functions perfectly without the visual indicator.\n        </Accordion.Content>\n      </Accordion.Item>\n    </>)</Accordion>;",
+          "description": "Accordion without indicator icons for a minimal design.\nUse cases:\n- Minimal design requirements\n- When the expand/collapse state is clear from context\n- Space-constrained layouts"
+        },
+        {
+          "id": "components-accordion--with-complex-content",
+          "name": "With Complex Content",
+          "snippet": "const WithComplexContent = () => <Accordion>(<>\n      <Accordion.Item value=\"item-1\">\n        <Accordion.Trigger>\n          Product Information\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          <div>\n            <h3 style={{ marginTop: 0, marginBottom: '0.5rem' }}>Product Details</h3>\n            <p style={{ marginBottom: '0.5rem' }}>\n              This accordion panel can contain complex nested content including headings, paragraphs, lists, and other components.\n            </p>\n            <ul style={{ marginTop: '0.5rem', paddingLeft: '1.5rem' }}>\n              <li>Feature one</li>\n              <li>Feature two</li>\n              <li>Feature three</li>\n            </ul>\n          </div>\n        </Accordion.Content>\n      </Accordion.Item>\n      <Accordion.Item value=\"item-2\">\n        <Accordion.Trigger>\n          Specifications\n          <Accordion.Indicator />\n        </Accordion.Trigger>\n        <Accordion.Content>\n          <div>\n            <h3 style={{ marginTop: 0, marginBottom: '0.5rem' }}>Technical Specs</h3>\n            <dl style={{ margin: 0 }}>\n              <dt style={{ fontWeight: 'bold' }}>Dimensions:</dt>\n              <dd style={{ marginLeft: '1rem', marginBottom: '0.5rem' }}>10 x 5 x 3 inches</dd>\n              <dt style={{ fontWeight: 'bold' }}>Weight:</dt>\n              <dd style={{ marginLeft: '1rem' }}>2.5 lbs</dd>\n            </dl>\n          </div>\n        </Accordion.Content>\n      </Accordion.Item>\n    </>)</Accordion>;",
+          "description": "Accordion with complex nested content in the panels.\nUse cases:\n- Rich content display\n- Forms within accordion panels\n- Lists and structured data\n- Multi-element layouts"
+        }
+      ],
+      "import": "import { Accordion } from 'super-design-system';\nimport { Accordion } from '@/src/components';"
+    },
+    "components-alert": {
+      "id": "components-alert",
+      "name": "Alert",
+      "path": "./src/components/alert/alert.stories.tsx",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "Alert",
+        "definedInFile": "/home/runner/work/workshop-storybook-cooking/workshop-storybook-cooking/src/components/alert/alert.tsx",
+        "actualName": "Alert",
+        "exportName": "Alert",
+        "props": {
+          "className": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "Optional className for adding custom CSS classes to the Alert element"
+          },
+          "variant": {
+            "required": false,
+            "tsType": {
+              "name": "union",
+              "raw": "\"Info\" | \"Warning\" | \"Success\" | \"Danger\"",
+              "elements": [
+                {
+                  "name": "literal",
+                  "value": "\"Info\""
+                },
+                {
+                  "name": "literal",
+                  "value": "\"Warning\""
+                },
+                {
+                  "name": "literal",
+                  "value": "\"Success\""
+                },
+                {
+                  "name": "literal",
+                  "value": "\"Danger\""
+                }
+              ]
+            },
+            "description": "Variant of the alert. Defaults to 'Info'.",
+            "defaultValue": {
+              "value": "'Info'",
+              "computed": false
+            }
+          },
+          "icon": {
+            "required": false,
+            "tsType": {
+              "name": "boolean"
+            },
+            "description": "Whether to show the icon. Defaults to true.",
+            "defaultValue": {
+              "value": "true",
+              "computed": false
+            }
+          },
+          "link": {
+            "required": false,
+            "tsType": {
+              "name": "boolean"
+            },
+            "description": "Whether to show the link. Defaults to true.",
+            "defaultValue": {
+              "value": "true",
+              "computed": false
+            }
+          },
+          "dismissible": {
+            "required": false,
+            "tsType": {
+              "name": "boolean"
+            },
+            "description": "Whether the alert is dismissible. Defaults to true.",
+            "defaultValue": {
+              "value": "true",
+              "computed": false
+            }
+          },
+          "text": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "The main text content of the alert",
+            "defaultValue": {
+              "value": "'Emphasized description.'",
+              "computed": false
+            }
+          },
+          "linkLabel": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "The label for the link. Defaults to 'Link'.",
+            "defaultValue": {
+              "value": "'Link'",
+              "computed": false
+            }
+          },
+          "children": {
+            "required": false,
+            "tsType": {
+              "name": "ReactReactNode",
+              "raw": "React.ReactNode"
+            },
+            "description": "Custom content. When provided, text and linkLabel are ignored."
+          },
+          "onDismiss": {
+            "required": false,
+            "tsType": {
+              "name": "signature",
+              "type": "function",
+              "raw": "() => void",
+              "signature": {
+                "arguments": [],
+                "return": {
+                  "name": "void"
+                }
+              }
+            },
+            "description": "Callback fired when the alert is dismissed"
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "components-alert--controls",
+          "name": "Controls",
+          "snippet": "const Controls = () => <Alert\n    variant=\"Info\"\n    icon\n    link\n    dismissible\n    text=\"Emphasized description.\"\n    linkLabel=\"Link\"\n    onDismiss={fn()} />;"
+        },
+        {
+          "id": "components-alert--info",
+          "name": "Info",
+          "snippet": "const Info = () => <Alert\n    variant=\"Info\"\n    icon\n    link\n    dismissible\n    text=\"Emphasized description.\"\n    linkLabel=\"Link\"\n    onDismiss={fn()} />;",
+          "description": "Info variant is used for informational messages.\nUse cases:\n- General information\n- Tips and hints\n- System updates\n- Feature announcements"
+        },
+        {
+          "id": "components-alert--warning",
+          "name": "Warning",
+          "snippet": "const Warning = () => <Alert\n    variant=\"Warning\"\n    icon\n    link\n    dismissible\n    text=\"Emphasized description.\"\n    linkLabel=\"Link\"\n    onDismiss={fn()} />;",
+          "description": "Warning variant is used for cautionary messages.\nUse cases:\n- Important notices\n- Upcoming changes\n- Action required warnings\n- Deprecation notices"
+        },
+        {
+          "id": "components-alert--success",
+          "name": "Success",
+          "snippet": "const Success = () => <Alert\n    variant=\"Success\"\n    icon\n    link\n    dismissible\n    text=\"Emphasized description.\"\n    linkLabel=\"Link\"\n    onDismiss={fn()} />;",
+          "description": "Success variant is used for positive confirmation messages.\nUse cases:\n- Successful operations\n- Completion confirmations\n- Achievement notifications\n- Positive feedback"
+        },
+        {
+          "id": "components-alert--danger",
+          "name": "Danger",
+          "snippet": "const Danger = () => <Alert\n    variant=\"Danger\"\n    icon\n    link\n    dismissible\n    text=\"Emphasized description.\"\n    linkLabel=\"Link\"\n    onDismiss={fn()} />;",
+          "description": "Danger variant is used for critical error messages.\nUse cases:\n- Error notifications\n- Critical warnings\n- System failures\n- Security alerts"
+        },
+        {
+          "id": "components-alert--without-icon",
+          "name": "Without Icon",
+          "snippet": "const WithoutIcon = () => <Alert\n    variant=\"Info\"\n    icon={false}\n    link\n    dismissible\n    text=\"Emphasized description.\"\n    linkLabel=\"Link\"\n    onDismiss={fn()} />;",
+          "description": "Alert without icon.\nUse cases:\n- Minimal design requirements\n- Space-constrained layouts\n- When icon is redundant"
+        },
+        {
+          "id": "components-alert--without-link",
+          "name": "Without Link",
+          "snippet": "const WithoutLink = () => <Alert\n    variant=\"Info\"\n    icon\n    link={false}\n    dismissible\n    text=\"Emphasized description.\"\n    linkLabel=\"Link\"\n    onDismiss={fn()} />;",
+          "description": "Alert without link.\nUse cases:\n- Simple notifications\n- When no action is needed\n- Standalone messages"
+        },
+        {
+          "id": "components-alert--non-dismissible",
+          "name": "Non Dismissible",
+          "snippet": "const NonDismissible = () => <Alert\n    variant=\"Info\"\n    icon\n    link\n    dismissible={false}\n    text=\"Emphasized description.\"\n    linkLabel=\"Link\"\n    onDismiss={fn()} />;",
+          "description": "Non-dismissible alert.\nUse cases:\n- Critical system messages\n- Required acknowledgments\n- Persistent notifications"
+        },
+        {
+          "id": "components-alert--custom-content",
+          "name": "Custom Content",
+          "snippet": "const CustomContent = () => <Alert\n    variant=\"Info\"\n    icon\n    link\n    dismissible\n    text=\"Emphasized description.\"\n    linkLabel=\"Link\"\n    onDismiss={fn()}>(<>\n      <span>Custom alert message with <strong>bold text</strong>.</span>\n      <a href=\"#\" onClick={(e) => e.preventDefault()}>Learn more</a>\n    </>)</Alert>;",
+          "description": "Alert with custom content using children prop.\nWhen children are provided, text and linkLabel are ignored."
+        },
+        {
+          "id": "components-alert--all-variants",
+          "name": "All Variants",
+          "snippet": "const AllVariants = () => (\n  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>\n    <Alert variant=\"Info\" text=\"This is an info alert\" />\n    <Alert variant=\"Warning\" text=\"This is a warning alert\" />\n    <Alert variant=\"Success\" text=\"This is a success alert\" />\n    <Alert variant=\"Danger\" text=\"This is a danger alert\" />\n  </div>\n);",
+          "description": "All alert variants displayed together."
+        }
+      ],
+      "import": "import { Alert } from 'super-design-system';\nimport { fn } from 'storybook/test';"
+    },
+    "components-avatar": {
+      "id": "components-avatar",
+      "name": "Avatar",
+      "path": "./src/components/avatar/avatar.stories.tsx",
+      "jsDocTags": {},
+      "description": "The Avatar component displays a user's profile picture or fallback icon in a circular format.\n\nKey Features:\n- Image Support: Displays user images with automatic fallback handling.\n- Size Variations: The Avatar supports different sizes (small, medium, large) to fit various UI contexts.\n- Accessibility: The component includes proper alt text support for screen readers.\n\n[Github](https://github.com/bridge-design/super-design-system/tree/main/src/components/avatar)\n\n[Figma Design](https://www.figma.com/design/abc123xyz/Super-Design-System?node-id=1234-5678)\n\n[Guidelines](https://super-design-system.dev/guidelines/avatar)",
+      "reactDocgen": {
+        "description": "The Avatar component displays a user's profile picture or fallback icon in a circular format.\n\nKey Features:\n- Image Support: Displays user images with automatic fallback handling.\n- Size Variations: The Avatar supports different sizes (small, medium, large) to fit various UI contexts.\n- Accessibility: The component includes proper alt text support for screen readers.\n\n[Github](https://github.com/bridge-design/super-design-system/tree/main/src/components/avatar)\n\n[Figma Design](https://www.figma.com/design/abc123xyz/Super-Design-System?node-id=1234-5678)\n\n[Guidelines](https://super-design-system.dev/guidelines/avatar)",
+        "methods": [],
+        "displayName": "Avatar",
+        "definedInFile": "/home/runner/work/workshop-storybook-cooking/workshop-storybook-cooking/src/components/avatar/avatar.tsx",
+        "actualName": "Avatar",
+        "exportName": "Avatar",
+        "props": {
+          "src": {
+            "required": true,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "The source URL of the avatar image"
+          },
+          "alt": {
+            "required": true,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "Alternative text for the avatar image, used for accessibility"
+          },
+          "size": {
+            "required": false,
+            "tsType": {
+              "name": "avatarSizes[number]",
+              "raw": "typeof avatarSizes[number]"
+            },
+            "description": "Size variant of the avatar. Can be 'small', 'medium', or 'large'. Defaults to 'medium'",
+            "defaultValue": {
+              "value": "'medium'",
+              "computed": false
+            }
+          },
+          "id": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "Optional id of the top element"
+          },
+          "placeholderSrc": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "Optional image for placeholder, which is displayed while avatar is loading or in case of error"
+          },
+          "className": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "Optional className for adding custom CSS classes to the Avatar element."
+          },
+          "onClick": {
+            "required": false,
+            "tsType": {
+              "name": "ReactMouseEventHandler",
+              "raw": "React.MouseEventHandler<HTMLDivElement>",
+              "elements": [
+                {
+                  "name": "HTMLDivElement"
+                }
+              ]
+            },
+            "description": "Optional click event handler"
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "components-avatar--controls",
+          "name": "Controls",
+          "snippet": "const Controls = () => <Avatar src=\"https://i.pravatar.cc/150\" alt=\"User Avatar\" />;"
+        },
+        {
+          "id": "components-avatar--small",
+          "name": "Small",
+          "snippet": "const Small = () => <Avatar src=\"https://i.pravatar.cc/150\" alt=\"User Avatar\" size=\"small\" />;",
+          "description": "Small avatar size is ideal for compact UI elements where space is limited.\nUse cases:\n- User mentions in comments or chat messages\n- Inline user tags in text content\n- Activity logs or notification lists\n- Compact user lists or tables"
+        },
+        {
+          "id": "components-avatar--medium",
+          "name": "Medium",
+          "snippet": "const Medium = () => <Avatar src=\"https://i.pravatar.cc/150\" alt=\"User Avatar\" size=\"medium\" />;",
+          "description": "Medium avatar size is the default and most commonly used size.\nUse cases:\n- Standard user profiles in lists\n- Navigation bars and headers\n- Comment sections and forums\n- Social media feeds\n- Team member directories"
+        },
+        {
+          "id": "components-avatar--large",
+          "name": "Large",
+          "snippet": "const Large = () => <Avatar src=\"https://i.pravatar.cc/150\" alt=\"User Avatar\" size=\"large\" />;",
+          "description": "Large avatar size provides maximum visibility for user profiles.\nUse cases:\n- User profile pages and detailed views\n- Account settings and preferences\n- Contact cards and detailed user information\n- Featured user displays or hero sections\n- Authentication and welcome screens"
+        }
+      ],
+      "import": "import { Avatar } from 'super-design-system';"
+    },
+    "components-badge": {
+      "id": "components-badge",
+      "name": "Badge",
+      "path": "./src/components/badge/badge.stories.tsx",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "Badge",
+        "definedInFile": "/home/runner/work/workshop-storybook-cooking/workshop-storybook-cooking/src/components/badge/badge.tsx",
+        "actualName": "Badge",
+        "exportName": "Badge",
+        "props": {
+          "status": {
+            "required": false,
+            "tsType": {
+              "name": "badgeStatuses[number]",
+              "raw": "typeof badgeStatuses[number]"
+            },
+            "description": "Status of the badge. Required when no children are provided. Can be 'planned', 'in progress', or 'done'. The text is automatically derived from the status."
+          },
+          "className": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "Optional className for adding custom CSS classes to the Badge element"
+          },
+          "children": {
+            "required": false,
+            "tsType": {
+              "name": "ReactReactNode",
+              "raw": "React.ReactNode"
+            },
+            "description": "Custom text content. When provided, status is ignored and no status icons are shown."
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "components-badge--controls",
+          "name": "Controls",
+          "snippet": "const Controls = () => <Badge status=\"planned\" />;"
+        },
+        {
+          "id": "components-badge--planned",
+          "name": "Planned",
+          "snippet": "const Planned = () => <Badge status=\"planned\" />;",
+          "description": "Planned status badge indicates items that are scheduled or queued.\nUse cases:\n- Task management systems\n- Project planning boards\n- Feature roadmaps\n- Work item tracking"
+        },
+        {
+          "id": "components-badge--in-progress",
+          "name": "In Progress",
+          "snippet": "const InProgress = () => <Badge status=\"in progress\" />;",
+          "description": "In progress status badge indicates items currently being worked on.\nUse cases:\n- Active task indicators\n- Work-in-progress items\n- Current sprint items\n- Ongoing projects"
+        },
+        {
+          "id": "components-badge--done",
+          "name": "Done",
+          "snippet": "const Done = () => <Badge status=\"done\" />;",
+          "description": "Done status badge indicates completed items.\nUse cases:\n- Completed tasks\n- Finished features\n- Resolved issues\n- Delivered milestones"
+        },
+        {
+          "id": "components-badge--all-statuses",
+          "name": "All Statuses",
+          "snippet": "const AllStatuses = () => (\n  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>\n    <Badge status=\"planned\" />\n    <Badge status=\"in progress\" />\n    <Badge status=\"done\" />\n  </div>\n);",
+          "description": "Badge text is automatically derived from the status.\nThe component displays predefined text based on the status value."
+        },
+        {
+          "id": "components-badge--custom-text",
+          "name": "Custom Text",
+          "snippet": "const CustomText = () => (\n  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'flex-start' }}>\n    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>\n      <Badge>Q1 2024</Badge>\n      <Badge>Sprint 12</Badge>\n      <Badge>Version 2.0</Badge>\n    </div>\n    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>\n      <Badge>Feature: Dark Mode</Badge>\n      <Badge>Bug Fix #123</Badge>\n      <Badge>Deployed</Badge>\n    </div>\n  </div>\n);",
+          "description": "Badge component supports custom text through the `children` prop.\nWhen children are provided, status is ignored and no status icons are shown.\nUse cases:\n- Custom status labels\n- Task names or identifiers\n- Feature tags with specific names\n- Any custom badge text"
+        }
+      ],
+      "import": "import { Badge } from 'super-design-system';"
+    },
+    "components-button": {
+      "id": "components-button",
+      "name": "Button",
+      "path": "./src/components/button/button.stories.tsx",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "Button",
+        "definedInFile": "/home/runner/work/workshop-storybook-cooking/workshop-storybook-cooking/src/components/button/button.tsx",
+        "actualName": "Button",
+        "exportName": "Button",
+        "props": {
+          "className": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "Optional className for adding custom CSS classes to the Button element"
+          },
+          "children": {
+            "required": false,
+            "tsType": {
+              "name": "ReactReactNode",
+              "raw": "React.ReactNode"
+            },
+            "description": "Custom text content. When provided, status is ignored and no status icons are shown."
+          },
+          "type": {
+            "required": false,
+            "tsType": {
+              "name": "union",
+              "raw": "'button' | 'submit' | 'reset'",
+              "elements": [
+                {
+                  "name": "literal",
+                  "value": "'button'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'submit'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'reset'"
+                }
+              ]
+            },
+            "description": "Type of the button. Defaults to 'button'.",
+            "defaultValue": {
+              "value": "'button'",
+              "computed": false
+            }
+          },
+          "onClick": {
+            "required": false,
+            "tsType": {
+              "name": "signature",
+              "type": "function",
+              "raw": "(event: React.MouseEvent<HTMLButtonElement>) => void",
+              "signature": {
+                "arguments": [
+                  {
+                    "type": {
+                      "name": "ReactMouseEvent",
+                      "raw": "React.MouseEvent<HTMLButtonElement>",
+                      "elements": [
+                        {
+                          "name": "HTMLButtonElement"
+                        }
+                      ]
+                    },
+                    "name": "event"
+                  }
+                ],
+                "return": {
+                  "name": "void"
+                }
+              }
+            },
+            "description": "Callback fired when the button is clicked\n@param event - The mouse event\n@returns void"
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "components-button--controls",
+          "name": "Controls",
+          "snippet": "const Controls = () => <Button>Button</Button>;"
+        },
+        {
+          "id": "components-button--default",
+          "name": "Default",
+          "snippet": "const Default = () => <Button type=\"button\">Button</Button>;",
+          "description": "Standard button type is used for general actions.\nUse cases:\n- General UI actions\n- Navigation triggers\n- Modal actions"
+        },
+        {
+          "id": "components-button--submit",
+          "name": "Submit",
+          "snippet": "const Submit = () => <Button type=\"submit\">Submit</Button>;",
+          "description": "Submit button type is used for form submissions.\nUse cases:\n- Form submit actions\n- Data submission\n- Form wizards"
+        },
+        {
+          "id": "components-button--reset",
+          "name": "Reset",
+          "snippet": "const Reset = () => <Button type=\"reset\">Reset</Button>;",
+          "description": "Reset button type is used to reset form fields.\nUse cases:\n- Form reset actions\n- Clearing form data"
+        },
+        {
+          "id": "components-button--disabled",
+          "name": "Disabled",
+          "snippet": "const Disabled = () => <Button disabled>Disabled Button</Button>;",
+          "description": "Disabled button state is used when an action is not available.\nUse cases:\n- Form validation (disable submit until form is valid)\n- Loading states\n- Permission-based actions\n- Temporarily unavailable features"
+        }
+      ],
+      "import": "import { Button } from 'super-design-system';"
+    },
+    "components-header": {
+      "id": "components-header",
+      "name": "Header",
+      "path": "./src/components/header/header.stories.tsx",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "Header",
+        "definedInFile": "/home/runner/work/workshop-storybook-cooking/workshop-storybook-cooking/src/components/header/header.tsx",
+        "actualName": "Header",
+        "exportName": "Header",
+        "props": {
+          "className": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "Optional className for adding custom CSS classes to the Header element"
+          },
+          "left": {
+            "required": false,
+            "tsType": {
+              "name": "ReactReactNode",
+              "raw": "React.ReactNode"
+            },
+            "description": "Content to display on the left side of the header"
+          },
+          "middle": {
+            "required": false,
+            "tsType": {
+              "name": "ReactReactNode",
+              "raw": "React.ReactNode"
+            },
+            "description": "Content to display in the middle of the header"
+          },
+          "right": {
+            "required": false,
+            "tsType": {
+              "name": "ReactReactNode",
+              "raw": "React.ReactNode"
+            },
+            "description": "Content to display on the right side of the header"
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "components-header--default",
+          "name": "Default",
+          "snippet": "const Default = () => (\n  <Header\n    left={<Logo variant=\"blank\" />}\n    middle=\"Header Title\"\n    right=\"User Menu\"\n  />\n);"
+        }
+      ],
+      "import": "import { Header, Logo } from 'super-design-system';"
+    },
+    "components-layout": {
+      "id": "components-layout",
+      "name": "Layout",
+      "path": "./src/components/layout/layout.stories.tsx",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "Layout",
+        "definedInFile": "/home/runner/work/workshop-storybook-cooking/workshop-storybook-cooking/src/components/layout/layout.tsx",
+        "actualName": "Layout",
+        "exportName": "Layout",
+        "props": {
+          "children": {
+            "required": true,
+            "tsType": {
+              "name": "ReactReactNode",
+              "raw": "React.ReactNode"
+            },
+            "description": ""
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "components-layout--default",
+          "name": "Default",
+          "snippet": "const Default = () => <Layout style={{ 'backgroundColor': 'lightblue' }}>(<>\n      <div style={{ backgroundColor: 'pink' }}>Placeholder content</div>\n    </>)</Layout>;"
+        },
+        {
+          "id": "components-layout--wide",
+          "name": "Wide",
+          "snippet": "const Wide = () => <Layout\n    style={{ '--layout-max-width': '1200px', 'backgroundColor': 'lightblue' }}>(<>\n      <div style={{ backgroundColor: 'pink' }}>Placeholder content</div>\n    </>)</Layout>;"
+        }
+      ],
+      "import": "import { Layout } from 'super-design-system';"
+    },
+    "components-logo": {
+      "id": "components-logo",
+      "name": "Logo",
+      "path": "./src/components/logo/logo.stories.tsx",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "Logo",
+        "definedInFile": "/home/runner/work/workshop-storybook-cooking/workshop-storybook-cooking/src/components/logo/logo.tsx",
+        "actualName": "Logo",
+        "exportName": "Logo",
+        "props": {
+          "className": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "Optional className for adding custom CSS classes to the Logo element"
+          },
+          "width": {
+            "required": false,
+            "tsType": {
+              "name": "union",
+              "raw": "number | string",
+              "elements": [
+                {
+                  "name": "number"
+                },
+                {
+                  "name": "string"
+                }
+              ]
+            },
+            "description": "Optional width of the logo"
+          },
+          "height": {
+            "required": false,
+            "tsType": {
+              "name": "union",
+              "raw": "number | string",
+              "elements": [
+                {
+                  "name": "number"
+                },
+                {
+                  "name": "string"
+                }
+              ]
+            },
+            "description": "Optional height of the logo"
+          },
+          "variant": {
+            "required": false,
+            "tsType": {
+              "name": "union",
+              "raw": "'blank' | 'default'",
+              "elements": [
+                {
+                  "name": "literal",
+                  "value": "'blank'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'default'"
+                }
+              ]
+            },
+            "description": "Variant of the logo. 'blank' uses blank color, default uses primary color",
+            "defaultValue": {
+              "value": "'default'",
+              "computed": false
+            }
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "components-logo--controls",
+          "name": "Controls",
+          "snippet": "const Controls = () => <Logo />;"
+        },
+        {
+          "id": "components-logo--default",
+          "name": "Default",
+          "snippet": "const Default = () => <Logo />;",
+          "description": "Default logo size displays the brand logo at standard size.\nUse cases:\n- Navigation bars\n- Headers\n- Brand identity\n- Application branding"
+        },
+        {
+          "id": "components-logo--custom-size",
+          "name": "Custom Size",
+          "snippet": "const CustomSize = () => (\n  <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>\n    <Logo width={24} height={24} />\n    <Logo width={32} height={32} />\n    <Logo width={48} height={48} />\n    <Logo width={64} height={64} />\n  </div>\n);",
+          "description": "Logo with custom size.\nUse cases:\n- Different layout contexts\n- Responsive designs\n- Footer logos\n- Mobile navigation"
+        },
+        {
+          "id": "components-logo--blank-variant",
+          "name": "Blank Variant",
+          "snippet": "const BlankVariant = () => (\n  <div style={{ display: 'flex', gap: '16px', alignItems: 'center', background: 'var(--ds-color-semantic-background-accent)', padding: '16px', borderRadius: '8px' }}>\n    <Logo variant=\"default\" />\n    <Logo variant=\"blank\" />\n  </div>\n);",
+          "description": "Logo with blank variant uses the blank color token.\nUse cases:\n- Light backgrounds\n- Header components with gradient backgrounds\n- High contrast contexts"
+        }
+      ],
+      "import": "import { Logo } from 'super-design-system';"
+    },
+    "components-menubar": {
+      "id": "components-menubar",
+      "name": "Menubar",
+      "path": "./src/components/menubar/menubar.stories.tsx",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "Menubar",
+        "definedInFile": "/home/runner/work/workshop-storybook-cooking/workshop-storybook-cooking/src/components/menubar/menubar.tsx",
+        "actualName": "Menubar",
+        "exportName": "Menubar",
+        "props": {
+          "className": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "Optional className for adding custom CSS classes to the Menubar element"
+          },
+          "children": {
+            "required": true,
+            "tsType": {
+              "name": "ReactReactNode",
+              "raw": "React.ReactNode"
+            },
+            "description": "Menubar content"
+          },
+          "variant": {
+            "required": false,
+            "tsType": {
+              "name": "union",
+              "raw": "'default' | 'transparent'",
+              "elements": [
+                {
+                  "name": "literal",
+                  "value": "'default'"
+                },
+                {
+                  "name": "literal",
+                  "value": "'transparent'"
+                }
+              ]
+            },
+            "description": "Variant of the menubar\n@default 'default'",
+            "defaultValue": {
+              "value": "'default'",
+              "computed": false
+            }
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "components-menubar--controls",
+          "name": "Controls",
+          "snippet": "const Controls = () => <Menubar variant=\"default\">(<>\n      <MenubarItem>New</MenubarItem>\n      <MenubarItem active>Open</MenubarItem>\n      <MenubarItem>Save</MenubarItem>\n    </>)</Menubar>;"
+        },
+        {
+          "id": "components-menubar--default",
+          "name": "Default",
+          "snippet": "const Default = () => (\n  <Menubar>\n    <MenubarItem>File</MenubarItem>\n    <MenubarItem active>Edit</MenubarItem>\n    <MenubarItem>View</MenubarItem>\n    <MenubarItem>Help</MenubarItem>\n  </Menubar>\n);",
+          "description": "Basic menubar with items.\nUse cases:\n- Application navigation\n- Menu systems\n- Toolbar menus"
+        },
+        {
+          "id": "components-menubar--transparent",
+          "name": "Transparent",
+          "snippet": "const Transparent = () => (\n  <div\n    style={{\n      backgroundColor: 'var(--ds-color-global-neutral-950)',\n      color: '#ffffff',\n      padding: '2rem',\n      borderRadius: 'var(--ds-radii-concept-m)',\n    }}\n  >\n    <Menubar variant=\"transparent\">\n      <MenubarItem>File</MenubarItem>\n      <MenubarItem active>Edit</MenubarItem>\n      <MenubarItem>View</MenubarItem>\n      <MenubarItem>Help</MenubarItem>\n    </Menubar>\n    <p style={{ marginTop: '1rem', color: '#ffffff' }}>\n      This is text in the container. The menubar inherits the white color from its parent.{' '}\n      <a href=\"#\" style={{ color: '#ffffff', textDecoration: 'underline' }}>\n        This is a link\n      </a>\n      {' '}with white color.\n    </p>\n  </div>\n);",
+          "description": "Transparent menubar variant with no border and transparent background.\nFont color is inherited from parent component.\nUse cases:\n- Overlay navigation\n- Dark themed interfaces\n- Hero sections with navigation"
+        }
+      ],
+      "import": "import { Menubar, MenubarItem } from 'super-design-system';\nimport { MenubarItem } from '@/src/components';"
+    },
+    "components-table": {
+      "id": "components-table",
+      "name": "Table",
+      "path": "./src/components/table/table.stories.tsx",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "Table",
+        "definedInFile": "/home/runner/work/workshop-storybook-cooking/workshop-storybook-cooking/src/components/table/table.tsx",
+        "actualName": "Table",
+        "exportName": "Table",
+        "props": {
+          "className": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "Optional className for adding custom CSS classes to the Table element"
+          },
+          "children": {
+            "required": true,
+            "tsType": {
+              "name": "ReactReactNode",
+              "raw": "React.ReactNode"
+            },
+            "description": "Table content"
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "components-table--controls",
+          "name": "Controls",
+          "snippet": "const Controls = () => <Table>(<>\n      <TableHeader>\n        <TableRow>\n          {defaultTableData.headers.map((header, index) => (\n            <TableHead key={index}>{header}</TableHead>\n          ))}\n        </TableRow>\n      </TableHeader>\n      <TableBody>\n        {defaultTableData.rows.map((row, rowIndex) => (\n          <TableRow key={rowIndex}>\n            {row.map((cell, cellIndex) => (\n              <TableCell key={cellIndex}>{cell}</TableCell>\n            ))}\n          </TableRow>\n        ))}\n      </TableBody>\n    </>)</Table>;",
+          "warning": "Incomplete snippet: `defaultTableData` could not be resolved statically."
+        },
+        {
+          "id": "components-table--default",
+          "name": "Default",
+          "snippet": "const Default = () => (\n  <Table>\n    <TableHeader>\n      <TableRow>\n        <TableHead>Product</TableHead>\n        <TableHead>Price</TableHead>\n        <TableHead>Stock</TableHead>\n      </TableRow>\n    </TableHeader>\n    <TableBody>\n      <TableRow>\n        <TableCell>Widget A</TableCell>\n        <TableCell>$29.99</TableCell>\n        <TableCell>150</TableCell>\n      </TableRow>\n      <TableRow>\n        <TableCell>Widget B</TableCell>\n        <TableCell>$39.99</TableCell>\n        <TableCell>75</TableCell>\n      </TableRow>\n      <TableRow>\n        <TableCell>Widget C</TableCell>\n        <TableCell>$49.99</TableCell>\n        <TableCell>200</TableCell>\n      </TableRow>\n    </TableBody>\n  </Table>\n);",
+          "description": "Basic table with header and body sections.\nUse cases:\n- Data display\n- User lists\n- Product catalogs\n- Reports and dashboards"
+        },
+        {
+          "id": "components-table--multiple-rows",
+          "name": "Multiple Rows",
+          "snippet": "const MultipleRows = () => (\n  <Table>\n    <TableHeader>\n      <TableRow>\n        <TableHead>ID</TableHead>\n        <TableHead>Name</TableHead>\n        <TableHead>Status</TableHead>\n        <TableHead>Created</TableHead>\n      </TableRow>\n    </TableHeader>\n    <TableBody>\n      <TableRow>\n        <TableCell>#001</TableCell>\n        <TableCell>Project Alpha</TableCell>\n        <TableCell>Active</TableCell>\n        <TableCell>2024-01-15</TableCell>\n      </TableRow>\n      <TableRow>\n        <TableCell>#002</TableCell>\n        <TableCell>Project Beta</TableCell>\n        <TableCell>Completed</TableCell>\n        <TableCell>2024-02-20</TableCell>\n      </TableRow>\n      <TableRow>\n        <TableCell>#003</TableCell>\n        <TableCell>Project Gamma</TableCell>\n        <TableCell>Planning</TableCell>\n        <TableCell>2024-03-10</TableCell>\n      </TableRow>\n      <TableRow>\n        <TableCell>#004</TableCell>\n        <TableCell>Project Delta</TableCell>\n        <TableCell>Active</TableCell>\n        <TableCell>2024-03-25</TableCell>\n      </TableRow>\n    </TableBody>\n  </Table>\n);",
+          "description": "Table with multiple columns and rows.\nUse cases:\n- Complex data sets\n- Detailed reports\n- Comparison tables"
+        }
+      ],
+      "import": "import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'super-design-system';\nimport { TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/src/components';"
+    },
+    "components-tabs": {
+      "id": "components-tabs",
+      "name": "Tabs",
+      "path": "./src/components/tabs/tabs.stories.tsx",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "Tabs",
+        "definedInFile": "/home/runner/work/workshop-storybook-cooking/workshop-storybook-cooking/src/components/tabs/tabs.tsx",
+        "actualName": "Tabs",
+        "exportName": "Tabs",
+        "props": {
+          "className": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "Optional className for adding custom CSS classes to the Tabs element"
+          },
+          "children": {
+            "required": true,
+            "tsType": {
+              "name": "ReactReactNode",
+              "raw": "React.ReactNode"
+            },
+            "description": "Tabs content"
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "components-tabs--controls",
+          "name": "Controls",
+          "snippet": "const Controls = () => (\n  <Tabs defaultValue=\"tab1\">\n    <TabsList>\n      <TabsTrigger value=\"tab1\">Tab 1</TabsTrigger>\n      <TabsTrigger value=\"tab2\">Tab 2</TabsTrigger>\n      <TabsTrigger value=\"tab3\">Tab 3</TabsTrigger>\n    </TabsList>\n    <TabsContent value=\"tab1\">Content for Tab 1</TabsContent>\n    <TabsContent value=\"tab2\">Content for Tab 2</TabsContent>\n    <TabsContent value=\"tab3\">Content for Tab 3</TabsContent>\n  </Tabs>\n);"
+        },
+        {
+          "id": "components-tabs--default",
+          "name": "Default",
+          "snippet": "const Default = () => (\n  <Tabs defaultValue=\"overview\">\n    <TabsList>\n      <TabsTrigger value=\"overview\">Overview</TabsTrigger>\n      <TabsTrigger value=\"details\">Details</TabsTrigger>\n      <TabsTrigger value=\"settings\">Settings</TabsTrigger>\n    </TabsList>\n    <TabsContent value=\"overview\">\n      <p>This is the overview content.</p>\n    </TabsContent>\n    <TabsContent value=\"details\">\n      <p>This is the details content.</p>\n    </TabsContent>\n    <TabsContent value=\"settings\">\n      <p>This is the settings content.</p>\n    </TabsContent>\n  </Tabs>\n);",
+          "description": "Basic tabs with multiple tab panels.\nUse cases:\n- Content organization\n- Settings panels\n- Multi-section forms\n- Tabbed interfaces"
+        },
+        {
+          "id": "components-tabs--with-content",
+          "name": "With Content",
+          "snippet": "const WithContent = () => (\n  <Tabs defaultValue=\"profile\">\n    <TabsList>\n      <TabsTrigger value=\"profile\">Profile</TabsTrigger>\n      <TabsTrigger value=\"account\">Account</TabsTrigger>\n      <TabsTrigger value=\"notifications\">Notifications</TabsTrigger>\n    </TabsList>\n    <TabsContent value=\"profile\">\n      <div>\n        <h3>Profile Information</h3>\n        <p>Manage your profile settings and personal information here.</p>\n      </div>\n    </TabsContent>\n    <TabsContent value=\"account\">\n      <div>\n        <h3>Account Settings</h3>\n        <p>Update your account preferences and security settings.</p>\n      </div>\n    </TabsContent>\n    <TabsContent value=\"notifications\">\n      <div>\n        <h3>Notification Preferences</h3>\n        <p>Configure how and when you receive notifications.</p>\n      </div>\n    </TabsContent>\n  </Tabs>\n);",
+          "description": "Tabs with more content in each panel.\nUse cases:\n- Detailed information display\n- Complex tabbed interfaces\n- Multi-step workflows"
+        },
+        {
+          "id": "components-tabs--interaction-test",
+          "name": "Interaction Test",
+          "snippet": "const InteractionTest = () => (\n  <Tabs defaultValue=\"tab1\">\n    <TabsList>\n      <TabsTrigger value=\"tab1\">Tab 1</TabsTrigger>\n      <TabsTrigger value=\"tab2\">Tab 2</TabsTrigger>\n      <TabsTrigger value=\"tab3\">Tab 3</TabsTrigger>\n    </TabsList>\n    <TabsContent value=\"tab1\">\n      <p>Content for Tab 1</p>\n    </TabsContent>\n    <TabsContent value=\"tab2\">\n      <p>Content for Tab 2</p>\n    </TabsContent>\n    <TabsContent value=\"tab3\">\n      <p>Content for Tab 3</p>\n    </TabsContent>\n  </Tabs>\n);",
+          "description": "Interactive test that demonstrates tab switching behavior.\nThis story includes a play function that automatically tests tab interactions."
+        }
+      ],
+      "import": "import { Tabs, TabsContent, TabsList, TabsTrigger } from 'super-design-system';"
+    },
+    "patterns-header": {
+      "id": "patterns-header",
+      "name": "Header",
+      "path": "./src/patterns/header/header.stories.tsx",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "Header",
+        "definedInFile": "/home/runner/work/workshop-storybook-cooking/workshop-storybook-cooking/src/components/header/header.tsx",
+        "actualName": "Header",
+        "exportName": "Header",
+        "props": {
+          "className": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": "Optional className for adding custom CSS classes to the Header element"
+          },
+          "left": {
+            "required": false,
+            "tsType": {
+              "name": "ReactReactNode",
+              "raw": "React.ReactNode"
+            },
+            "description": "Content to display on the left side of the header"
+          },
+          "middle": {
+            "required": false,
+            "tsType": {
+              "name": "ReactReactNode",
+              "raw": "React.ReactNode"
+            },
+            "description": "Content to display in the middle of the header"
+          },
+          "right": {
+            "required": false,
+            "tsType": {
+              "name": "ReactReactNode",
+              "raw": "React.ReactNode"
+            },
+            "description": "Content to display on the right side of the header"
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "patterns-header--default",
+          "name": "Default",
+          "snippet": "const Default = () => (\n  <Header\n    left={<Logo variant=\"blank\" />}\n    middle={\n      <Menubar variant=\"transparent\">\n        <MenubarItem>Products</MenubarItem>\n        <MenubarItem active>Solutions</MenubarItem>\n        <MenubarItem>Resources</MenubarItem>\n        <MenubarItem>Company</MenubarItem>\n      </Menubar>\n    }\n    right={<Avatar src=\"https://i.pravatar.cc/150\" alt=\"User Avatar\" size=\"small\" />}\n  />\n);",
+          "description": "Header pattern displays a complete application header with logo, navigation menu, and user avatar.\n\nUse cases:\n- Application headers\n- Dashboard navigation\n- Main application layouts\n- Multi-page applications"
+        }
+      ],
+      "import": "import { Avatar, Header, Logo, Menubar, MenubarItem } from 'super-design-system';"
+    },
+    "patterns-list-of-pages": {
+      "id": "patterns-list-of-pages",
+      "name": "ListofPages",
+      "path": "./src/patterns/list-of-pages/list-of-pages.stories.tsx",
+      "jsDocTags": {},
+      "error": {
+        "name": "No component found",
+        "message": "We could not detect the component from your story file. Specify meta.component.\n  16 | }\n  17 |\n> 18 | const meta: Meta = {\n     | ^\n  19 |   title: 'Patterns/List of Pages',\n  20 |   parameters: {\n  21 |     layout: 'padded',\n\n./src/patterns/list-of-pages/list-of-pages.stories.tsx:\nimport type { Meta, StoryObj } from '@storybook/react';\nimport React from 'react';\nimport { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/src/components';\nimport { Badge } from '@/src/components';\n// @ts-ignore - JSON import from data directory\nimport pagesData from '@/data/list-of-pages.data.json';\n\ninterface Page {\n  id: number;\n  header: string;\n  sectionType: string;\n  status: string;\n  target: number;\n  limit: number;\n  reviewer: string | null;\n}\n\nconst meta: Meta = {\n  title: 'Patterns/List of Pages',\n  parameters: {\n    layout: 'padded',\n  },\n};\n\nexport default meta;\ntype Story = StoryObj;\n\n/**\n * List of pages pattern displays a table with page information including\n * header, section type, status, target/limit counts, and reviewer assignment.\n * \n * Use cases:\n * - Document management systems\n * - Proposal page tracking\n * - Content review workflows\n * - Project documentation\n */\nexport const Default: Story = {\n  render: () => {\n    const getStatusBadge = (status: string) => {\n      const statusLower = status.toLowerCase();\n      if (statusLower === 'done') {\n        return <Badge status=\"done\" />;\n      } else if (statusLower.includes('process')) {\n        return <Badge status=\"in progress\" />;\n      }\n      return <Badge status=\"planned\" />;\n    };\n\n    return (\n      <Table>\n        <TableHeader>\n          <TableRow>\n            <TableHead>Header</TableHead>\n            <TableHead>Section Type</TableHead>\n            <TableHead>Status</TableHead>\n            <TableHead>Target</TableHead>\n            <TableHead>Limit</TableHead>\n            <TableHead>Reviewer</TableHead>\n          </TableRow>\n        </TableHeader>\n        <TableBody>\n          {(pagesData.pages as Page[]).map((page) => (\n            <TableRow key={page.id}>\n              <TableCell>{page.header}</TableCell>\n              <TableCell>{page.sectionType}</TableCell>\n              <TableCell>{getStatusBadge(page.status)}</TableCell>\n              <TableCell>{page.target}</TableCell>\n              <TableCell>{page.limit}</TableCell>\n              <TableCell>{page.reviewer || 'Assign reviewer'}</TableCell>\n            </TableRow>\n          ))}\n        </TableBody>\n      </Table>\n    );\n  },\n};\n\n"
+      },
+      "stories": [
+        {
+          "id": "patterns-list-of-pages--default",
+          "name": "Default",
+          "snippet": "const Default = () => {\n  const getStatusBadge = (status: string) => {\n    const statusLower = status.toLowerCase();\n    if (statusLower === 'done') {\n      return <Badge status=\"done\" />;\n    } else if (statusLower.includes('process')) {\n      return <Badge status=\"in progress\" />;\n    }\n    return <Badge status=\"planned\" />;\n  };\n\n  return (\n    <Table>\n      <TableHeader>\n        <TableRow>\n          <TableHead>Header</TableHead>\n          <TableHead>Section Type</TableHead>\n          <TableHead>Status</TableHead>\n          <TableHead>Target</TableHead>\n          <TableHead>Limit</TableHead>\n          <TableHead>Reviewer</TableHead>\n        </TableRow>\n      </TableHeader>\n      <TableBody>\n        {(pagesData.pages as Page[]).map((page) => (\n          <TableRow key={page.id}>\n            <TableCell>{page.header}</TableCell>\n            <TableCell>{page.sectionType}</TableCell>\n            <TableCell>{getStatusBadge(page.status)}</TableCell>\n            <TableCell>{page.target}</TableCell>\n            <TableCell>{page.limit}</TableCell>\n            <TableCell>{page.reviewer || 'Assign reviewer'}</TableCell>\n          </TableRow>\n        ))}\n      </TableBody>\n    </Table>\n  );\n};",
+          "description": "List of pages pattern displays a table with page information including\nheader, section type, status, target/limit counts, and reviewer assignment.\n\nUse cases:\n- Document management systems\n- Proposal page tracking\n- Content review workflows\n- Project documentation"
+        }
+      ],
+      "import": "import { Badge, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'super-design-system';"
+    },
+    "templates-dashboard": {
+      "id": "templates-dashboard",
+      "name": "Dashboard",
+      "path": "./src/templates/dashboard.stories.tsx",
+      "jsDocTags": {},
+      "error": {
+        "name": "No component found",
+        "message": "We could not detect the component from your story file. Specify meta.component.\n  21 |\n  22 |\n> 23 | const meta: Meta = {\n     | ^\n  24 |   title: 'Templates/Dashboard',\n  25 |   parameters: {\n  26 |     layout: 'fullscreen',\n\n./src/templates/dashboard.stories.tsx:\nimport type { Meta, StoryObj } from '@storybook/react';\nimport React from 'react';\nimport { Alert } from '@/src/components';\nimport { Header, Layout, Logo, Avatar } from '@/src/components';\nimport { Menubar, MenubarItem } from '@/src/components';\nimport { Tabs, TabsList, TabsTrigger, TabsContent } from '@/src/components';\nimport { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/src/components';\nimport { Badge } from '@/src/components';\n// @ts-ignore - JSON import from data directory\nimport pagesData from '@/data/list-of-pages.data.json';\n\ninterface Page {\n  id: number;\n  header: string;\n  sectionType: string;\n  status: string;\n  target: number;\n  limit: number;\n  reviewer: string | null;\n}\n\n\nconst meta: Meta = {\n  title: 'Templates/Dashboard',\n  parameters: {\n    layout: 'fullscreen',\n  },\n};\n\nexport default meta;\ntype Story = StoryObj;\n\nconst Template = () => {\n  const getStatusBadge = (status: string) => {\n    const statusLower = status.toLowerCase();\n    if (statusLower === 'done') {\n      return <Badge status=\"done\" />;\n    } else if (statusLower.includes('process')) {\n      return <Badge status=\"in progress\" />;\n    }\n    return <Badge status=\"planned\" />;\n  };\n\n  return (\n    <>\n      <Alert \n        variant=\"Info\" \n        text=\"Welcome to the dashboard. Review and manage your pages below.\" \n        linkLabel=\"Learn more\"\n      />\n      <Header\n        left={<Logo variant=\"blank\" />}\n        middle={\n          <Menubar variant=\"transparent\">\n            <MenubarItem>Products</MenubarItem>\n            <MenubarItem active>Solutions</MenubarItem>\n            <MenubarItem>Resources</MenubarItem>\n            <MenubarItem>Company</MenubarItem>\n          </Menubar>\n        }\n        right={<Avatar src=\"https://i.pravatar.cc/150\" alt=\"User Avatar\" size=\"small\" />}\n      />\n      <Layout>\n        <Tabs defaultValue=\"pages\">\n          <TabsList>\n            <TabsTrigger value=\"pages\">Pages</TabsTrigger>\n            <TabsTrigger value=\"settings\">Settings</TabsTrigger>\n          </TabsList>\n          <TabsContent value=\"pages\">\n            <Table>\n              <TableHeader>\n                <TableRow>\n                  <TableHead>Header</TableHead>\n                  <TableHead>Section Type</TableHead>\n                  <TableHead>Status</TableHead>\n                  <TableHead>Target</TableHead>\n                  <TableHead>Limit</TableHead>\n                  <TableHead>Reviewer</TableHead>\n                </TableRow>\n              </TableHeader>\n              <TableBody>\n                {(pagesData.pages as Page[]).map((page) => (\n                  <TableRow key={page.id}>\n                    <TableCell>{page.header}</TableCell>\n                    <TableCell>{page.sectionType}</TableCell>\n                    <TableCell>{getStatusBadge(page.status)}</TableCell>\n                    <TableCell>{page.target}</TableCell>\n                    <TableCell>{page.limit}</TableCell>\n                    <TableCell>{page.reviewer || 'Assign reviewer'}</TableCell>\n                  </TableRow>\n                ))}\n              </TableBody>\n            </Table>\n          </TabsContent>\n          <TabsContent value=\"settings\">\n            <p>Settings content will be here</p>\n          </TabsContent>\n        </Tabs>\n      </Layout>\n    </>\n  );\n};\n\nexport const Default: Story = {\n  render: () => <Template />,\n};\n"
+      },
+      "stories": [
+        {
+          "id": "templates-dashboard--default",
+          "name": "Default",
+          "snippet": "const Default = () => <Template />;"
+        }
+      ],
+      "import": "import {\n  Alert,\n  Avatar,\n  Badge,\n  Header,\n  Layout,\n  Logo,\n  Menubar,\n  MenubarItem,\n  Table,\n  TableBody,\n  TableCell,\n  TableHead,\n  TableHeader,\n  TableRow,\n  Tabs,\n  TabsContent,\n  TabsList,\n  TabsTrigger,\n} from 'super-design-system';"
+    }
+  },
+  "meta": {
+    "docgen": "react-docgen",
+    "durationMs": 472
+  }
+}

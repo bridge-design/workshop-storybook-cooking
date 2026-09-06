@@ -1,0 +1,10 @@
+# Templates/Dashboard
+
+## Stories
+
+### Default
+
+```tsx
+<Template />
+```
+

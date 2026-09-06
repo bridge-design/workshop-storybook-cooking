@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>storybook - Storybook</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    
+    <style>
+      @font-face {
+        font-family: 'Nunito Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('./sb-common-assets/nunito-sans-regular.woff2') format('woff2');
+      }
+
+      @font-face {
+        font-family: 'Nunito Sans';
+        font-style: italic;
+        font-weight: 400;
+        font-display: swap;
+        src: url('./sb-common-assets/nunito-sans-italic.woff2') format('woff2');
+      }
+
+      @font-face {
+        font-family: 'Nunito Sans';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url('./sb-common-assets/nunito-sans-bold.woff2') format('woff2');
+      }
+
+      @font-face {
+        font-family: 'Nunito Sans';
+        font-style: italic;
+        font-weight: 700;
+        font-display: swap;
+        src: url('./sb-common-assets/nunito-sans-bold-italic.woff2') format('woff2');
+      }
+    </style>
+
+    <link href="./sb-manager/runtime.js" rel="modulepreload" />
+
+    
+    <link href="./sb-addons/storybook-core-server-presets-0/common-manager-bundle.js" rel="modulepreload" />
+    
+    <link href="./sb-addons/chromatic-com-storybook-1/manager-bundle.js" rel="modulepreload" />
+    
+    <link href="./sb-addons/docs-2/manager-bundle.js" rel="modulepreload" />
+    
+    <link href="./sb-addons/a11y-3/manager-bundle.js" rel="modulepreload" />
+    
+    <link href="./sb-addons/vitest-4/manager-bundle.js" rel="modulepreload" />
+    
+    <link href="./sb-addons/tag-badges-5/manager-bundle.js" rel="modulepreload" />
+    
+    <link href="./sb-addons/storybook-6/manager-bundle.js" rel="modulepreload" />
+      <style>
+    /**
+    The following code is used to hide the code demo and controls buttons in the sidebar.
+    There is no official way to customize the icons, this is why it is done via CSS. The icons are copy-pasted from the Storybook icon library.
+    Storybook icons documentation: https://main--64b56e737c0aeefed9d5e675.chromatic.com/?path=/docs/introduction--docs
+    **/
+
+    .sidebar-item[data-item-id$='--controls'] button {
+      position: relative;
+    }
+  
+    .sidebar-item[data-item-id$='--controls'] button div {
+      display: none;
+    }
+  
+    .sidebar-item[data-item-id$='--controls'] button::before {
+      content: '';
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      vertical-align: middle;
+      background-size: contain;
+    }
+  
+    .sidebar-item[data-item-id$='--controls'] button::before {
+      background-image: url('data:image/svg+xml;utf8,<svg width="14" height="14" viewBox="0 0 14 14" fill="rgb(34, 197, 94)" xmlns="http://www.w3.org/2000/svg"><path d="M10.5 1a.5.5 0 01.5.5V2h1.5a.5.5 0 010 1H11v.5a.5.5 0 01-1 0V3H1.5a.5.5 0 010-1H10v-.5a.5.5 0 01.5-.5zM1.5 11a.5.5 0 000 1H10v.5a.5.5 0 001 0V12h1.5a.5.5 0 000-1H11v-.5a.5.5 0 00-1 0v.5H1.5zM1 7a.5.5 0 01.5-.5H3V6a.5.5 0 011 0v.5h8.5a.5.5 0 010 1H4V8a.5.5 0 01-1 0v-.5H1.5A.5.5 0 011 7z"></path></svg>');
+    }
+
+</style>
+<script>window.__CHROMATIC_STORYBOOK_ID__ = "d287b8873e851e0c9ce1005bc2331073cd70cb941d33784f6e1cabbd40c3d5f7";</script> 
+
+    <style>
+      #storybook-root[hidden] {
+        display: none !important;
+      }
+    </style>
+
+    
+  </head>
+  <body>
+    <div id="root"></div>
+
+    
+    <script>
+      
+        
+          window['FEATURES'] = {
+  "actions": true,
+  "argTypeTargetsV7": true,
+  "babelRemoveBugfixes": false,
+  "backgrounds": true,
+  "changeDetection": true,
+  "componentsManifest": true,
+  "controls": true,
+  "disallowImplicitActionsInRenderV8": true,
+  "highlight": true,
+  "interactions": true,
+  "legacyDecoratorFileOrder": false,
+  "measure": true,
+  "outline": true,
+  "menuOnboardingChecklist": true,
+  "sidebarOnboardingChecklist": true,
+  "viewport": true
+};
+        
+      
+        
+          window['REFS'] = {};
+        
+      
+        
+          window['LOGLEVEL'] = "info";
+        
+      
+        
+          window['DOCS_OPTIONS'] = {
+  "defaultName": "Docs"
+};
+        
+      
+        
+          window['CONFIG_TYPE'] = "PRODUCTION";
+        
+      
+        
+          window['DOCGEN_STORY_PREPARED'] = false;
+        
+      
+        
+      
+        
+      
+        
+          window['TAGS_OPTIONS'] = {};
+        
+      
+        
+          window['STORYBOOK_BUILDER'] = "vite";
+        
+      
+        
+          window['STORYBOOK_FRAMEWORK'] = "react-vite";
+        
+      
+        
+          window['STORYBOOK_RENDERER'] = "react";
+        
+      
+        
+      
+    </script>
+    
+
+    <script type="module">
+      import './sb-manager/globals-runtime.js';
+
+      
+        import './sb-addons/storybook-core-server-presets-0/common-manager-bundle.js';
+      
+        import './sb-addons/chromatic-com-storybook-1/manager-bundle.js';
+      
+        import './sb-addons/docs-2/manager-bundle.js';
+      
+        import './sb-addons/a11y-3/manager-bundle.js';
+      
+        import './sb-addons/vitest-4/manager-bundle.js';
+      
+        import './sb-addons/tag-badges-5/manager-bundle.js';
+      
+        import './sb-addons/storybook-6/manager-bundle.js';
+      
+
+      import './sb-manager/runtime.js';
+    </script>
+  </body>
+</html>
