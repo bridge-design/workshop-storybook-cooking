@@ -18,6 +18,10 @@ const config: StorybookConfig = {
     "options": {}
   },
   async viteFinal(config) {
+    if (process.env.STORYBOOK_BASE_PATH) {
+      config.base = process.env.STORYBOOK_BASE_PATH;
+    }
+
     // Add markdown generator plugin for dev mode
     if (config.plugins) {
       config.plugins.push(markdownGeneratorPlugin());
